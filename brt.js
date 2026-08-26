@@ -207,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isGateActive) {
         // 본문 콘텐츠 표시 활성화
         document.body.classList.remove('gate-active');
+        btnSideToggle.classList.add('is-active');
         if (toggleTxt) toggleTxt.textContent = '닫기';
         if (toggleIcon) {
           toggleIcon.className = 'fa-solid fa-xmark';
@@ -228,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         // 본문 감추고 다시 동영상 단독 모드로 변경
         document.body.classList.add('gate-active');
+        btnSideToggle.classList.remove('is-active');
         if (toggleTxt) toggleTxt.textContent = '둘러보기';
         if (toggleIcon) {
           toggleIcon.className = 'fa-solid fa-arrow-right';
@@ -238,4 +240,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 8. 게이트 양쪽 네비게이션 버튼 동작 연동
+  const gateBtns = document.querySelectorAll('.gate-btn');
+  gateBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetSelector = btn.getAttribute('data-target');
+      const targetEl = document.querySelector(targetSelector);
+      
+      // 게이트 해제
+      document.body.classList.remove('gate-active');
+      if (btnSideToggle) {
+        btnSideToggle.classList.add('is-active');
+      }
+      if (toggleTxt) toggleTxt.textContent = '닫기';
+      if (toggleIcon) {
+        toggleIcon.className = 'fa-solid fa-xmark';
+      }
+      
+      // 비디오 재생 확인
+      const video = document.getElementById('bgVideo');
+      if (video && video.paused) {
+        video.play().catch(err => console.log("비디오 재생 실패:", err));
+      }
+
+      // 해당 섹션으로 부드러운 스크롤 이동
+      if (targetEl) {
+        setTimeout(() => {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 500);
+      }
+
+      // Hero 섹션 모션 트리거
+      setTimeout(() => {
+        const heroMotions = document.querySelectorAll('#hero [data-motion]');
+        heroMotions.forEach(el => el.classList.add('active'));
+      }, 300);
+    });
+  });
 });

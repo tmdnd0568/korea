@@ -20,9 +20,29 @@
   <button id="btnSideToggle" class="btn-side-toggle">
     <div class="toggle-track">
       <span class="toggle-txt">둘러보기</span>
-      <span class="toggle-icon"><i class="fa-solid fa-arrow-right"></i></span>
+      <span class="arrow-icon"></span>
     </div>
+    <span class="border-line border-top"></span>
+    <span class="border-line border-right"></span>
+    <span class="border-line border-bottom"></span>
+    <span class="border-line border-left"></span>
   </button>
+
+  <!-- 게이트 전용 좌우 네비게이션 버튼 (lhbzr.com 스타일) -->
+  <div class="gate-nav-buttons">
+    <button class="gate-btn btn-left" id="btnGateAbout" data-target="#story">
+      <span class="gate-btn-txt">About</span>
+      <svg class="ZHtDHMcwB53vVRaPMYmd" width="129" height="64" viewBox="0 0 129 64">
+        <path class="hVF0W6zde6gC_lgaluZY" d="M0,32 L15,10 L114,10 L129,0 M0,32 L15,54 L114,54 L129,64" />
+      </svg>
+    </button>
+    <button class="gate-btn btn-right" id="btnGateCuration" data-target="#curation">
+      <span class="gate-btn-txt">Curation</span>
+      <svg class="ZHtDHMcwB53vVRaPMYmd" width="129" height="64" viewBox="0 0 129 64">
+        <path class="hVF0W6zde6gC_lgaluZY" d="M0,0 L15,10 L114,10 L129,32 L114,54 L15,54 L0,64" />
+      </svg>
+    </button>
+  </div>
 
   <!-- 고정 배경 비디오 (스크롤 연동) -->
   <div class="video-container">
@@ -82,7 +102,14 @@
       </p>
       <div class="hero-btn-group" data-motion="fade-up" data-delay="600">
         <a href="#curation" class="btn-primary">맞춤 관람 코스 찾기</a>
-        <a href="#story" class="btn-outline">스토리 둘러보기</a>
+        <a href="#story" class="btn-outline">
+          <span>스토리 둘러보기</span>
+          <span class="arrow-icon"></span>
+          <span class="border-line border-top"></span>
+          <span class="border-line border-right"></span>
+          <span class="border-line border-bottom"></span>
+          <span class="border-line border-left"></span>
+        </a>
       </div>
     </div>
 
