@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>국립한글박물관 | National Hangeul Museum</title>
+  
+  <!-- Font Awesome & Pretendard Font -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="gate-active">
+  <!-- 커스텀 마우스 커서 -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-circle" id="cursorCircle"></div>
+
+  <!-- 우측 사이드 토글 버튼 (전시 둘러보기) -->
+  <button id="btnSideToggle" class="btn-side-toggle">
+    <div class="toggle-track">
+      <span class="toggle-txt">둘러보기</span>
+      <span class="toggle-icon"><i class="fa-solid fa-arrow-right"></i></span>
+    </div>
+  </button>
+
+  <!-- 고정 배경 비디오 (스크롤 연동) -->
+  <div class="video-container">
+    <video autoplay muted playsinline id="bgVideo" class="bg-video" preload="auto">
+      <source src="scoll_001.mp4" type="video/mp4" />
+    </video>
+    <div class="video-overlay"></div>
+  </div>
+
+  <!-- 백그라운드 디자인 그리드 라인 -->
+  <div class="grid-lines">
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+    <div class="grid-line"></div>
+  </div>
+
+  <!-- 헤더 / 내비게이션 -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <a href="#hero">
+          <span class="logo-sym">ㄱ·ㄴ</span>
+          <span class="logo-txt">국립한글박물관</span>
+        </a>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="#story" class="nav-link">한글 이야기</a></li>
+          <li><a href="#curation" class="nav-link">맞춤 관람 안내</a></li>
+          <li><a href="#gallery" class="nav-link">전시 & 굿즈</a></li>
+          <li><a href="#visit" class="nav-link">오시는 길</a></li>
+        </ul>
+      </nav>
+      <div class="header-util">
+        <div class="lang-switch">
+          <button class="lang-btn active">KR</button>
+          <span>/</span>
+          <button class="lang-btn">EN</button>
+        </div>
+        <button class="btn-ticket">관람 예약</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. Hero 섹션 (제작 동영상 배경 & 모션 타이틀) -->
+  <section id="hero" class="hero-section">
+
+    <div class="hero-content">
+      <p class="hero-sub" data-motion="fade-up">NATIONAL HANGEUL MUSEUM</p>
+      <h1 class="hero-title" data-motion="fade-up" data-delay="200">
+        빛으로 피어난 글자,<br />
+        <span class="highlight">한글의 숨결</span>을 마주하다
+      </h1>
+      <p class="hero-desc" data-motion="fade-up" data-delay="400">
+        세종의 철학부터 현대의 감각적인 타이포그래피까지, 어둠 속에서 빛나는 인터랙티브 박물관
+      </p>
+      <div class="hero-btn-group" data-motion="fade-up" data-delay="600">
+        <a href="#curation" class="btn-primary">맞춤 관람 코스 찾기</a>
+        <a href="#story" class="btn-outline">스토리 둘러보기</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span class="scroll-txt">SCROLL DOWN</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- 2. MVP 기능 1: 인터랙티브 한글 역사 & 가치 탐색 (Interactive Storytelling) -->
+  <section id="story" class="section story-section">
+    <div class="container">
+      <div class="section-head">
+        <span class="tag">INTERACTIVE STORY</span>
+        <h2>천지인(天地人)에 담긴 과학과 철학</h2>
+        <p>마우스를 올리면 훈민정음의 원리와 현대적 시각 예술이 반응합니다.</p>
+      </div>
+
+      <div class="story-grid">
+        <div class="story-card interactive-hover" data-symbol="•">
+          <div class="card-bg-glyph">ㆍ</div>
+          <div class="card-body">
+            <span class="step">01. ㆍ 하늘 (天)</span>
+            <h3>원형의 울림과 근원</h3>
+            <p>둥근 하늘을 본뜬 아래아(ㆍ)는 모든 모음의 시작이며, 세상의 근본적인 생명력을 상징합니다.</p>
+          </div>
+        </div>
+
+        <div class="story-card interactive-hover" data-symbol="ㅡ">
+          <div class="card-bg-glyph">ㅡ</div>
+          <div class="card-body">
+            <span class="step">02. ㅡ 땅 (地)</span>
+            <h3>평평한 대지와 조화</h3>
+            <p>평평한 땅을 형상화한 'ㅡ'는 만물이 딛고 설 수 있는 평등과 균형의 미학을 담고 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="story-card interactive-hover" data-symbol="ㅣ">
+          <div class="card-bg-glyph">ㅣ</div>
+          <div class="card-body">
+            <span class="step">03. ㅣ 사람 (人)</span>
+            <h3>서 있는 사람과 소통</h3>
+            <p>서 있는 인간을 상징하는 'ㅣ'는 하늘과 땅을 잇고 누구나 쉬이 뜻을 통하게 만드는 애민의 정신입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MVP 기능 2: 방문 맞춤 정보 큐레이션 (30대 부모 / 외국인 관광객) -->
+  <section id="curation" class="section curation-section">
+    <div class="container">
+      <div class="section-head">
+        <span class="tag">TAILORED CURATION</span>
+        <h2>당신만을 위한 맞춤 관람 코스</h2>
+        <p>누구와 함께 오시나요? 관람객 유형에 가장 알맞은 동선과 콘텐츠를 추천해 드립니다.</p>
+      </div>
+
+      <!-- 큐레이션 탭 버튼 -->
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="family">
+          <i class="fa-solid fa-child-reaching"></i> 30대 부모 & 가족 나들이 코스
+        </button>
+        <button class="tab-btn" data-tab="global">
+          <i class="fa-solid fa-earth-asia"></i> 외국인 관광객 & 유학생 코스
+        </button>
+      </div>
+
+      <!-- 큐레이션 콘텐츠 패널 -->
+      <div class="tab-panels">
+        <!-- 가족 동선 -->
+        <div class="panel active" id="family">
+          <div class="curation-box">
+            <div class="curation-info">
+              <span class="badge">소요시간 약 90분 · 주차 편리 · 어린이 체험 특화</span>
+              <h3>"놀면서 배우는 한글 배움터 코스"</h3>
+              <p>어린 자녀와 함께 글자의 탄생 원리를 놀이와 디지털 미디어 아트로 생생하게 체험할 수 있는 동선입니다.</p>
+              <ul class="course-list">
+                <li><strong>1단계:</strong> 한글놀이터 (오감 자극 인터랙티브 미디어 체험)</li>
+                <li><strong>2단계:</strong> 기획전시실 (아이 눈높이에 맞춘 쉬운 도슨트)</li>
+                <li><strong>3단계:</strong> 한글문화쉼터 & 야외 잔디마당 피크닉</li>
+              </ul>
+              <div class="curation-actions">
+                <button class="btn-primary">가족 동선 지도 다운로드</button>
+                <span class="note">* 유모차 대여 및 수유실 1층 완비</span>
+              </div>
+            </div>
+            <div class="curation-visual visual-family">
+              <div class="mock-card">
+                <span>추천 포인트</span>
+                <h4>한글 블록 & 반응형 모션 게임 존</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 외국인 동선 -->
+        <div class="panel" id="global">
+          <div class="curation-box">
+            <div class="curation-info">
+              <span class="badge">Duration: 60 min · Multilingual Audio Guide · K-Culture</span>
+              <h3>"The Art & Architecture of Hangeul"</h3>
+              <p>세종대왕의 창제 철학, 문자 디자인의 아름다움, 그리고 세계적 언어학적 가치를 한눈에 조망하는 글로벌 투어 코스입니다.</p>
+              <ul class="course-list">
+                <li><strong>Step 1:</strong> Hunminjeongeum Origin Gallery (ENG/JPN/CHN Guide)</li>
+                <li><strong>Step 2:</strong> Modern Kinetic Typography Hall</li>
+                <li><strong>Step 3:</strong> Museum Museum Shop (Hangeul Goods & Cafe)</li>
+              </ul>
+              <div class="curation-actions">
+                <button class="btn-primary">Download Global Guide (PDF)</button>
+                <span class="note">* QR Audio Guide available in 4 languages</span>
+              </div>
+            </div>
+            <div class="curation-visual visual-global">
+              <div class="mock-card">
+                <span>Key Highlight</span>
+                <h4>King Sejong’s Visionary Design History</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. MVP 기능 3: 디지털 굿즈 및 전시 아카이브 갤러리 -->
+  <section id="gallery" class="section gallery-section">
+    <div class="container">
+      <div class="section-head">
+        <span class="tag">MUSEUM SHOP & ARCHIVE</span>
+        <h2>한글 타이포그래피 & 뮤지엄 굿즈</h2>
+        <p>국립한글박물관의 새로운 아이덴티티와 한글의 조형미를 담은 시그니처 굿즈 아카이브</p>
+      </div>
+
+      <div class="product-slider-wrapper">
+        <div class="product-grid" id="productGrid">
+          <div class="product-card">
+            <div class="prod-thumb thumb-1">
+              <span class="badge-new">BEST</span>
+            </div>
+            <div class="prod-info">
+              <h4>훈민정음 언해본 아크릴 무드등</h4>
+              <p>빛에 반응하는 자음과 모음의 은은한 조형</p>
+              <span class="price">₩ 28,000</span>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="prod-thumb thumb-2">
+              <span class="badge-new">NEW</span>
+            </div>
+            <div class="prod-info">
+              <h4>기하학 자음 메탈 키링 컬렉션</h4>
+              <p>ㄱ, ㄴ, ㄷ, ㄹ의 선과 면을 살린 미니멀 디자인</p>
+              <span class="price">₩ 14,000</span>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="prod-thumb thumb-3"></div>
+            <div class="prod-info">
+              <h4>천지인 세라믹 텀블러 & 코스터</h4>
+              <p>모던 블랙 매트 코팅과 인체공학적 그립</p>
+              <span class="price">₩ 32,000</span>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="prod-thumb thumb-4"></div>
+            <div class="prod-info">
+              <h4>한글 타이포그래피 패브릭 포스터</h4>
+              <p>전통 먹색과 실버 포일 스크린 프린트</p>
+              <span class="price">₩ 22,000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 관람 정보 & 오시는 길 -->
+  <section id="visit" class="section visit-section">
+    <div class="container visit-container">
+      <div class="visit-info">
+        <span class="tag">VISIT INFO</span>
+        <h2>관람 안내 & 위치</h2>
+        <ul class="info-table">
+          <li>
+            <span class="label">관람시간</span>
+            <span class="val">월~일 10:00 - 18:00 (토요일 야간개장 21:00까지)</span>
+          </li>
+          <li>
+            <span class="label">관람료</span>
+            <span class="val highlight-val">무료 관람 (기획특별전 별도)</span>
+          </li>
+          <li>
+            <span class="label">주소</span>
+            <span class="val">서울특별시 용산구 서빙고로 139 국립한글박물관</span>
+          </li>
+          <li>
+            <span class="label">대중교통</span>
+            <span class="val">이촌역(4호선/경의중앙선) 2번 출구 박물관 나들길 연결</span>
+          </li>
+        </ul>
+      </div>
+      <div class="visit-map-box">
+        <div class="map-placeholder">
+          <i class="fa-solid fa-location-dot"></i>
+          <p>이촌역 도보 5분 국립중앙박물관 옆</p>
+          <a href="https://map.kakao.com" target="_blank" class="btn-outline btn-sm">카카오맵 바로가기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <h3>국립한글박물관</h3>
+        <p>Copyright © National Hangeul Museum. All Rights Reserved.</p>
+      </div>
+      <div class="footer-right">
+        <a href="#hero">맨 위로 이동 ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="brt.js"></script>
+</body>
+</html>
