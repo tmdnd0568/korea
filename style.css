@@ -124,7 +124,6 @@ body.cursor-hover .cursor-circle {
   height: 58px;
   width: auto;
   object-fit: contain;
-  mix-blend-mode: screen;
   transition: transform var(--transition-fast) ease;
 }
 
