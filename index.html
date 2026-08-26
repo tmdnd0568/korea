@@ -16,17 +16,6 @@
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-circle" id="cursorCircle"></div>
 
-  <!-- 우측 사이드 토글 버튼 (전시 둘러보기) -->
-  <button id="btnSideToggle" class="btn-side-toggle">
-    <div class="toggle-track">
-      <span class="toggle-txt">둘러보기</span>
-      <span class="arrow-icon"></span>
-    </div>
-    <span class="border-line border-top"></span>
-    <span class="border-line border-right"></span>
-    <span class="border-line border-bottom"></span>
-    <span class="border-line border-left"></span>
-  </button>
 
   <!-- 게이트 전용 좌우 네비게이션 버튼 (lhbzr.com 스타일) -->
   <div class="gate-nav-buttons">
@@ -337,6 +326,33 @@
       </div>
     </div>
   </footer>
+
+  <!-- 박물관 소개 모달 (About Modal) -->
+  <div id="aboutModal" class="about-modal">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="btnModalClose">&times;</button>
+      <div class="modal-body">
+        <span class="modal-tag">ABOUT MUSEUM</span>
+        <h2>국립한글박물관</h2>
+        <p class="modal-desc">
+          국립한글박물관은 한글의 문자적·문화적 가치를 보존하고 널리 알리기 위해 설립되었습니다. 
+          세종대왕의 애민 정신이 깃든 훈민정음의 창제 원리부터 현대 한글 타이포그래피의 시각 예술적 조형미까지, 
+          빛과 어둠을 활용한 미디어 아트를 통해 한글의 역동적인 조형성을 온전히 경험할 수 있는 인터랙티브 문화 공간입니다.
+        </p>
+        <div class="modal-features">
+          <div class="feature-item">
+            <strong>과학과 철학</strong>
+            <p>하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)에 담긴 조화로운 우주관의 형상화</p>
+          </div>
+          <div class="feature-item">
+            <strong>글로벌 가치</strong>
+            <p>세계 문자 역사상 유일하게 창제자와 창제 원리가 밝혀진 과학적 문자</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="modalOverlay"></div>
+  </div>
 
   <script src="brt.js"></script>
 </body>

@@ -195,68 +195,21 @@ document.addEventListener('DOMContentLoaded', () => {
     motionElements.forEach((el) => el.classList.add('active'));
   }
 
-  // 7. 사이드 토글 버튼 제어 (클릭 시 본문 활성화/비활성화)
-  const btnSideToggle = document.getElementById('btnSideToggle');
-  const toggleTxt = btnSideToggle ? btnSideToggle.querySelector('.toggle-txt') : null;
-  const toggleIcon = btnSideToggle ? btnSideToggle.querySelector('.toggle-icon i') : null;
+  // 7. 게이트 양쪽 네비게이션 버튼 동작 연동
+  const btnGateAbout = document.getElementById('btnGateAbout');
+  const btnGateCuration = document.getElementById('btnGateCuration');
+  const aboutModal = document.getElementById('aboutModal');
+  const btnModalClose = document.getElementById('btnModalClose');
+  const modalOverlay = document.getElementById('modalOverlay');
 
-  if (btnSideToggle) {
-    btnSideToggle.addEventListener('click', () => {
-      const isGateActive = document.body.classList.contains('gate-active');
-      
-      if (isGateActive) {
-        // 본문 콘텐츠 표시 활성화
-        document.body.classList.remove('gate-active');
-        btnSideToggle.classList.add('is-active');
-        if (toggleTxt) toggleTxt.textContent = '닫기';
-        if (toggleIcon) {
-          toggleIcon.className = 'fa-solid fa-xmark';
-        }
-        
-        // 클릭 시점에 비디오 재생 시작 보장
-        const video = document.getElementById('bgVideo');
-        if (video && video.paused) {
-          video.play().catch(err => {
-            console.log("비디오 재생 실패:", err);
-          });
-        }
-
-        // Hero 섹션 모션 강제 트리거
-        setTimeout(() => {
-          const heroMotions = document.querySelectorAll('#hero [data-motion]');
-          heroMotions.forEach(el => el.classList.add('active'));
-        }, 300);
-      } else {
-        // 본문 감추고 다시 동영상 단독 모드로 변경
-        document.body.classList.add('gate-active');
-        btnSideToggle.classList.remove('is-active');
-        if (toggleTxt) toggleTxt.textContent = '둘러보기';
-        if (toggleIcon) {
-          toggleIcon.className = 'fa-solid fa-arrow-right';
-        }
-        
-        // 최상단으로 스크롤 이동
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    });
-  }
-
-  // 8. 게이트 양쪽 네비게이션 버튼 동작 연동
-  const gateBtns = document.querySelectorAll('.gate-btn');
-  gateBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const targetSelector = btn.getAttribute('data-target');
+  // Curation 버튼: 게이트 해제 후 콘텐츠 진입 및 스크롤
+  if (btnGateCuration) {
+    btnGateCuration.addEventListener('click', () => {
+      const targetSelector = btnGateCuration.getAttribute('data-target');
       const targetEl = document.querySelector(targetSelector);
       
-      // 게이트 해제
+      // 게이트 해제 (본문 정보들이 나타남)
       document.body.classList.remove('gate-active');
-      if (btnSideToggle) {
-        btnSideToggle.classList.add('is-active');
-      }
-      if (toggleTxt) toggleTxt.textContent = '닫기';
-      if (toggleIcon) {
-        toggleIcon.className = 'fa-solid fa-xmark';
-      }
       
       // 비디오 재생 확인
       const video = document.getElementById('bgVideo');
@@ -277,5 +230,26 @@ document.addEventListener('DOMContentLoaded', () => {
         heroMotions.forEach(el => el.classList.add('active'));
       }, 300);
     });
-  });
+  }
+
+  // About 버튼: 게이트 유지한 상태에서 팝업 모달 띄우기
+  if (btnGateAbout && aboutModal) {
+    btnGateAbout.addEventListener('click', () => {
+      aboutModal.classList.add('active');
+    });
+  }
+
+  // 모달 닫기 이벤트
+  function closeAboutModal() {
+    if (aboutModal) {
+      aboutModal.classList.remove('active');
+    }
+  }
+
+  if (btnModalClose) {
+    btnModalClose.addEventListener('click', closeAboutModal);
+  }
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', closeAboutModal);
+  }
 });
