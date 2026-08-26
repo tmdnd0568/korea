@@ -252,4 +252,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modalOverlay) {
     modalOverlay.addEventListener('click', closeAboutModal);
   }
+
+  // 8. 본문 활성화 시 좌측 고정 뒤로가기 버튼 클릭 이벤트
+  const btnBackToGate = document.getElementById('btnBackToGate');
+  if (btnBackToGate) {
+    btnBackToGate.addEventListener('click', () => {
+      // 본문을 숨기고 게이트(동영상 단독 모드)를 다시 활성화
+      document.body.classList.add('gate-active');
+      
+      // 최상단으로 스크롤 이동
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 });
