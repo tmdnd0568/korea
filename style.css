@@ -118,20 +118,18 @@ body.cursor-hover .cursor-circle {
 .logo a {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
-.logo-sym {
-  font-size: 1.3rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: var(--highlight);
+.logo-img {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  transition: transform var(--transition-fast) ease;
 }
 
-.logo-txt {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+.logo-img:hover {
+  transform: scale(1.02);
 }
 
 .nav-list {
