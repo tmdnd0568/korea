@@ -20,30 +20,51 @@
   <!-- 게이트 전용 좌우 네비게이션 버튼 (lhbzr.com 스타일) -->
   <div class="gate-nav-buttons">
     <button class="gate-btn btn-left" id="btnGateAbout" data-target="#story">
-      <span class="gate-btn-txt">About</span>
+      <span class="gate-btn-txt" data-translate="btn-about">About</span>
       <svg class="ZHtDHMcwB53vVRaPMYmd" width="129" height="64" viewBox="0 0 129 64">
         <path class="hVF0W6zde6gC_lgaluZY" d="M0,32 L15,10 L114,10 L129,0 M0,32 L15,54 L114,54 L129,64" />
       </svg>
     </button>
     <button class="gate-btn btn-right" id="btnGateCuration" data-target="#curation">
-      <span class="gate-btn-txt">Curation</span>
+      <span class="gate-btn-txt" data-translate="btn-curation">Curation</span>
       <svg class="ZHtDHMcwB53vVRaPMYmd" width="129" height="64" viewBox="0 0 129 64">
         <path class="hVF0W6zde6gC_lgaluZY" d="M0,0 L15,10 L114,10 L129,32 L114,54 L15,54 L0,64" />
       </svg>
     </button>
   </div>
 
+  <!-- 게이트 중앙 3D 회전 로고 (지구 스타일) -->
+  <div class="gate-logo-container" id="gateLogoContainer">
+    <div class="globe-wrapper">
+      <div class="globe-sphere"></div>
+      <div class="globe-ring"></div>
+      <div class="globe-axis">
+        <div class="globe-logo-3d">
+          <div class="globe-face globe-face-front">
+            <img src="logo.png" alt="국립한글박물관 로고 앞면" />
+          </div>
+          <div class="globe-face globe-face-back">
+            <img src="logo.png" alt="국립한글박물관 로고 뒷면" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 본문 활성화 시 좌측 고정 뒤로가기 버튼 (About 버튼과 동일한 SVG 디자인) -->
   <button class="back-btn-fixed" id="btnBackToGate">
-    <span class="back-btn-txt">Back</span>
+    <span class="back-btn-txt" data-translate="btn-back">Back</span>
     <svg class="ZHtDHMcwB53vVRaPMYmd" width="129" height="64" viewBox="0 0 129 64">
       <path class="hVF0W6zde6gC_lgaluZY" d="M0,32 L15,10 L114,10 L129,0 M0,32 L15,54 L114,54 L129,64" />
     </svg>
   </button>
 
-  <!-- 고정 배경 비디오 (스크롤 연동) -->
+  <!-- 고정 배경 비디오 (이중 비디오 크로스페이드) -->
   <div class="video-container">
-    <video autoplay muted playsinline id="bgVideo" class="bg-video" preload="auto">
+    <video autoplay muted playsinline id="bgVideo1" class="bg-video" preload="auto" style="opacity: 1; z-index: -2;">
+      <source src="scoll_001.mp4" type="video/mp4" />
+    </video>
+    <video muted playsinline id="bgVideo2" class="bg-video" preload="auto" style="opacity: 0; z-index: -3;">
       <source src="scoll_001.mp4" type="video/mp4" />
     </video>
     <div class="video-overlay"></div>
@@ -67,10 +88,10 @@
       </div>
       <nav class="nav">
         <ul class="nav-list">
-          <li><a href="#story" class="nav-link">한글 이야기</a></li>
-          <li><a href="#curation" class="nav-link">맞춤 관람 안내</a></li>
-          <li><a href="#gallery" class="nav-link">전시 & 굿즈</a></li>
-          <li><a href="#visit" class="nav-link">오시는 길</a></li>
+          <li><a href="#story" class="nav-link" data-translate="nav-story">한글 이야기</a></li>
+          <li><a href="#curation" class="nav-link" data-translate="nav-curation">맞춤 관람 안내</a></li>
+          <li><a href="#gallery" class="nav-link" data-translate="nav-gallery">전시 & 굿즈</a></li>
+          <li><a href="#visit" class="nav-link" data-translate="nav-visit">오시는 길</a></li>
         </ul>
       </nav>
       <div class="header-util">
@@ -79,7 +100,7 @@
           <span>/</span>
           <button class="lang-btn">EN</button>
         </div>
-        <button class="btn-ticket">관람 예약</button>
+        <button class="btn-ticket" data-translate="btn-ticket">관람 예약</button>
       </div>
     </div>
   </header>
@@ -88,18 +109,18 @@
   <section id="hero" class="hero-section">
 
     <div class="hero-content">
-      <p class="hero-sub" data-motion="fade-up">NATIONAL HANGEUL MUSEUM</p>
-      <h1 class="hero-title" data-motion="fade-up" data-delay="200">
+      <p class="hero-sub" data-motion="fade-up" data-translate="hero-sub">NATIONAL HANGEUL MUSEUM</p>
+      <h1 class="hero-title" data-motion="fade-up" data-delay="200" data-translate="hero-title-html">
         세계를 매료시킨 문자,<br />
         <span class="highlight">한글의 역사와 가치</span>를 만나다
       </h1>
-      <p class="hero-desc" data-motion="fade-up" data-delay="400">
+      <p class="hero-desc" data-motion="fade-up" data-delay="400" data-translate="hero-desc">
         세종대왕의 깊은 애민 정신이 담긴 훈민정음의 가치부터, 현대 미디어 아트로 재탄생한 한글의 독보적 위상을 재발견하는 인터랙티브 문화 공간입니다.
       </p>
       <div class="hero-btn-group" data-motion="fade-up" data-delay="600">
-        <a href="#curation" class="btn-primary">맞춤 관람 코스 찾기</a>
+        <a href="#curation" class="btn-primary" data-translate="hero-btn-curation">맞춤 관람 코스 찾기</a>
         <a href="#story" class="btn-outline">
-          <span>역사와 가치 탐색</span>
+          <span data-translate="hero-btn-story">역사와 가치 탐색</span>
           <span class="arrow-icon"></span>
           <span class="border-line border-top"></span>
           <span class="border-line border-right"></span>
@@ -119,36 +140,36 @@
   <section id="story" class="section story-section">
     <div class="container">
       <div class="section-head">
-        <span class="tag">HANGEUL CORE VALUE</span>
-        <h2>소통과 나눔으로 피어난 한글의 가치</h2>
-        <p>백성을 향한 세종대왕의 사랑에서 탄생하여 세계에 우뚝 선 위대한 문자의 역사를 탐색해보세요.</p>
+        <span class="tag" data-translate="story-tag">HANGEUL CORE VALUE</span>
+        <h2 data-translate="story-head-h2">소통과 나눔으로 피어난 한글의 가치</h2>
+        <p data-translate="story-head-p">백성을 향한 세종대왕의 사랑에서 탄생하여 세계에 우뚝 선 위대한 문자의 역사를 탐색해보세요.</p>
       </div>
 
       <div class="story-grid">
         <div class="story-card interactive-hover" data-symbol="訓">
           <div class="card-bg-glyph">훈</div>
           <div class="card-body">
-            <span class="step">01. 백성을 사랑한 역사</span>
-            <h3>1443년, 애민의 문자 혁명</h3>
-            <p>어려운 한자를 몰라 억울하게 눈물 흘리는 백성을 가엾게 여겨, 누구나 하루아침에 익힐 수 있는 따뜻한 한글의 역사가 시작되었습니다.</p>
+            <span class="step" data-translate="story-card1-step">01. 백성을 사랑한 역사</span>
+            <h3 data-translate="story-card1-title">1443년, 애민의 문자 혁명</h3>
+            <p data-translate="story-card1-desc">어려운 한자를 몰라 억울하게 눈물 흘리는 백성을 가엾게 여겨, 누구나 하루아침에 익힐 수 있는 따뜻한 한글의 역사가 시작되었습니다.</p>
           </div>
         </div>
 
         <div class="story-card interactive-hover" data-symbol="科">
           <div class="card-bg-glyph">민</div>
           <div class="card-body">
-            <span class="step">02. 독창적이고 과학적인 가치</span>
-            <h3>천지인 철학과 발음기관 형상화</h3>
-            <p>하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)을 형상화한 철학적 조화와 발음 기관을 모방해 만든 자음의 기하학적 조형은 세계 언어학자들의 극찬을 받습니다.</p>
+            <span class="step" data-translate="story-card2-step">02. 독창적이고 과학적인 가치</span>
+            <h3 data-translate="story-card2-title">천지인 철학과 발음기관 형상화</h3>
+            <p data-translate="story-card2-desc">하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)을 형상화한 철학적 조화와 발음 기관을 모방해 만든 자음의 기하학적 조형은 세계 언어학자들의 극찬을 받습니다.</p>
           </div>
         </div>
 
         <div class="story-card interactive-hover" data-symbol="世">
           <div class="card-bg-glyph">정</div>
           <div class="card-body">
-            <span class="step">03. 디지털 시대의 원동력</span>
-            <h3>글로벌 정보화를 선도하는 힘</h3>
-            <p>자음과 모음의 조합 속도가 압도적인 한글은 유네스코 세계기록유산에 등재되었으며, 현대 스마트폰 및 디지털 정보화 시대에 최적화된 세계 문자의 미래입니다.</p>
+            <span class="step" data-translate="story-card3-step">03. 디지털 시대의 원동력</span>
+            <h3 data-translate="story-card3-title">글로벌 정보화를 선도하는 힘</h3>
+            <p data-translate="story-card3-desc">자음과 모음의 조합 속도가 압도적인 한글은 유네스코 세계기록유산에 등재되었으며, 현대 스마트폰 및 디지털 정보화 시대에 최적화된 세계 문자의 미래입니다.</p>
           </div>
         </div>
       </div>
@@ -159,21 +180,21 @@
   <section id="curation" class="section curation-section">
     <div class="container">
       <div class="section-head">
-        <span class="tag">TAILORED CURATION</span>
-        <h2>당신만을 위한 맞춤 관람 코스</h2>
-        <p>박물관을 찾아주신 목적과 관람객 유형에 최적화된 추천 동선을 제공합니다.</p>
+        <span class="tag" data-translate="curation-tag">TAILORED CURATION</span>
+        <h2 data-translate="curation-head-h2">당신만을 위한 맞춤 관람 코스</h2>
+        <p data-translate="curation-head-p">박물관을 찾아주신 목적과 관람객 유형에 최적화된 추천 동선을 제공합니다.</p>
       </div>
 
       <!-- 큐레이션 탭 버튼 (30대 부모, 학생, 외국인 3가지 타겟 반영) -->
       <div class="tab-buttons">
         <button class="tab-btn active" data-tab="family">
-          <i class="fa-solid fa-child-reaching"></i> 자녀동반 코스
+          <i class="fa-solid fa-child-reaching"></i> <span data-translate="tab-family">자녀동반 코스</span>
         </button>
         <button class="tab-btn" data-tab="student">
-          <i class="fa-solid fa-graduation-cap"></i> 학생 과제 및 학술 탐구 코스
+          <i class="fa-solid fa-graduation-cap"></i> <span data-translate="tab-student">학생 과제 및 학술 탐구 코스</span>
         </button>
         <button class="tab-btn" data-tab="global">
-          <i class="fa-solid fa-earth-asia"></i> 외국인 관광객 추천 코스
+          <i class="fa-solid fa-earth-asia"></i> <span data-translate="tab-global">외국인 관광객 추천 코스</span>
         </button>
       </div>
 
@@ -183,23 +204,23 @@
         <div class="panel active" id="family">
           <div class="curation-box">
             <div class="curation-info">
-              <span class="badge">소요시간 약 90분 · 주차 편리 · 유모차 대여 무료 · 체험 학습 특화</span>
-              <h3>"놀이와 배움이 함께하는 어린이 체험 코스"</h3>
-              <p>어린 자녀가 한글을 쉽고 흥미롭게 배울 수 있도록 놀이 중심의 시각 자료와 인터랙티브 전시 공간 위주로 기획되었습니다.</p>
+              <span class="badge" data-translate="curation-family-badge">소요시간 약 90분 · 주차 편리 · 유모차 대여 무료 · 체험 학습 특화</span>
+              <h3 data-translate="curation-family-title">"놀이와 배움이 함께하는 어린이 체험 코스"</h3>
+              <p data-translate="curation-family-desc">어린 자녀가 한글을 쉽고 흥미롭게 배울 수 있도록 놀이 중심의 시각 자료와 인터랙티브 전시 공간 위주로 기획되었습니다.</p>
               <ul class="course-list">
-                <li><strong>1단계:</strong> 한글놀이터 (오감을 자극하는 블록 쌓기 및 모션 그래픽 게임 체험)</li>
-                <li><strong>2단계:</strong> 어린이 기획 전시실 (쉬운 설명과 눈높이에 맞춘 도슨트 투어)</li>
-                <li><strong>3단계:</strong> 야외 정원 피크닉 (잔디밭에서 가족과 여유를 즐기는 힐링 코스)</li>
+                <li data-translate="curation-family-c1-html"><strong>1단계:</strong> 한글놀이터 (오감을 자극하는 블록 쌓기 및 모션 그래픽 게임 체험)</li>
+                <li data-translate="curation-family-c2-html"><strong>2단계:</strong> 어린이 기획 전시실 (쉬운 설명과 눈높이에 맞춘 도슨트 투어)</li>
+                <li data-translate="curation-family-c3-html"><strong>3단계:</strong> 야외 정원 피크닉 (잔디밭에서 가족과 여유를 즐기는 힐링 코스)</li>
               </ul>
               <div class="curation-actions">
-                <button class="btn-primary">가족 동선 안내 지도 다운로드</button>
-                <span class="note">* 수유실 및 편의시설 1층 로비 완비</span>
+                <button class="btn-primary" data-translate="curation-family-btn">가족 동선 안내 지도 다운로드</button>
+                <span class="note" data-translate="curation-family-note">* 수유실 및 편의시설 1층 로비 완비</span>
               </div>
             </div>
             <div class="curation-visual visual-family">
               <div class="mock-card">
-                <span>추천 포인트</span>
-                <h4>어린이 오감 모션 게임 & 체험 존</h4>
+                <span data-translate="curation-family-visual-span">추천 포인트</span>
+                <h4 data-translate="curation-family-visual-h4">어린이 오감 모션 게임 & 체험 존</h4>
               </div>
             </div>
           </div>
@@ -209,23 +230,23 @@
         <div class="panel" id="student">
           <div class="curation-box">
             <div class="curation-info">
-              <span class="badge">소요시간 약 60분 · 과제 자료 조사 최적 · 도서관 무료 이용 · 초중고/대학생 추천</span>
-              <h3>"한글 역사 및 가치 탐구 학술 코스"</h3>
-              <p>중·고·대학생들의 보고서 작성과 학술 과제 자료 수집을 위해 한글 상설관과 디지털 도서 아카이브 위주로 구성된 학술적 동선입니다.</p>
+              <span class="badge" data-translate="curation-student-badge">소요시간 약 60분 · 과제 자료 조사 최적 · 도서관 무료 이용 · 초중고/대학생 추천</span>
+              <h3 data-translate="curation-student-title">"한글 역사 및 가치 탐구 학술 코스"</h3>
+              <p data-translate="curation-student-desc">중·고·대학생들의 보고서 작성과 학술 과제 자료 수집을 위해 한글 상설관과 디지털 도서 아카이브 위주로 구성된 학술적 동선입니다.</p>
               <ul class="course-list">
-                <li><strong>1단계:</strong> 상설 전시관 훈민정음실 (국보 훈민정음 해례본 원본 및 언해본 텍스트 구조 분석)</li>
-                <li><strong>2단계:</strong> 한글도서관 & 자료 검색관 (논문 열람 및 고도서 디지털 인쇄 서비스 이용)</li>
-                <li><strong>3단계:</strong> 한글 정보화 전시존 (디지털 시대 한글의 우수성과 IT 과학적 정보 입력 원리 탐구)</li>
+                <li data-translate="curation-student-c1-html"><strong>1단계:</strong> 상설 전시관 훈민정음실 (국보 훈민정음 해례본 원본 및 언해본 텍스트 구조 분석)</li>
+                <li data-translate="curation-student-c2-html"><strong>2단계:</strong> 한글도서관 & 자료 검색관 (논문 열람 및 고도서 디지털 인쇄 서비스 이용)</li>
+                <li data-translate="curation-student-c3-html"><strong>3단계:</strong> 한글 정보화 전시존 (디지털 시대 한글의 우수성과 IT 과학적 정보 입력 원리 탐구)</li>
               </ul>
               <div class="curation-actions">
-                <button class="btn-primary">과제 참고용 자료집 다운로드 (PDF)</button>
-                <span class="note">* 도서관 내 무료 Wi-Fi 및 충전 시설 완비</span>
+                <button class="btn-primary" data-translate="curation-student-btn">과제 참고용 자료집 다운로드 (PDF)</button>
+                <span class="note" data-translate="curation-student-note">* 도서관 내 무료 Wi-Fi 및 충전 시설 완비</span>
               </div>
             </div>
             <div class="curation-visual visual-global">
               <div class="mock-card">
-                <span>학습 추천</span>
-                <h4>훈민정음 해례본 원본 돋보기 뷰어</h4>
+                <span data-translate="curation-student-visual-span">학습 추천</span>
+                <h4 data-translate="curation-student-visual-h4">훈민정음 해례본 원본 돋보기 뷰어</h4>
               </div>
             </div>
           </div>
@@ -235,23 +256,23 @@
         <div class="panel" id="global">
           <div class="curation-box">
             <div class="curation-info">
-              <span class="badge">Duration: 60 min · Multilingual Audio Guide · K-Art & Design · Cafe Rest</span>
-              <h3>"K-Culture: The Art & Philosophy of Hangeul"</h3>
-              <p>세종대왕의 백성을 향한 사랑과 세계적인 언어학적 창제 가치, 그리고 현대 미디어 아트로 피어난 한글의 예술적 가치를 감상하는 글로벌 투어입니다.</p>
+              <span class="badge" data-translate="curation-global-badge">Duration: 60 min · Multilingual Audio Guide · K-Art & Design · Cafe Rest</span>
+              <h3 data-translate="curation-global-title">"K-Culture: The Art & Philosophy of Hangeul"</h3>
+              <p data-translate="curation-global-desc">세종대왕의 백성을 향한 사랑과 세계적인 언어학적 창제 가치, 그리고 현대 미디어 아트로 피어난 한글의 예술적 가치를 감상하는 글로벌 투어입니다.</p>
               <ul class="course-list">
-                <li><strong>Step 1:</strong> Hunminjeongeum Origin Room (Free scanning of multilingual QR audio guides)</li>
-                <li><strong>Step 2:</strong> Kinetic Typography Hall (Stunning typographic media art projection)</li>
-                <li><strong>Step 3:</strong> Premium Museum Shop & Cafe (Take a break with Hangeul goods and traditional tea)</li>
+                <li data-translate="curation-global-c1-html"><strong>Step 1:</strong> Hunminjeongeum Origin Room (Free scanning of multilingual QR audio guides)</li>
+                <li data-translate="curation-global-c2-html"><strong>Step 2:</strong> Kinetic Typography Hall (Stunning typographic media art projection)</li>
+                <li data-translate="curation-global-c3-html"><strong>Step 3:</strong> Premium Museum Shop & Cafe (Take a break with Hangeul goods and traditional tea)</li>
               </ul>
               <div class="curation-actions">
-                <button class="btn-primary">Download Global Guide Brochure</button>
-                <span class="note">* English/Chinese/Japanese booklets are free at information desk</span>
+                <button class="btn-primary" data-translate="curation-global-btn">Download Global Guide Brochure</button>
+                <span class="note" data-translate="curation-global-note">* English/Chinese/Japanese booklets are free at information desk</span>
               </div>
             </div>
             <div class="curation-visual visual-global">
               <div class="mock-card">
-                <span>Key Highlight</span>
-                <h4>King Sejong’s Global Design History</h4>
+                <span data-translate="curation-global-visual-span">Key Highlight</span>
+                <h4 data-translate="curation-global-visual-h4">King Sejong’s Global Design History</h4>
               </div>
             </div>
           </div>
@@ -264,9 +285,9 @@
   <section id="gallery" class="section gallery-section">
     <div class="container">
       <div class="section-head">
-        <span class="tag">MUSEUM SHOP & ARCHIVE</span>
-        <h2>한글 타이포그래피 & 뮤지엄 굿즈</h2>
-        <p>국립한글박물관의 새로운 아이덴티티와 한글의 조형미를 담은 시그니처 굿즈 아카이브</p>
+        <span class="tag" data-translate="gallery-tag">MUSEUM SHOP & ARCHIVE</span>
+        <h2 data-translate="gallery-head-h2">한글 타이포그래피 & 뮤지엄 굿즈</h2>
+        <p data-translate="gallery-head-p">국립한글박물관의 새로운 아이덴티티와 한글의 조형미를 담은 시그니처 굿즈 아카이브</p>
       </div>
 
       <div class="product-slider-wrapper">
@@ -276,8 +297,8 @@
               <span class="badge-new">BEST</span>
             </div>
             <div class="prod-info">
-              <h4>훈민정음 언해본 아크릴 무드등</h4>
-              <p>빛에 반응하는 자음과 모음의 은은한 조형</p>
+              <h4 data-translate="prod1-title">훈민정음 언해본 아크릴 무드등</h4>
+              <p data-translate="prod1-desc">빛에 반응하는 자음과 모음의 은은한 조형</p>
               <span class="price">₩ 28,000</span>
             </div>
           </div>
@@ -287,8 +308,8 @@
               <span class="badge-new">NEW</span>
             </div>
             <div class="prod-info">
-              <h4>기하학 자음 메탈 키링 컬렉션</h4>
-              <p>ㄱ, ㄴ, ㄷ, ㄹ의 선과 면을 살린 미니멀 디자인</p>
+              <h4 data-translate="prod2-title">기하학 자음 메탈 키링 컬렉션</h4>
+              <p data-translate="prod2-desc">ㄱ, ㄴ, ㄷ, ㄹ의 선과 면을 살린 미니멀 디자인</p>
               <span class="price">₩ 14,000</span>
             </div>
           </div>
@@ -296,8 +317,8 @@
           <div class="product-card">
             <div class="prod-thumb thumb-3"></div>
             <div class="prod-info">
-              <h4>천지인 세라믹 텀블러 & 코스터</h4>
-              <p>모던 블랙 매트 코팅과 인체공학적 그립</p>
+              <h4 data-translate="prod3-title">천지인 세라믹 텀블러 & 코스터</h4>
+              <p data-translate="prod3-desc">모던 블랙 매트 코팅과 인체공학적 그립</p>
               <span class="price">₩ 32,000</span>
             </div>
           </div>
@@ -305,8 +326,8 @@
           <div class="product-card">
             <div class="prod-thumb thumb-4"></div>
             <div class="prod-info">
-              <h4>한글 타이포그래피 패브릭 포스터</h4>
-              <p>전통 먹색과 실버 포일 스크린 프린트</p>
+              <h4 data-translate="prod4-title">한글 타이포그래피 패브릭 포스터</h4>
+              <p data-translate="prod4-desc">전통 먹색과 실버 포일 스크린 프린트</p>
               <span class="price">₩ 22,000</span>
             </div>
           </div>
@@ -319,32 +340,32 @@
   <section id="visit" class="section visit-section">
     <div class="container visit-container">
       <div class="visit-info">
-        <span class="tag">VISIT INFO</span>
-        <h2>관람 안내 & 위치</h2>
+        <span class="tag" data-translate="visit-tag">VISIT INFO</span>
+        <h2 data-translate="visit-head-h2">관람 안내 & 위치</h2>
         <ul class="info-table">
           <li>
-            <span class="label">관람시간</span>
-            <span class="val">월~일 10:00 - 18:00 (토요일 야간개장 21:00까지)</span>
+            <span class="label" data-translate="visit-label-hours">관람시간</span>
+            <span class="val" data-translate="visit-val-hours">월~일 10:00 - 18:00 (토요일 야간개장 21:00까지)</span>
           </li>
           <li>
-            <span class="label">관람료</span>
-            <span class="val highlight-val">무료 관람 (기획특별전 별도)</span>
+            <span class="label" data-translate="visit-label-fee">관람료</span>
+            <span class="val highlight-val" data-translate="visit-val-fee">무료 관람 (기획특별전 별도)</span>
           </li>
           <li>
-            <span class="label">주소</span>
-            <span class="val">서울특별시 용산구 서빙고로 139 국립한글박물관</span>
+            <span class="label" data-translate="visit-label-addr">주소</span>
+            <span class="val" data-translate="visit-val-addr">서울특별시 용산구 서빙고로 139 국립한글박물관</span>
           </li>
           <li>
-            <span class="label">대중교통</span>
-            <span class="val">이촌역(4호선/경의중앙선) 2번 출구 박물관 나들길 연결</span>
+            <span class="label" data-translate="visit-label-transit">대중교통</span>
+            <span class="val" data-translate="visit-val-transit">이촌역(4호선/경의중앙선) 2번 출구 박물관 나들길 연결</span>
           </li>
         </ul>
       </div>
       <div class="visit-map-box">
         <div class="map-placeholder">
           <i class="fa-solid fa-location-dot"></i>
-          <p>이촌역 도보 5분 국립중앙박물관 옆</p>
-          <a href="https://map.kakao.com" target="_blank" class="btn-outline btn-sm">카카오맵 바로가기</a>
+          <p data-translate="map-placeholder">이촌역 도보 5분 국립중앙박물관 옆</p>
+          <a href="https://map.kakao.com" target="_blank" class="btn-outline btn-sm" data-translate="btn-map">카카오맵 바로가기</a>
         </div>
       </div>
     </div>
@@ -354,11 +375,11 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div class="footer-left">
-        <h3>국립한글박물관</h3>
-        <p>Copyright © National Hangeul Museum. All Rights Reserved.</p>
+        <h3 data-translate="footer-title">국립한글박물관</h3>
+        <p data-translate="footer-copy">Copyright © National Hangeul Museum. All Rights Reserved.</p>
       </div>
       <div class="footer-right">
-        <a href="#hero">맨 위로 이동 ↑</a>
+        <a href="#hero" data-translate="btn-back-top">맨 위로 이동 ↑</a>
       </div>
     </div>
   </footer>
@@ -368,21 +389,21 @@
     <div class="modal-content">
       <button class="modal-close-btn" id="btnModalClose">&times;</button>
       <div class="modal-body">
-        <span class="modal-tag">ABOUT MUSEUM</span>
-        <h2>국립한글박물관</h2>
-        <p class="modal-desc">
+        <span class="modal-tag" data-translate="modal-tag">ABOUT MUSEUM</span>
+        <h2 data-translate="modal-title">국립한글박물관</h2>
+        <p class="modal-desc" data-translate="modal-desc">
           국립한글박물관은 한글의 문자적·문화적 가치를 보존하고 널리 알리기 위해 설립되었습니다. 
           세종대왕의 애민 정신이 깃든 훈민정음의 창제 원리부터 현대 한글 타이포그래피의 시각 예술적 조형미까지, 
           빛과 어둠을 활용한 미디어 아트를 통해 한글의 역동적인 조형성을 온전히 경험할 수 있는 인터랙티브 문화 공간입니다.
         </p>
         <div class="modal-features">
           <div class="feature-item">
-            <strong>과학과 철학</strong>
-            <p>하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)에 담긴 조화로운 우주관의 형상화</p>
+            <strong data-translate="modal-f1-title">과학과 철학</strong>
+            <p data-translate="modal-f1-desc">하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)에 담긴 조화로운 우주관의 형상화</p>
           </div>
           <div class="feature-item">
-            <strong>글로벌 가치</strong>
-            <p>세계 문자 역사상 유일하게 창제자와 창제 원리가 밝혀진 과학적 문자</p>
+            <strong data-translate="modal-f2-title">글로벌 가치</strong>
+            <p data-translate="modal-f2-desc">세계 문자 역사상 유일하게 창제자와 창제 원리가 밝혀진 과학적 문자</p>
           </div>
         </div>
       </div>
@@ -390,6 +411,7 @@
     <div class="modal-overlay" id="modalOverlay"></div>
   </div>
 
+  <script src="lang.js"></script>
   <script src="brt.js"></script>
 </body>
 </html>

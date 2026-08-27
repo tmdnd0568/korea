@@ -103,73 +103,77 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 5. 배경 비디오 Yo-Yo (정방향 <-> 역방향) 무한 반복 제어
-  const video = document.getElementById('bgVideo');
-  if (video) {
-    video.loop = false; // 브라우저 자체 루프는 비활성화 (역재생과 충돌 방지)
-    
-    let direction = 1; // 1: 정방향 재생, -1: 역방향 재생
-    let reverseRafId = null;
-    let lastTime = performance.now();
-    let lastSeekTime = 0;
-    let accumulatedTime = 0;
+  // 5. 배경 비디오 듀얼 크로스페이드 Seamless 루프 제어
+  const video1 = document.getElementById('bgVideo1');
+  const video2 = document.getElementById('bgVideo2');
+  if (video1 && video2) {
+    let videos = [video1, video2];
+    let activeIdx = 0;
+    let transitionDuration = 0.8; // 교차 페이드 전환 시간 (초)
+    let isTransitioning = false;
 
-    function playReverse(now) {
-      if (direction !== -1) {
-        reverseRafId = null;
-        return;
-      }
+    // 초기 설정 강제 동기화
+    videos.forEach((vid, idx) => {
+      vid.loop = false; // 브라우저 자체 루프는 끄고 JS로 정밀 제어
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.setAttribute('autoplay', idx === 0 ? 'autoplay' : '');
+      vid.style.transition = 'opacity 0.8s ease';
+      vid.style.position = 'absolute';
+      vid.style.top = '0';
+      vid.style.left = '0';
+    });
 
-      const elapsed = (now - lastTime) / 1000;
-      lastTime = now;
-      accumulatedTime += elapsed;
+    function checkVideoProgress() {
+      const activeVideo = videos[activeIdx];
+      const inactiveVideo = videos[1 - activeIdx];
 
-      // 30fps (약 33ms) 간격으로 비디오 탐색(Seek)을 제한적으로 실행하여 
-      // 데코더 과부하를 줄이고 버벅임 없는 부드러운 역재생을 구현합니다.
-      if (now - lastSeekTime >= 33) {
-        let newTime = video.currentTime - accumulatedTime;
-        accumulatedTime = 0;
-        lastSeekTime = now;
+      if (activeVideo.duration) {
+        const duration = activeVideo.duration;
+        const current = activeVideo.currentTime;
 
-        if (newTime <= 0) {
-          newTime = 0;
-          video.currentTime = 0;
-          direction = 1;
-          reverseRafId = null;
-          // 즉시 정방향 재생 시작
-          video.play().catch(err => {
-            console.log("역재생 완료 후 정방향 재생 시작 실패:", err);
+        // 종료 0.8초 전에 교차 페이드 시작
+        if (!isTransitioning && current >= duration - transitionDuration) {
+          isTransitioning = true;
+
+          // 대기 동영상을 처음부터 재생 시작
+          inactiveVideo.currentTime = 0;
+          inactiveVideo.play().then(() => {
+            inactiveVideo.style.opacity = '1';
+            inactiveVideo.style.zIndex = '-2';
+            activeVideo.style.opacity = '0';
+            activeVideo.style.zIndex = '-3';
+
+            setTimeout(() => {
+              activeVideo.pause();
+              activeIdx = 1 - activeIdx;
+              isTransitioning = false;
+            }, transitionDuration * 1000);
+          }).catch(err => {
+            console.log("교체 비디오 재생 실패:", err);
+            isTransitioning = false;
           });
-        } else {
-          video.currentTime = newTime;
         }
       }
-
-      reverseRafId = requestAnimationFrame(playReverse);
+      requestAnimationFrame(checkVideoProgress);
     }
 
-    function startReverse() {
-      if (direction === -1 && !reverseRafId) {
-        lastTime = performance.now();
-        lastSeekTime = performance.now();
-        accumulatedTime = 0;
-        reverseRafId = requestAnimationFrame(playReverse);
-      }
+    if (video1.readyState >= 1) {
+      requestAnimationFrame(checkVideoProgress);
+    } else {
+      video1.addEventListener('loadedmetadata', () => {
+        requestAnimationFrame(checkVideoProgress);
+      });
     }
 
-    // 영상 재생이 끝에 도달하자마자 즉시 역재생으로 전환하여 끊김 현상 제거
-    video.addEventListener('ended', () => {
-      if (direction === 1) {
-        direction = -1;
-        video.pause();
-        startReverse();
-      }
+    video1.play().catch(err => {
+      console.log("최초 비디오 재생 제한:", err);
     });
 
-    // 최초 로드 시 재생 시작 시도
-    video.play().catch(err => {
-      console.log("비디오 자동 재생이 제한되었습니다.", err);
-    });
+    // 외부 연동용 헬퍼 함수
+    window.playActiveBgVideo = function() {
+      videos[activeIdx].play().catch(err => console.log("비디오 재생 실패:", err));
+    };
   }
 
   // 6. 스크롤 등장 모션 (IntersectionObserver)
@@ -212,9 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.remove('gate-active');
       
       // 비디오 재생 확인
-      const video = document.getElementById('bgVideo');
-      if (video && video.paused) {
-        video.play().catch(err => console.log("비디오 재생 실패:", err));
+      if (window.playActiveBgVideo) {
+        window.playActiveBgVideo();
       }
 
       // 해당 섹션으로 부드러운 스크롤 이동
@@ -264,4 +267,90 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+
+  // 9. 게이트 중앙 3D 회전 로고 마우스 반응형 인터랙션
+  const gateLogoContainer = document.getElementById('gateLogoContainer');
+  if (gateLogoContainer) {
+    const globeAxis = gateLogoContainer.querySelector('.globe-axis');
+    const globeLogo3D = gateLogoContainer.querySelector('.globe-logo-3d');
+
+    gateLogoContainer.addEventListener('mousemove', (e) => {
+      const rect = gateLogoContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      // 마우스 거리에 따른 3D 틸트 (자전축 23.5도 기준에서 미세 변형)
+      const tiltX = -(y / (rect.height / 2)) * 12;
+      const tiltY = (x / (rect.width / 2)) * 12;
+
+      // 자전축 기본 23.5도에 마우스 틸트를 더해 3D 공간감 극대화
+      if (globeAxis) {
+        globeAxis.style.transform = `rotateZ(23.5deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+      }
+    });
+
+    gateLogoContainer.addEventListener('mouseenter', () => {
+      // 호버 시 빠르게 자전하도록 설정 (15s -> 6s)
+      if (globeLogo3D) {
+        globeLogo3D.style.animationDuration = '6s';
+      }
+      document.body.classList.add('cursor-hover');
+    });
+
+    gateLogoContainer.addEventListener('mouseleave', () => {
+      // 자전축 복원
+      if (globeAxis) {
+        globeAxis.style.transform = `rotateZ(23.5deg) rotateX(0deg) rotateY(0deg)`;
+      }
+      if (globeLogo3D) {
+        globeLogo3D.style.animationDuration = '15s';
+      }
+      document.body.classList.remove('cursor-hover');
+    });
+  }
+
+  // 10. 다국어 번역 시스템 (KR / EN) 컨트롤러
+  const langBtns = document.querySelectorAll('.lang-btn');
+  
+  function setLanguage(lang) {
+    // 버튼 활성화 스타일 적용
+    langBtns.forEach(btn => {
+      if (btn.textContent.trim().toLowerCase() === lang) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // 다국어 텍스트 번역 데이터 매핑 루프
+    const translatableElements = document.querySelectorAll('[data-translate]');
+    translatableElements.forEach(el => {
+      const key = el.getAttribute('data-translate');
+      if (window.translations && window.translations[lang] && window.translations[lang][key]) {
+        const textValue = window.translations[lang][key];
+        
+        // 키값에 html 수식어가 들어가 있다면 innerHTML로 삽입하여 태그 파싱
+        if (key.includes('-html')) {
+          el.innerHTML = textValue;
+        } else {
+          el.textContent = textValue;
+        }
+      }
+    });
+
+    // 유저의 선호 언어 브라우저 로컬 저장소 캐싱
+    localStorage.setItem('nhm-lang', lang);
+  }
+
+  // 클릭 이벤트 리스너 등록
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selectedLang = btn.textContent.trim().toLowerCase(); // 'kr' or 'en'
+      setLanguage(selectedLang);
+    });
+  });
+
+  // 초기 페이지 로드 시 기존 세팅 저장 확인 후 로딩 (없을 시 kr 기본 설정)
+  const initialLang = localStorage.getItem('nhm-lang') || 'kr';
+  setLanguage(initialLang);
 });
