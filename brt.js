@@ -310,47 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 초기 페이지 로드 시 기존 세팅 저장 확인 후 로딩 (없을 시 kr 기본 설정)
   const initialLang = localStorage.getItem('nhm-lang') || 'kr';
   setLanguage(initialLang);
-  // 9. 게이트 중앙 3D 회전 로고 마우스 반응형 인터랙션
-  const gateLogoContainer = document.getElementById('gateLogoContainer');
-  if (gateLogoContainer) {
-    const globeAxis = gateLogoContainer.querySelector('.globe-axis');
-    const globeLogo3D = gateLogoContainer.querySelector('.globe-logo-3d');
-
-    gateLogoContainer.addEventListener('mousemove', (e) => {
-      const rect = gateLogoContainer.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-
-      // 마우스 거리에 따른 3D 틸트 (자전축 23.5도 기준에서 미세 변형)
-      const tiltX = -(y / (rect.height / 2)) * 12;
-      const tiltY = (x / (rect.width / 2)) * 12;
-
-      // 자전축 기본 23.5도에 마우스 틸트를 더해 3D 공간감 극대화
-      if (globeAxis) {
-        globeAxis.style.transform = `rotateZ(23.5deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-      }
-    });
-
-    gateLogoContainer.addEventListener('mouseenter', () => {
-      // 호버 시 빠르게 자전하도록 설정 (15s -> 6s)
-      if (globeLogo3D) {
-        globeLogo3D.style.animationDuration = '6s';
-      }
-      document.body.classList.add('cursor-hover');
-    });
-
-    gateLogoContainer.addEventListener('mouseleave', () => {
-      // 자전축 복원
-      if (globeAxis) {
-        globeAxis.style.transform = `rotateZ(23.5deg) rotateX(0deg) rotateY(0deg)`;
-      }
-      if (globeLogo3D) {
-        globeLogo3D.style.animationDuration = '15s';
-      }
-      document.body.classList.remove('cursor-hover');
-    });
-  }
 });
