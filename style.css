@@ -376,8 +376,8 @@ body.cursor-hover .cursor-circle {
 }
 
 .btn-outline:hover {
-  background: #ffffff !important;
-  color: #000000 !important;
+  background: transparent !important;
+  color: var(--highlight) !important;
 }
 
 .btn-outline:hover .arrow-icon {
