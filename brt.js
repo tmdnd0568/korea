@@ -305,11 +305,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // 클릭 이벤트 리스너 등록
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const selectedLang = btn.textContent.trim().toLowerCase(); // 'kr' or 'en'
+      const selectedLang = btn.textContent.trim().toLowerCase(); // 'ko' or 'en'
       setLanguage(selectedLang);
     });
   });
 
-  const initialLang = localStorage.getItem('nhm-lang') || 'kr';
+  const initialLang = localStorage.getItem('nhm-lang') || 'ko';
   setLanguage(initialLang);
+
+  // 11. 하단 맨 위로 가기 버튼 스크롤 이벤트 바인딩
+  const btnBackTop = document.querySelector('[data-translate="btn-back-top"]');
+  if (btnBackTop) {
+    btnBackTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 });

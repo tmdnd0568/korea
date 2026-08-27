@@ -1,6 +1,6 @@
 // 국립한글박물관 다국어 번역 사전 데이터 (lang.js)
 window.translations = {
-  kr: {
+  ko: {
     // 공통 및 게이트 버튼
     "btn-about": "About",
     "btn-curation": "Curation",
