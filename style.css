@@ -313,49 +313,7 @@ body.cursor-hover .cursor-circle {
   box-shadow: 0 10px 25px rgba(209, 180, 106, 0.3);
 }
 
-/* --- 벤치마킹 버튼용 공통 어긋난 테두리 효과 (lhbzr.com 스타일) --- */
-.border-line {
-  background: #ffffff;
-  position: absolute;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s;
-  pointer-events: none;
-}
 
-/* 상단 보더 */
-.border-top {
-  height: 2px;
-  left: -2px;
-  top: 0;
-  width: calc(100% + 2px);
-  transform-origin: left;
-}
-
-/* 우측 보더 */
-.border-right {
-  width: 2px;
-  right: 0;
-  top: -2px;
-  height: calc(100% + 2px);
-  transform-origin: top;
-}
-
-/* 하단 보더 */
-.border-bottom {
-  height: 2px;
-  left: 2px;
-  bottom: 0;
-  width: calc(100% - 2px);
-  transform-origin: right;
-}
-
-/* 좌측 보더 */
-.border-left {
-  width: 2px;
-  left: 0;
-  top: 2px;
-  height: calc(100% - 2px);
-  transform-origin: bottom;
-}
 
 .btn-outline {
   display: inline-block;
