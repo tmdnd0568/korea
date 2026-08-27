@@ -1304,12 +1304,12 @@ body.gate-active .gate-nav-buttons {
    ========================================================== */
 .back-btn-fixed {
   position: fixed;
-  left: 40px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1600; /* 최상위 레이어 */
-  width: 129px;
-  height: 64px;
+  width: 86px;
+  height: 43px;
   outline: none;
   background: none;
   border: none;
@@ -1327,12 +1327,12 @@ body:not(.gate-active) .back-btn-fixed {
 }
 
 .back-btn-fixed:hover {
-  transform: translateY(-50%) translateX(5px) scale(1.05); /* About 버튼과 동일한 호버 미세 모션 */
+  transform: translateY(-50%) translateX(3px) scale(1.03); /* About 버튼과 동일한 호버 미세 모션 */
 }
 
 .back-btn-txt {
   display: block;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -1341,7 +1341,7 @@ body:not(.gate-active) .back-btn-fixed {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  margin-left: 5px; /* 왼쪽 버튼의 텍스트 오프셋 보정 */
+  margin-left: 3px; /* 왼쪽 버튼의 텍스트 오프셋 보정 */
   white-space: nowrap;
   pointer-events: none;
   transition: color 0.4s ease;
