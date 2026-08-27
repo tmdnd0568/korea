@@ -121,7 +121,7 @@ body.cursor-hover .cursor-circle {
 }
 
 .logo-img {
-  height: 58px;
+  height: 76px;
   width: auto;
   object-fit: contain;
   transition: transform var(--transition-fast) ease;

@@ -320,4 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+  // 12. 헤더 로고 클릭 시 홈 화면(게이트 비디오 단독 모드)으로 복귀
+  const headerLogoLink = document.querySelector('.logo a');
+  if (headerLogoLink) {
+    headerLogoLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.body.classList.add('gate-active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 });
