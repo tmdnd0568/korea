@@ -633,6 +633,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (index < 0 || index >= slides.length) return;
     if (isTransitioning) return;
 
+    // Reset intro scroll scrub frame index based on entry direction
+    if (index === 0) {
+      if (currentSlideIndex === 1) {
+        // Entering from bottom (slide 1), start at the last frame
+        targetIntroFrameIndex = 200;
+        currentIntroFrameIndex = 200;
+        const scrubImg = document.getElementById('introScrubImg');
+        if (scrubImg) {
+          scrubImg.src = `img/sjdw_200/ezgif-frame-200.jpg`;
+        }
+      } else {
+        // Entering from top (gate/logo), start at the first frame
+        targetIntroFrameIndex = 1;
+        currentIntroFrameIndex = 1;
+        const scrubImg = document.getElementById('introScrubImg');
+        if (scrubImg) {
+          scrubImg.src = `img/sjdw_200/ezgif-frame-001.jpg`;
+        }
+      }
+    }
+
     // Reset curation horizontal slide index based on entry direction
     if (index === 2) {
       if (currentSlideIndex === 1) {
