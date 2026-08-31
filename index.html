@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   
-  <link rel="stylesheet" href="style.css?v=3.6" />
+  <link rel="stylesheet" href="style.css?v=4.1" />
   <!-- Three.js & GSAP for 3D Starfield & Animations (Vaalentin 2015 Style) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -61,8 +61,8 @@
     </svg>
   </button>
 
-  <!-- 고정 배경 비디오 (이중 비디오 크로스페이드) -->
-  <div class="video-container">
+  <!-- 고정 배경 비디오 (홈 게이트 전용) -->
+  <div class="video-container" id="gateVideoContainer">
     <video autoplay muted playsinline id="bgVideo1" class="bg-video" preload="auto" style="opacity: 1; z-index: -2;">
       <source src="real_01.mp4?v=2.9" type="video/mp4" />
     </video>
@@ -71,6 +71,9 @@
     </video>
     <div class="video-overlay"></div>
   </div>
+
+  <!-- 정보 탭 전용 파티클 별+선 배경 캔버스 (Vaalentin 2015 Style) -->
+  <canvas id="particles-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; pointer-events: none;"></canvas>
 
   <!-- 백그라운드 디자인 그리드 라인 -->
   <div class="grid-lines">
@@ -173,80 +176,82 @@
       </div>
 
       <!-- 큐레이션 콘텐츠 패널 -->
-      <div class="tab-panels">
-        <!-- 1) 가족 동선 -->
-        <div class="panel active" id="family">
-          <div class="curation-box">
-            <div class="curation-info">
-              <span class="badge" data-translate="curation-family-badge">소요시간 약 90분 · 주차 편리 · 유모차 대여 무료 · 체험 학습 특화</span>
-              <h3 data-translate="curation-family-title">"놀이와 배움이 함께하는 어린이 체험 코스"</h3>
-              <p data-translate="curation-family-desc">어린 자녀가 한글을 쉽고 흥미롭게 배울 수 있도록 놀이 중심의 시각 자료와 인터랙티브 전시 공간 위주로 기획되었습니다.</p>
-              <ul class="course-list">
-                <li data-translate="curation-family-c1-html"><strong>1단계:</strong> 한글놀이터 (오감을 자극하는 블록 쌓기 및 모션 그래픽 게임 체험)</li>
-                <li data-translate="curation-family-c2-html"><strong>2단계:</strong> 어린이 기획 전시실 (쉬운 설명과 눈높이에 맞춘 도슨트 투어)</li>
-                <li data-translate="curation-family-c3-html"><strong>3단계:</strong> 야외 정원 피크닉 (잔디밭에서 가족과 여유를 즐기는 힐링 코스)</li>
-              </ul>
-              <div class="curation-actions">
-                <button class="btn-primary" data-translate="curation-family-btn">가족 동선 안내 지도 다운로드</button>
-                <span class="note" data-translate="curation-family-note">* 수유실 및 편의시설 1층 로비 완비</span>
+      <div class="tab-panels-wrapper">
+        <div class="tab-panels">
+          <!-- 1) 가족 동선 -->
+          <div class="panel active" id="family">
+            <div class="curation-box">
+              <div class="curation-info">
+                <span class="badge" data-translate="curation-family-badge">소요시간 약 90분 · 주차 편리 · 유모차 대여 무료 · 체험 학습 특화</span>
+                <h3 data-translate="curation-family-title">"놀이와 배움이 함께하는 어린이 체험 코스"</h3>
+                <p data-translate="curation-family-desc">어린 자녀가 한글을 쉽고 흥미롭게 배울 수 있도록 놀이 중심 of 시각 자료와 인터랙티브 전시 공간 위주로 기획되었습니다.</p>
+                <ul class="course-list">
+                  <li data-translate="curation-family-c1-html"><strong>1단계:</strong> 한글놀이터 (오감을 자극하는 블록 쌓기 및 모션 그래픽 게임 체험)</li>
+                  <li data-translate="curation-family-c2-html"><strong>2단계:</strong> 어린이 기획 전시실 (쉬운 설명과 눈높이에 맞춘 도슨트 투어)</li>
+                  <li data-translate="curation-family-c3-html"><strong>3단계:</strong> 야외 정원 피크닉 (잔디밭에서 가족과 여유를 즐기는 힐링 코스)</li>
+                </ul>
+                <div class="curation-actions">
+                  <button class="btn-primary" data-translate="curation-family-btn">가족 동선 안내 지도 다운로드</button>
+                  <span class="note" data-translate="curation-family-note">* 수유실 및 편의시설 1층 로비 완비</span>
+                </div>
               </div>
-            </div>
-            <div class="curation-visual visual-family">
-              <div class="mock-card">
-                <span data-translate="curation-family-visual-span">추천 포인트</span>
-                <h4 data-translate="curation-family-visual-h4">어린이 오감 모션 게임 & 체험 존</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2) 학생 동선 -->
-        <div class="panel" id="student">
-          <div class="curation-box">
-            <div class="curation-info">
-              <span class="badge" data-translate="curation-student-badge">소요시간 약 60분 · 과제 자료 조사 최적 · 도서관 무료 이용 · 초중고/대학생 추천</span>
-              <h3 data-translate="curation-student-title">"한글 역사 및 가치 탐구 학술 코스"</h3>
-              <p data-translate="curation-student-desc">중·고·대학생들의 보고서 작성과 학술 과제 자료 수집을 위해 한글 상설관과 디지털 도서 아카이브 위주로 구성된 학술적 동선입니다.</p>
-              <ul class="course-list">
-                <li data-translate="curation-student-c1-html"><strong>1단계:</strong> 상설 전시관 훈민정음실 (국보 훈민정음 해례본 원본 및 언해본 텍스트 구조 분석)</li>
-                <li data-translate="curation-student-c2-html"><strong>2단계:</strong> 한글도서관 & 자료 검색관 (논문 열람 및 고도서 디지털 인쇄 서비스 이용)</li>
-                <li data-translate="curation-student-c3-html"><strong>3단계:</strong> 한글 정보화 전시존 (디지털 시대 한글의 우수성과 IT 과학적 정보 입력 원리 탐구)</li>
-              </ul>
-              <div class="curation-actions">
-                <button class="btn-primary" data-translate="curation-student-btn">과제 참고용 자료집 다운로드 (PDF)</button>
-                <span class="note" data-translate="curation-student-note">* 도서관 내 무료 Wi-Fi 및 충전 시설 완비</span>
-              </div>
-            </div>
-            <div class="curation-visual visual-global">
-              <div class="mock-card">
-                <span data-translate="curation-student-visual-span">학습 추천</span>
-                <h4 data-translate="curation-student-visual-h4">훈민정음 해례본 원본 돋보기 뷰어</h4>
+              <div class="curation-visual visual-family">
+                <div class="mock-card">
+                  <span data-translate="curation-family-visual-span">추천 포인트</span>
+                  <h4 data-translate="curation-family-visual-h4">어린이 오감 모션 게임 & 체험 존</h4>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- 3) 외국인 동선 -->
-        <div class="panel" id="global">
-          <div class="curation-box">
-            <div class="curation-info">
-              <span class="badge" data-translate="curation-global-badge">Duration: 60 min · Multilingual Audio Guide · K-Art & Design · Cafe Rest</span>
-              <h3 data-translate="curation-global-title">"K-Culture: The Art & Philosophy of Hangeul"</h3>
-              <p data-translate="curation-global-desc">세종대왕의 백성을 향한 사랑과 세계적인 언어학적 창제 가치, 그리고 현대 미디어 아트로 피어난 한글의 예술적 가치를 감상하는 글로벌 투어입니다.</p>
-              <ul class="course-list">
-                <li data-translate="curation-global-c1-html"><strong>Step 1:</strong> Hunminjeongeum Origin Room (Free scanning of multilingual QR audio guides)</li>
-                <li data-translate="curation-global-c2-html"><strong>Step 2:</strong> Kinetic Typography Hall (Stunning typographic media art projection)</li>
-                <li data-translate="curation-global-c3-html"><strong>Step 3:</strong> Premium Museum Shop & Cafe (Take a break with Hangeul goods and traditional tea)</li>
-              </ul>
-              <div class="curation-actions">
-                <button class="btn-primary" data-translate="curation-global-btn">Download Global Guide Brochure</button>
-                <span class="note" data-translate="curation-global-note">* English/Chinese/Japanese booklets are free at information desk</span>
+          <!-- 2) 학생 동선 -->
+          <div class="panel" id="student">
+            <div class="curation-box">
+              <div class="curation-info">
+                <span class="badge" data-translate="curation-student-badge">소요시간 약 60분 · 과제 자료 조사 최적 · 도서관 무료 이용 · 초중고/대학생 추천</span>
+                <h3 data-translate="curation-student-title">"한글 역사 및 가치 탐구 학술 코스"</h3>
+                <p data-translate="curation-student-desc">중·고·대학생들의 보고서 작성과 학술 과제 자료 수집을 위해 한글 상설관과 디지털 도서 아카이브 위주로 구성된 학술적 동선입니다.</p>
+                <ul class="course-list">
+                  <li data-translate="curation-student-c1-html"><strong>1단계:</strong> 상설 전시관 훈민정음실 (국보 훈민정음 해례본 원본 및 언해본 텍스트 구조 분석)</li>
+                  <li data-translate="curation-student-c2-html"><strong>2단계:</strong> 한글도서관 & 자료 검색관 (논문 열람 및 고도서 디지털 인쇄 서비스 이용)</li>
+                  <li data-translate="curation-student-c3-html"><strong>3단계:</strong> 한글 정보화 전시존 (디지털 시대 한글의 우수성과 IT 과학적 정보 입력 원리 탐구)</li>
+                </ul>
+                <div class="curation-actions">
+                  <button class="btn-primary" data-translate="curation-student-btn">과제 참고용 자료집 다운로드 (PDF)</button>
+                  <span class="note" data-translate="curation-student-note">* 도서관 내 무료 Wi-Fi 및 충전 시설 완비</span>
+                </div>
+              </div>
+              <div class="curation-visual visual-global">
+                <div class="mock-card">
+                  <span data-translate="curation-student-visual-span">학습 추천</span>
+                  <h4 data-translate="curation-student-visual-h4">훈민정음 해례본 원본 돋보기 뷰어</h4>
+                </div>
               </div>
             </div>
-            <div class="curation-visual visual-global">
-              <div class="mock-card">
-                <span data-translate="curation-global-visual-span">Key Highlight</span>
-                <h4 data-translate="curation-global-visual-h4">King Sejong’s Global Design History</h4>
+          </div>
+
+          <!-- 3) 외국인 동선 -->
+          <div class="panel" id="global">
+            <div class="curation-box">
+              <div class="curation-info">
+                <span class="badge" data-translate="curation-global-badge">Duration: 60 min · Multilingual Audio Guide · K-Art & Design · Cafe Rest</span>
+                <h3 data-translate="curation-global-title">"K-Culture: The Art & Philosophy of Hangeul"</h3>
+                <p data-translate="curation-global-desc">세종대왕의 백성을 향한 사랑과 세계적인 언어학적 창제 가치, 그리고 현대 미디어 아트로 피어난 한글의 예술적 가치를 감상하는 글로벌 투어입니다.</p>
+                <ul class="course-list">
+                  <li data-translate="curation-global-c1-html"><strong>Step 1:</strong> Hunminjeongeum Origin Room (Free scanning of multilingual QR audio guides)</li>
+                  <li data-translate="curation-global-c2-html"><strong>Step 2:</strong> Kinetic Typography Hall (Stunning typographic media art projection)</li>
+                  <li data-translate="curation-global-c3-html"><strong>Step 3:</strong> Premium Museum Shop & Cafe (Take a break with Hangeul goods and traditional tea)</li>
+                </ul>
+                <div class="curation-actions">
+                  <button class="btn-primary" data-translate="curation-global-btn">Download Global Guide Brochure</button>
+                  <span class="note" data-translate="curation-global-note">* English/Chinese/Japanese booklets are free at information desk</span>
+                </div>
+              </div>
+              <div class="curation-visual visual-global">
+                <div class="mock-card">
+                  <span data-translate="curation-global-visual-span">Key Highlight</span>
+                  <h4 data-translate="curation-global-visual-h4">King Sejong’s Global Design History</h4>
+                </div>
               </div>
             </div>
           </div>
@@ -390,6 +395,6 @@
   </div>
 
   <script src="lang.js"></script>
-  <script src="brt.js?v=3.6"></script>
+  <script src="brt.js?v=4.1"></script>
 </body>
 </html>

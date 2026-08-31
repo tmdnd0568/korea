@@ -9,6 +9,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  let currentCurationCardIndex = 0;
+  let isCurationTransitioning = false;
+
   // 1. 커스텀 마우스 커서 인터랙션
   const cursorDot = document.getElementById('cursorDot');
   const cursorCircle = document.getElementById('cursorCircle');
@@ -66,20 +69,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. MVP 큐레이션 탭 기능 (가족 / 외국인 코스)
   const tabBtns = document.querySelectorAll('.tab-btn');
-  const panels = document.querySelectorAll('.panel');
+  const tabPanels = document.querySelector('.tab-panels');
 
-  tabBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.getAttribute('data-tab');
+  window.updateCurationPanel = function(index, force = false) {
+    console.log("updateCurationPanel triggered: index =", index, "force =", force, "currentCurationCardIndex =", currentCurationCardIndex, "isCurationTransitioning =", isCurationTransitioning);
+    if (index < 0 || index > 2) return;
+    if (isCurationTransitioning && !force) {
+      console.log("updateCurationPanel early return due to transition lock.");
+      return;
+    }
 
-      tabBtns.forEach((b) => b.classList.remove('active'));
-      panels.forEach((p) => p.classList.remove('active'));
+    isCurationTransitioning = true;
+    currentCurationCardIndex = index;
 
-      btn.classList.add('active');
-      const targetPanel = document.getElementById(targetId);
-      if (targetPanel) {
-        targetPanel.classList.add('active');
+    // Update tab buttons active class
+    tabBtns.forEach((b, idx) => {
+      if (idx === index) {
+        b.classList.add('active');
+      } else {
+        b.classList.remove('active');
       }
+    });
+
+    // Translate horizontal panels
+    if (tabPanels) {
+      console.log("Translating tabPanels to -", index * 33.3333, "%");
+      tabPanels.style.transform = `translate3d(-${index * 33.3333}%, 0, 0)`;
+    }
+
+    setTimeout(() => {
+      isCurationTransitioning = false;
+      console.log("isCurationTransitioning set back to false.");
+    }, 800);
+  };
+
+  tabBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      updateCurationPanel(index, true);
     });
   });
 
@@ -91,15 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
 
-      // 미세한 3D 회전 각도 계산
-      const rotateX = (-y / (rect.height / 2)) * 6;
-      const rotateY = (x / (rect.width / 2)) * 6;
+      // 미세한 3D 회전 각도 계산 (각도 4도로 줄여 과도한 기울기 방지)
+      const rotateX = (-y / (rect.height / 2)) * 4;
+      const rotateY = (x / (rect.width / 2)) * 4;
 
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
+      // 빈 문자열 대신 기준 transform 명시 – is-visible 및 CSS 상태와 충돌 방지
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      // 트랜지션 이후 인라인 스타일 제거하여 CSS 클래스 기반 상태로 복귀
+      setTimeout(() => {
+        card.style.transform = '';
+      }, 600);
     });
   });
 
@@ -287,6 +318,138 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
   }
 
+  // --- 1-B. Canvas 2D 별+연결선 파티클 시스템 (Vaalentin 2015 Style - 정보 탭 전용) ---
+  (function initParticleSystem() {
+    const canvas = document.getElementById('particles-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const NUM_PARTICLES = 120;
+    const MAX_DIST = 160;
+    const MOUSE_REPEL = 120;
+    const BASE_SPEED = 0.35;
+
+    let W, H;
+    let mouse = { x: -9999, y: -9999 };
+    let particles = [];
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function Particle() {
+      this.reset = function() {
+        this.x = Math.random() * W;
+        this.y = Math.random() * H;
+        this.vx = (Math.random() - 0.5) * BASE_SPEED * 2;
+        this.vy = (Math.random() - 0.5) * BASE_SPEED * 2;
+        this.r = Math.random() * 1.6 + 0.6;
+        this.alpha = Math.random() * 0.5 + 0.3;
+        this.pulse = Math.random() * Math.PI * 2;
+        this.pulseSpeed = Math.random() * 0.02 + 0.008;
+      };
+      this.update = function() {
+        this.pulse += this.pulseSpeed;
+        const glow = Math.sin(this.pulse) * 0.25;
+        this.currentAlpha = Math.max(0.1, Math.min(1, this.alpha + glow));
+
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_REPEL && dist > 0) {
+          const force = (MOUSE_REPEL - dist) / MOUSE_REPEL;
+          this.vx += (dx / dist) * force * 0.8;
+          this.vy += (dy / dist) * force * 0.8;
+        }
+
+        this.vx *= 0.985;
+        this.vy *= 0.985;
+
+        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+        if (speed < BASE_SPEED * 0.5) {
+          this.vx += (Math.random() - 0.5) * 0.12;
+          this.vy += (Math.random() - 0.5) * 0.12;
+        }
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0) { this.x = 0; this.vx *= -1; }
+        if (this.x > W) { this.x = W; this.vx *= -1; }
+        if (this.y < 0) { this.y = 0; this.vy *= -1; }
+        if (this.y > H) { this.y = H; this.vy *= -1; }
+      };
+      this.draw = function() {
+        // 금빛 별 점
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(209,180,106,' + this.currentAlpha + ')';
+        ctx.fill();
+
+        // 발광 halo
+        const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 4);
+        g.addColorStop(0, 'rgba(209,180,106,' + (this.currentAlpha * 0.4) + ')');
+        g.addColorStop(1, 'rgba(209,180,106,0)');
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r * 4, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+      };
+      this.reset();
+    }
+
+    function init() {
+      resize();
+      particles = [];
+      for (let i = 0; i < NUM_PARTICLES; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function drawLines() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MAX_DIST) {
+            const lineAlpha = (1 - dist / MAX_DIST) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = 'rgba(209,180,106,' + lineAlpha + ')';
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+      drawLines();
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', function(e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseleave', function() {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    init();
+    loop();
+  })();
+
   // --- 2. 로더 화면 애니메이션 제어 (Vaalentin 2015 Style) ---
   function startLoader() {
     const loader = document.getElementById('loader');
@@ -432,6 +595,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (index < 0 || index >= slides.length) return;
     if (isTransitioning) return;
 
+    // Reset curation horizontal slide index based on entry direction
+    if (index === 1) {
+      if (currentSlideIndex === 0) {
+        if (typeof updateCurationPanel === 'function') {
+          updateCurationPanel(0, true);
+        }
+      } else if (currentSlideIndex === 2) {
+        if (typeof updateCurationPanel === 'function') {
+          updateCurationPanel(2, true);
+        }
+      }
+    }
+
     isTransitioning = true;
     currentSlideIndex = index;
     updateSlides();
@@ -484,6 +660,33 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('wheel', (e) => {
     if (document.body.classList.contains('gate-active')) return;
 
+    console.log("Wheel event received. currentSlideIndex =", currentSlideIndex, "isTransitioning =", isTransitioning, "currentCurationCardIndex =", currentCurationCardIndex, "deltaY =", e.deltaY);
+
+    if (currentSlideIndex === 1) {
+      if (isTransitioning) {
+        console.log("Wheel event ignored because main slide is transitioning.");
+        return;
+      }
+      const isScrollingDown = e.deltaY > 0;
+      if (isScrollingDown) {
+        if (currentCurationCardIndex < 2) {
+          console.log("Scrolling horizontally to next card...");
+          updateCurationPanel(currentCurationCardIndex + 1);
+          return;
+        } else {
+          console.log("Reached last horizontal card, proceeding to next slide.");
+        }
+      } else {
+        if (currentCurationCardIndex > 0) {
+          console.log("Scrolling horizontally to previous card...");
+          updateCurationPanel(currentCurationCardIndex - 1);
+          return;
+        } else {
+          console.log("Reached first horizontal card, proceeding to previous slide.");
+        }
+      }
+    }
+
     const activeSlide = slides[currentSlideIndex];
     if (activeSlide) {
       const isScrollable = activeSlide.scrollHeight > activeSlide.clientHeight;
@@ -492,14 +695,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const isAtBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 5;
         const isAtTop = activeSlide.scrollTop <= 5;
 
-        if (isScrollingDown && !isAtBottom) return;
-        if (!isScrollingDown && !isAtTop) return;
+        if (isScrollingDown && !isAtBottom) {
+          console.log("Slide is scrollable and not at bottom, scrolling vertically inside slide.");
+          return;
+        }
+        if (!isScrollingDown && !isAtTop) {
+          console.log("Slide is scrollable and not at top, scrolling vertically inside slide.");
+          return;
+        }
       }
     }
 
     if (e.deltaY > 0) {
+      console.log("Calling goToSlide to next vertical slide:", currentSlideIndex + 1);
       goToSlide(currentSlideIndex + 1);
     } else {
+      console.log("Calling goToSlide to previous vertical slide:", currentSlideIndex - 1);
       goToSlide(currentSlideIndex - 1);
     }
   }, { passive: true });
@@ -514,6 +725,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
+
+    if (currentSlideIndex === 1 && Math.abs(deltaY) > 50) {
+      if (isTransitioning) return;
+      const isScrollingDown = deltaY > 0;
+      if (isScrollingDown) {
+        if (currentCurationCardIndex < 2) {
+          updateCurationPanel(currentCurationCardIndex + 1);
+          return;
+        }
+      } else {
+        if (currentCurationCardIndex > 0) {
+          updateCurationPanel(currentCurationCardIndex - 1);
+          return;
+        }
+      }
+    }
 
     const activeSlide = slides[currentSlideIndex];
     if (activeSlide) {

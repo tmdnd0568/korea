@@ -432,7 +432,7 @@ body.cursor-hover .cursor-circle {
 }
 
 .section-head {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
@@ -497,7 +497,7 @@ body.cursor-hover .cursor-circle {
 /* 뷰포트 진입 후 활성 상태 */
 .story-card.is-visible {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0) translateY(0);
 }
 
 /* 순차 딜레이: 2번째, 3번째 카드 */
@@ -507,7 +507,7 @@ body.cursor-hover .cursor-circle {
 .story-card:hover {
   border-color: rgba(209, 180, 106, 0.4);
   background: rgba(28, 33, 42, 0.6);
-  transform: translateX(0) translateY(-8px);
+  transform: translateX(0) translateY(-8px); /* JS tilt 수동 제어 중 충돌 방지를 위해 기준점 명시 */
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
@@ -558,7 +558,7 @@ body.cursor-hover .cursor-circle {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .tab-btn {
@@ -581,13 +581,24 @@ body.cursor-hover .cursor-circle {
   border-color: var(--text-main);
 }
 
-.tab-panels .panel {
-  display: none;
-  animation: fadeIn 0.5s ease;
+.tab-panels-wrapper {
+  overflow: hidden;
+  width: 100%;
 }
 
-.tab-panels .panel.active {
-  display: block;
+.tab-panels {
+  display: flex;
+  flex-direction: row;
+  width: 300%;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.tab-panels .panel {
+  display: block !important;
+  width: 33.3333%;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .curation-box {
@@ -596,14 +607,14 @@ body.cursor-hover .cursor-circle {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
-  padding: 4rem;
+  padding: 2.5rem 3rem;
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 4vw;
   align-items: center;
   width: 100%;
-  height: 56vh;
-  min-height: 500px;
+  height: 50vh;
+  min-height: 380px;
   box-sizing: border-box;
   margin: 0 auto;
   transition: border-color var(--transition-fast), background-color var(--transition-fast);
@@ -1034,6 +1045,31 @@ body.gate-active .video-overlay {
 
 .video-overlay {
   transition: opacity 1.5s ease;
+}
+
+/* ── 비디오 / 파티클 전환 ──────────────────────────────────
+   홈 게이트 : 비디오 O, 파티클 X
+   정보 탭   : 비디오 X, 파티클 O
+──────────────────────────────────────────────────────────── */
+.video-container {
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 정보 탭 진입 시 비디오 페이드아웃 */
+body:not(.gate-active) .video-container {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 파티클 캔버스: 기본 숨김 */
+#particles-canvas {
+  opacity: 0;
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 정보 탭 진입 시 파티클 페이드인 */
+body:not(.gate-active) #particles-canvas {
+  opacity: 1;
 }
 
 /* 우측 사이드 토글 버튼 (lhbzr.com 스타일 세로형 변형) */
@@ -1524,7 +1560,7 @@ html, body {
     visibility 1.2s;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 80px; /* 헤더 공간 확보 */
+  padding: 80px 0; /* 상하 균등 여백 (헤더 공간 포함) */
   box-sizing: border-box;
   backface-visibility: hidden;
 
