@@ -525,36 +525,40 @@ body.cursor-hover .cursor-circle {
   transform: scale(1.1) rotate(5deg);
 }
 
-/* 세종 대왕 3선택지 카드 전용 - 호버 시 정/음 분리 모션 */
-.card-bg-glyph-idle {
-  opacity: 1;
-}
-.story-card:hover .card-bg-glyph-idle {
-  opacity: 0 !important;
-  transform: scale(0.8) translate3d(20px, 0, 0) !important;
-}
-
-.card-bg-glyph-hover-left {
+/* 세종 대왕 3선택지 카드 전용 - 정/음 분리 배치 (평소에도 보임) */
+.card-bg-glyph-left {
+  position: absolute;
   left: -20px;
   right: auto;
-  opacity: 0;
-  transform: scale(0.8) translate3d(-20px, 0, 0);
-}
-.story-card:hover .card-bg-glyph-hover-left {
-  opacity: 1 !important;
-  color: rgba(209, 180, 106, 0.08) !important;
-  transform: scale(1.1) rotate(-5deg) translate3d(0, 0, 0) !important;
+  bottom: -40px;
+  font-size: 14rem;
+  color: rgba(255, 255, 255, 0.02);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  transition: all var(--transition-smooth);
 }
 
-.card-bg-glyph-hover-right {
+.card-bg-glyph-right {
+  position: absolute;
   right: -20px;
-  opacity: 0;
-  transform: scale(0.8) translate3d(20px, 0, 0);
+  bottom: -40px;
+  font-size: 14rem;
+  color: rgba(255, 255, 255, 0.02);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  transition: all var(--transition-smooth);
 }
-.story-card:hover .card-bg-glyph-hover-right {
-  opacity: 1 !important;
+
+.story-card:hover .card-bg-glyph-left {
   color: rgba(209, 180, 106, 0.08) !important;
-  transform: scale(1.1) rotate(5deg) translate3d(0, 0, 0) !important;
+  transform: scale(1.1) rotate(-5deg) !important;
+}
+
+.story-card:hover .card-bg-glyph-right {
+  color: rgba(209, 180, 106, 0.08) !important;
+  transform: scale(1.1) rotate(5deg) !important;
 }
 
 .story-card .step {
