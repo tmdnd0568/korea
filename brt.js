@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- 1. Three.js 3D 별무리(Stardust) Canvas 배경 구현 (Vaalentin 2015 Style) ---
   let scene, camera, renderer, starParticles;
   const numStars = 3000;
-  const slideZPositions = [1200, 800, 400, 0]; // 각 슬라이드별 카메라 Z축 깊이 좌표 (4장 슬라이드로 축소)
+  const slideZPositions = [1600, 1200, 800, 400, 0]; // 각 슬라이드별 카메라 Z축 깊이 좌표 (5장 슬라이드)
 
   function initThreeJS() {
     const canvas = document.getElementById('webgl-canvas');
@@ -596,12 +596,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isTransitioning) return;
 
     // Reset curation horizontal slide index based on entry direction
-    if (index === 1) {
-      if (currentSlideIndex === 0) {
+    if (index === 2) {
+      if (currentSlideIndex === 1) {
         if (typeof updateCurationPanel === 'function') {
           updateCurationPanel(0, true);
         }
-      } else if (currentSlideIndex === 2) {
+      } else if (currentSlideIndex === 3) {
         if (typeof updateCurationPanel === 'function') {
           updateCurationPanel(2, true);
         }
@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateNavLinksActive(index) {
     const links = document.querySelectorAll('.nav-link');
     links.forEach((link, i) => {
-      if (i === index) {
+      if (i === index - 1) {
         link.classList.add('active');
         link.style.color = 'var(--highlight)';
       } else {
@@ -662,7 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("Wheel event received. currentSlideIndex =", currentSlideIndex, "isTransitioning =", isTransitioning, "currentCurationCardIndex =", currentCurationCardIndex, "deltaY =", e.deltaY);
 
-    if (currentSlideIndex === 1) {
+    if (currentSlideIndex === 2) {
       if (isTransitioning) {
         console.log("Wheel event ignored because main slide is transitioning.");
         return;
@@ -726,7 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
 
-    if (currentSlideIndex === 1 && Math.abs(deltaY) > 50) {
+    if (currentSlideIndex === 2 && Math.abs(deltaY) > 50) {
       if (isTransitioning) return;
       const isScrollingDown = deltaY > 0;
       if (isScrollingDown) {
@@ -773,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('gate-active');
         if (window.playActiveBgVideo) window.playActiveBgVideo();
       }
-      goToSlide(i); // i+1에서 i로 수정 (첫 슬라이드가 0이 됨)
+      goToSlide(i + 1); // i에서 i+1로 변경하여 첫 슬라이드(인트로 빈화면) 이후로 맵핑
     });
   });
 
