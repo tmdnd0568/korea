@@ -249,6 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const slideZPositions = [1600, 1200, 800, 400, 0]; // 각 슬라이드별 카메라 Z축 깊이 좌표 (5장 슬라이드)
 
   function initThreeJS() {
+    // 3D 별무리 기능 비활성화
+    return;
     const canvas = document.getElementById('webgl-canvas');
     if (!canvas) return;
 
@@ -320,6 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- 1-B. Canvas 2D 별+연결선 파티클 시스템 (Vaalentin 2015 Style - 정보 탭 전용) ---
   (function initParticleSystem() {
+    // 2D 파티클 기능 비활성화
+    return;
     const canvas = document.getElementById('particles-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
