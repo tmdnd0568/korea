@@ -127,7 +127,15 @@ window.translations = {
     "modal-f1-title": "과학과 철학",
     "modal-f1-desc": "하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)에 담긴 조화로운 우주관의 형상화",
     "modal-f2-title": "글로벌 가치",
-    "modal-f2-desc": "세계 문자 역사상 유일하게 창제자와 창제 원리가 밝혀진 과학적 문자"
+    "modal-f2-desc": "세계 문자 역사상 유일하게 창제자와 창제 원리가 밝혀진 과학적 문자",
+
+    // Sejong Modal
+    "btn-sejong-shortcut": "세종 대왕 바로가기",
+    "sejong-modal-title": "세종 대왕과 훈민정음",
+    "sejong-modal-sub": "\"백성을 사랑하는 마음으로 피어난 위대한 문자\"",
+    "sejong-modal-p1": "조선 제4대 임금 세종 대왕(世宗大王)은 글을 모르는 백성들이 자신의 뜻을 제대로 펴지 못하고 억울한 일을 당하는 것을 안타깝게 여겼습니다. 이에 세종 대왕은 1443년 백성들이 쉽게 배우고 쓸 수 있는 우리 고유의 문자 '훈민정음(訓民正音)'을 창제하였습니다.",
+    "sejong-modal-p2": "훈민정음은 '백성을 가르치는 바른 소리'라는 뜻으로, 자음과 모음의 조합을 통해 세상의 거의 모든 소리를 적을 수 있는 지극히 과학적이고 체계적인 구조를 갖추고 있습니다.",
+    "sejong-modal-p3": "국립한글박물관에서는 세종 대왕의 창제 철학인 애민(愛民) 정신과 실용 정신을 널리 알리고, 한글의 과거와 현재, 그리고 미래의 가치를 전시와 교육을 통해 공유하고 있습니다."
   },
   en: {
     // Common & Gate Buttons
@@ -256,6 +264,14 @@ window.translations = {
     "modal-f1-title": "Science & Philosophy",
     "modal-f1-desc": "Representation of the harmonious universe in Heaven (ㆍ), Earth (ㅡ), and Humanity (ㅣ)",
     "modal-f2-title": "Global Value",
-    "modal-f2-desc": "The only alphabet in world history with a documented creator and scientific creation principles"
+    "modal-f2-desc": "The only alphabet in world history with a documented creator and scientific creation principles",
+
+    // Sejong Modal
+    "btn-sejong-shortcut": "Shortcut to Sejong the Great",
+    "sejong-modal-title": "King Sejong the Great & Hunminjeongeum",
+    "sejong-modal-sub": "\"A Great Script Born from Love for the People\"",
+    "sejong-modal-p1": "King Sejong the Great, the 4th monarch of the Joseon Dynasty, felt deeply sorry for the common people who could not express their thoughts and suffered unfair treatment because they could not read or write Chinese characters. Therefore, in 1443, King Sejong created 'Hunminjeongeum', our unique writing system that everyone can easily learn and use.",
+    "sejong-modal-p2": "Hunminjeongeum means 'the correct sounds for instructing the people.' It features an extremely scientific and systematic structure that can record almost any sound in the world through combinations of consonants and vowels.",
+    "sejong-modal-p3": "The National Hangeul Museum promotes the spirit of love for the people (Aemin) and practical utility, which are the founding philosophies of King Sejong the Great. Through exhibitions and education, we share the past, present, and future values of Hangeul."
   }
 };

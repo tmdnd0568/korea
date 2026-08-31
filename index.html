@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   
-  <link rel="stylesheet" href="style.css?v=5.0" />
+  <link rel="stylesheet" href="style.css?v=6.0" />
   <!-- Three.js & GSAP for 3D Starfield & Animations (Vaalentin 2015 Style) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -65,10 +65,10 @@
   <!-- 고정 배경 비디오 (홈 게이트 전용) -->
   <div class="video-container" id="gateVideoContainer">
     <video autoplay muted playsinline id="bgVideo1" class="bg-video" preload="auto" style="opacity: 1; z-index: -2;">
-      <source src="real_01.mp4?v=2.9" type="video/mp4" />
+      <source src="real_002.mp4?v=2.9" type="video/mp4" />
     </video>
     <video muted playsinline id="bgVideo2" class="bg-video" preload="auto" style="opacity: 0; z-index: -3;">
-      <source src="real_01.mp4?v=2.9" type="video/mp4" />
+      <source src="real_002.mp4?v=2.9" type="video/mp4" />
     </video>
     <div class="video-overlay"></div>
   </div>
@@ -116,8 +116,12 @@
     <!-- 1. Intro Section (Scroll Scrub) -->
     <section id="intro" class="section intro-section">
       <div class="container" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
-        <div class="intro-video-container">
+        <div class="intro-video-container" style="position: relative;">
           <img id="introScrubImg" src="img/sjdw_200/ezgif-frame-001.jpg" alt="Intro Scroll Animation" class="intro-video" />
+          <button id="btnSejongShortcut" class="sejong-shortcut-btn" data-translate="btn-sejong-shortcut" style="opacity: 0; visibility: hidden; transform: translateY(10px);">
+            <span>세종 대왕 바로가기</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
       </div>
     </section>
@@ -151,7 +155,9 @@
         </div>
 
         <div class="story-card interactive-hover" data-symbol="世">
-          <div class="card-bg-glyph">정</div>
+          <div class="card-bg-glyph card-bg-glyph-idle">정</div>
+          <div class="card-bg-glyph card-bg-glyph-hover-left">정</div>
+          <div class="card-bg-glyph card-bg-glyph-hover-right">음</div>
           <div class="card-body">
             <span class="step" data-translate="story-card3-step">03. 디지털 시대의 원동력</span>
             <h3 data-translate="story-card3-title">글로벌 정보화를 선도하는 힘</h3>
@@ -403,7 +409,28 @@
     <div class="modal-overlay" id="modalOverlay"></div>
   </div>
 
+  <!-- 세종 대왕 바로가기 모달 (Sejong Modal) -->
+  <div id="sejongModal" class="about-modal">
+    <div class="modal-content" style="max-width: 800px;">
+      <button class="modal-close-btn" id="btnSejongModalClose">&times;</button>
+      <div class="modal-body">
+        <span class="modal-tag" data-translate="sejong-modal-sub">"백성을 사랑하는 마음으로 피어난 위대한 문자"</span>
+        <h2 data-translate="sejong-modal-title">세종 대왕과 훈민정음</h2>
+        <p class="modal-desc" data-translate="sejong-modal-p1" style="margin-top: 1.5rem; line-height: 1.8;">
+          조선 제4대 임금 세종 대왕(世宗大王)은 글을 모르는 백성들이 자신의 뜻을 제대로 펴지 못하고 억울한 일을 당하는 것을 안타깝게 여겼습니다. 이에 세종 대왕은 1443년 백성들이 쉽게 배우고 쓸 수 있는 우리 고유의 문자 '훈민정음(訓民正音)'을 창제하였습니다.
+        </p>
+        <p class="modal-desc" data-translate="sejong-modal-p2" style="line-height: 1.8;">
+          훈민정음은 '백성을 가르치는 바른 소리'라는 뜻으로, 자음과 모음의 조합을 통해 세상의 거의 모든 소리를 적을 수 있는 지극히 과학적이고 체계적인 구조를 갖추고 있습니다.
+        </p>
+        <p class="modal-desc" data-translate="sejong-modal-p3" style="line-height: 1.8; margin-bottom: 0;">
+          국립한글박물관에서는 세종 대왕의 창제 철학인 애민(愛民) 정신과 실용 정신을 널리 알리고, 한글의 과거와 현재, 그리고 미래의 가치를 전시와 교육을 통해 공유하고 있습니다.
+        </p>
+      </div>
+    </div>
+    <div class="modal-overlay" id="sejongModalOverlay"></div>
+  </div>
+
   <script src="lang.js"></script>
-  <script src="brt.js?v=5.0"></script>
+  <script src="brt_v6.js"></script>
 </body>
 </html>
