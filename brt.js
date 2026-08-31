@@ -99,11 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+      card.style.transform = '';
     });
   });
 
-  // 5. 배경 비디오 듀얼 크로스페이드 Seamless 루프 제어
+  // 5. 배경 비디오 Seamless 루프 제어 (네이티브 루프 지원으로 고스트 잔상 차단)
   const video1 = document.getElementById('bgVideo1');
   const video2 = document.getElementById('bgVideo2');
   if (video1 && video2) {
@@ -111,48 +111,84 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeIdx = 0;
     let transitionDuration = 0.8; // 교차 페이드 전환 시간 (초)
     let isTransitioning = false;
+    
+    // 네이티브 루프 사용 여부 (인위적인 이중 고스트 잔상 방지를 위해 기본 활성화)
+    const useNativeLoop = true;
 
-    // 초기 설정 강제 동기화
-    videos.forEach((vid, idx) => {
-      vid.loop = false; // 브라우저 자체 루프는 끄고 JS로 정밀 제어
-      vid.muted = true;
-      vid.playsInline = true;
-      vid.setAttribute('autoplay', idx === 0 ? 'autoplay' : '');
-      vid.style.transition = 'opacity 0.8s ease';
-      vid.style.position = 'absolute';
-      vid.style.top = '0';
-      vid.style.left = '0';
-    });
+    if (useNativeLoop) {
+      // 싱글 비디오로 네이티브 Seamless 루프 구동
+      video1.loop = true;
+      video1.muted = true;
+      video1.playsInline = true;
+      video1.style.opacity = '1';
+      video1.style.zIndex = '-2';
+      video1.style.position = 'absolute';
+      video1.style.top = '0';
+      video1.style.left = '0';
+      video1.style.width = '100%';
+      video1.style.height = '100%';
+      video1.style.objectFit = 'cover';
 
-    function checkVideoProgress() {
-      const activeVideo = videos[activeIdx];
-      const inactiveVideo = videos[1 - activeIdx];
+      // 두 번째 비디오는 숨김 처리
+      video2.style.display = 'none';
+      video2.pause();
 
-      if (activeVideo.duration) {
-        const duration = activeVideo.duration;
-        const current = activeVideo.currentTime;
+      video1.play().catch(err => {
+        console.log("최초 비디오 재생 제한:", err);
+      });
 
-        // 종료 0.8초 전에 교차 페이드 시작
-        if (!isTransitioning && current >= duration - transitionDuration) {
-          isTransitioning = true;
+      window.playActiveBgVideo = function() {
+        video1.play().catch(err => console.log("비디오 재생 실패:", err));
+      };
+    } else {
+      // 기존 듀얼 크로스페이드 루프 제어
+      videos.forEach((vid, idx) => {
+        vid.loop = false;
+        vid.muted = true;
+        vid.playsInline = true;
+        vid.setAttribute('autoplay', idx === 0 ? 'autoplay' : '');
+        vid.style.transition = 'opacity 0.8s ease';
+        vid.style.position = 'absolute';
+        vid.style.top = '0';
+        vid.style.left = '0';
+      });
 
-          // 대기 동영상을 처음부터 재생 시작
-          inactiveVideo.currentTime = 0;
-          inactiveVideo.play().then(() => {
-            inactiveVideo.style.opacity = '1';
-            inactiveVideo.style.zIndex = '-2';
-            activeVideo.style.opacity = '0';
-            activeVideo.style.zIndex = '-3';
+      function checkVideoProgress() {
+        const activeVideo = videos[activeIdx];
+        const inactiveVideo = videos[1 - activeIdx];
 
-            setTimeout(() => {
-              activeVideo.pause();
-              activeIdx = 1 - activeIdx;
+        if (activeVideo.duration) {
+          const duration = activeVideo.duration;
+          const current = activeVideo.currentTime;
+
+          // 종료 0.8초 전에 교차 페이드 시작
+          if (!isTransitioning && current >= duration - transitionDuration) {
+            isTransitioning = true;
+
+            // 대기 동영상을 처음부터 재생 시작
+            inactiveVideo.currentTime = 0;
+            inactiveVideo.play().then(() => {
+              // 대기 비디오를 기존 비디오 위 레이어(-1)로 올려서 부드럽게 겹치며 페이드인
+              inactiveVideo.style.zIndex = '-1';
+              inactiveVideo.style.opacity = '1';
+
+              setTimeout(() => {
+                // 페이드 전환 완료 후, 이전 비디오 숨김 처리 및 재생 일시정지
+                activeVideo.style.opacity = '0';
+                activeVideo.style.zIndex = '-3';
+                activeVideo.pause();
+
+                // 새로운 활성 비디오를 표준 레이어(-2) 위치로 재설정
+                inactiveVideo.style.zIndex = '-2';
+
+                activeIdx = 1 - activeIdx;
+                isTransitioning = false;
+              }, transitionDuration * 1000);
+            }).catch(err => {
+              console.log("교체 비디오 재생 실패:", err);
               isTransitioning = false;
-            }, transitionDuration * 1000);
-          }).catch(err => {
-            console.log("교체 비디오 재생 실패:", err);
-            isTransitioning = false;
-          });
+            });
+          }
         }
       }
       requestAnimationFrame(checkVideoProgress);
@@ -176,73 +212,386 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // 6. 스크롤 등장 모션 (IntersectionObserver)
-  const motionElements = document.querySelectorAll('[data-motion]');
-  if ('IntersectionObserver' in window) {
-    const motionObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          // 한 번 재생 후 관찰 해제 (필요시 주석 처리)
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      root: null,
-      rootMargin: '0px 0px -10% 0px', // 뷰포트 하단 10% 지점에 진입시 트리거
-      threshold: 0.15
+  // --- 1. Three.js 3D 별무리(Stardust) Canvas 배경 구현 (Vaalentin 2015 Style) ---
+  let scene, camera, renderer, starParticles;
+  const numStars = 3000;
+  const slideZPositions = [1200, 800, 400, 0]; // 각 슬라이드별 카메라 Z축 깊이 좌표 (4장 슬라이드로 축소)
+
+  function initThreeJS() {
+    const canvas = document.getElementById('webgl-canvas');
+    if (!canvas) return;
+
+    scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0a0a, 0.0012); // 원거리 입자 아련한 안개 페이드 아웃
+
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+    camera.position.z = slideZPositions[0];
+
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // 입자 물리 공간 좌표 할당
+    const starGeometry = new THREE.BufferGeometry();
+    const starPositions = new Float32Array(numStars * 3);
+
+    for (let i = 0; i < numStars * 3; i += 3) {
+      starPositions[i] = (Math.random() - 0.5) * 2000;     // X
+      starPositions[i + 1] = (Math.random() - 0.5) * 2000; // Y
+      starPositions[i + 2] = (Math.random() - 0.5) * 2000; // Z
+    }
+
+    starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+
+    // 빛을 머금는 가벼운 Additive Blending 입자 스타일 설정
+    const starMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 1.5,
+      transparent: true,
+      opacity: 0.65,
+      blending: THREE.AdditiveBlending
     });
 
-    motionElements.forEach((el) => motionObserver.observe(el));
-  } else {
-    // IntersectionObserver 미지원 브라우저 포백
-    motionElements.forEach((el) => el.classList.add('active'));
+    starParticles = new THREE.Points(starGeometry, starMaterial);
+    scene.add(starParticles);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // 마우스 무브에 반응하는 다이나믹 뷰포트 패럴랙스
+    window.addEventListener('mousemove', (e) => {
+      const mouseX = (e.clientX / window.innerWidth) - 0.5;
+      const mouseY = (e.clientY / window.innerHeight) - 0.5;
+      
+      gsap.to(camera.position, {
+        x: mouseX * 120,
+        y: -mouseY * 120,
+        duration: 2.2,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // 별무리 먼지가 우주 공간에서 흘러가는 미세 자전 애니메이션
+      starParticles.rotation.y += 0.00025;
+      starParticles.rotation.x += 0.00012;
+
+      renderer.render(scene, camera);
+    }
+    animate();
   }
 
-  // 7. 게이트 양쪽 네비게이션 버튼 동작 연동
+  // --- 2. 로더 화면 애니메이션 제어 (Vaalentin 2015 Style) ---
+  function startLoader() {
+    const loader = document.getElementById('loader');
+    const progress = document.getElementById('loaderProgress');
+    if (!loader || !progress) return;
+
+    let percent = 0;
+    const interval = setInterval(() => {
+      percent += Math.floor(Math.random() * 8) + 2;
+      if (percent >= 100) {
+        percent = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          loader.classList.add('loaded');
+        }, 300);
+      }
+      progress.style.width = `${percent}%`;
+    }, 50);
+  }
+
+
+  // --- 3. 풀페이지 슬라이드 & 텍스트 Scatter 인터랙션 구현 ---
+  const container = document.getElementById('slidesContainer');
+  const slides = Array.from(document.querySelectorAll('#slidesContainer > section'));
+  let currentSlideIndex = 0;
+  let isTransitioning = false;
+  const transitionTime = 1200; // ms
+
+  // 1) 텍스트 분리 유틸리티 및 초기화
+  function initScatterText() {
+    const targets = document.querySelectorAll(
+      '.hero-title, .hero-desc, .hero-sub, ' +
+      '.story-section .section-head h2, .story-section .section-head p, ' +
+      '.curation-section .section-head h2, .curation-section .section-head p, ' +
+      '.gallery-section .section-head h2, .gallery-section .section-head p, ' +
+      '.visit-section .visit-info h2, .visit-section .visit-info .tag'
+    );
+
+    targets.forEach(target => {
+      makeScatterElement(target);
+    });
+  }
+
+  function makeScatterElement(el) {
+    function processNode(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const fragment = document.createDocumentFragment();
+        const words = text.split(/(\s+)/);
+        words.forEach(word => {
+          if (word.trim() === '') {
+            fragment.appendChild(document.createTextNode(word));
+          } else {
+            const wordSpan = document.createElement('span');
+            wordSpan.className = 'scatter-word';
+            for (let char of word) {
+              const charSpan = document.createElement('span');
+              charSpan.className = 'scatter-char';
+              charSpan.textContent = char;
+              wordSpan.appendChild(charSpan);
+            }
+            fragment.appendChild(wordSpan);
+          }
+        });
+        node.parentNode.replaceChild(fragment, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.tagName === 'BR') return;
+        const childs = Array.from(node.childNodes);
+        childs.forEach(child => processNode(child));
+      }
+    }
+    const childs = Array.from(el.childNodes);
+    childs.forEach(child => processNode(child));
+  }
+
+  // 2) Scatter & Assemble 함수
+  function scatterSlide(slide) {
+    const chars = slide.querySelectorAll('.scatter-char');
+    chars.forEach(char => {
+      const x = (Math.random() - 0.5) * 800;
+      const y = (Math.random() - 0.5) * 800;
+      const z = (Math.random() - 0.5) * 1000 - 200;
+      const rotX = (Math.random() - 0.5) * 360;
+      const rotY = (Math.random() - 0.5) * 360;
+      const rotZ = (Math.random() - 0.5) * 360;
+
+      char.style.transition = 'none';
+      char.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateX(${rotX}deg) rotateY(${rotY}deg) rotateZ(${rotZ}deg)`;
+      char.style.opacity = '0';
+    });
+
+    const cards = slide.querySelectorAll('.story-card, .product-card');
+    cards.forEach(card => {
+      card.style.transition = 'none';
+      card.style.transform = `translate3d(${(Math.random() - 0.5) * 150}px, 120px, -200px) rotateY(${(Math.random() - 0.5) * 45}deg)`;
+      card.style.opacity = '0';
+    });
+  }
+
+  function assembleSlide(slide) {
+    const chars = slide.querySelectorAll('.scatter-char');
+    chars.forEach((char, i) => {
+      const delay = i * 10;
+      char.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease-out';
+      char.style.transitionDelay = `${delay}ms`;
+      char.offsetHeight;
+      char.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)';
+      char.style.opacity = '1';
+    });
+
+    const cards = slide.querySelectorAll('.story-card, .product-card');
+    cards.forEach((card, i) => {
+      const delay = 200 + i * 150;
+      card.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease-out, border-color 0.6s, background 0.6s, box-shadow 0.6s';
+      card.style.transitionDelay = `${delay}ms`;
+      card.offsetHeight;
+      card.style.transform = 'translate3d(0, 0, 0) scale(1) rotateY(0deg)';
+      card.style.opacity = '1';
+    });
+  }
+
+  // 3) 슬라이드 상태 제어기
+  function updateSlides() {
+    slides.forEach((slide, index) => {
+      slide.classList.remove('active', 'prev', 'next');
+      if (index === currentSlideIndex) {
+        slide.classList.add('active');
+        assembleSlide(slide);
+      } else if (index < currentSlideIndex) {
+        slide.classList.add('prev');
+        scatterSlide(slide);
+      } else {
+        slide.classList.add('next');
+        scatterSlide(slide);
+      }
+    });
+
+    updateHeaderState(currentSlideIndex);
+    updateNavLinksActive(currentSlideIndex);
+  }
+
+  function goToSlide(index) {
+    if (index < 0 || index >= slides.length) return;
+    if (isTransitioning) return;
+
+    isTransitioning = true;
+    currentSlideIndex = index;
+    updateSlides();
+
+    // Three.js 카메라 깊이 Z축 축적 연계 이동 애니메이션
+    if (camera) {
+      gsap.to(camera.position, {
+        z: slideZPositions[index],
+        duration: 1.8,
+        ease: "power3.inOut"
+      });
+    }
+
+    setTimeout(() => {
+      isTransitioning = false;
+    }, transitionTime);
+  }
+
+  function updateHeaderState(index) {
+    const header = document.querySelector('.header');
+    if (!header) return;
+    // 슬라이드 모드일 때는 항상 scrolled 클래스를 부여하여 가독성 확보
+    header.classList.add('scrolled');
+  }
+
+  function updateNavLinksActive(index) {
+    const links = document.querySelectorAll('.nav-link');
+    links.forEach((link, i) => {
+      if (i === index) {
+        link.classList.add('active');
+        link.style.color = 'var(--highlight)';
+      } else {
+        link.classList.remove('active');
+        link.style.color = '';
+      }
+    });
+
+    // 우측 도트 인디케이터 상태 연동 업데이트
+    const dots = document.querySelectorAll('.slide-indicator .dot');
+    dots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+
+  // 4) 마우스 휠 및 모바일 스와이프 핸들러
+  window.addEventListener('wheel', (e) => {
+    if (document.body.classList.contains('gate-active')) return;
+
+    const activeSlide = slides[currentSlideIndex];
+    if (activeSlide) {
+      const isScrollable = activeSlide.scrollHeight > activeSlide.clientHeight;
+      if (isScrollable) {
+        const isScrollingDown = e.deltaY > 0;
+        const isAtBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 5;
+        const isAtTop = activeSlide.scrollTop <= 5;
+
+        if (isScrollingDown && !isAtBottom) return;
+        if (!isScrollingDown && !isAtTop) return;
+      }
+    }
+
+    if (e.deltaY > 0) {
+      goToSlide(currentSlideIndex + 1);
+    } else {
+      goToSlide(currentSlideIndex - 1);
+    }
+  }, { passive: true });
+
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (document.body.classList.contains('gate-active')) return;
+
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY - touchEndY;
+
+    const activeSlide = slides[currentSlideIndex];
+    if (activeSlide) {
+      const isScrollable = activeSlide.scrollHeight > activeSlide.clientHeight;
+      if (isScrollable) {
+        const isScrollingDown = deltaY > 0;
+        const isAtBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 5;
+        const isAtTop = activeSlide.scrollTop <= 5;
+
+        if (isScrollingDown && !isAtBottom) return;
+        if (!isScrollingDown && !isAtTop) return;
+      }
+    }
+
+    if (Math.abs(deltaY) > 50) {
+      if (deltaY > 0) {
+        goToSlide(currentSlideIndex + 1);
+      } else {
+        goToSlide(currentSlideIndex - 1);
+      }
+    }
+  }, { passive: true });
+
+  // 5) 내비게이션 클릭 및 버튼 바인딩
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach((link, i) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (document.body.classList.contains('gate-active')) {
+        document.body.classList.remove('gate-active');
+        if (window.playActiveBgVideo) window.playActiveBgVideo();
+      }
+      goToSlide(i); // i+1에서 i로 수정 (첫 슬라이드가 0이 됨)
+    });
+  });
+
+  const indicatorDots = document.querySelectorAll('.slide-indicator .dot');
+  indicatorDots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+      if (document.body.classList.contains('gate-active')) {
+        document.body.classList.remove('gate-active');
+        if (window.playActiveBgVideo) window.playActiveBgVideo();
+      }
+      goToSlide(idx);
+    });
+  });
+
+  // 기존 영웅 슬라이드 내부 버튼 바인딩 제거
+
+  // 시스템 초기화
+  initThreeJS();
+  startLoader();
+  initScatterText();
+  updateSlides();
+
+  // 7) 게이트 양쪽 네비게이션 버튼 동작 연동
   const btnGateAbout = document.getElementById('btnGateAbout');
   const btnGateCuration = document.getElementById('btnGateCuration');
   const aboutModal = document.getElementById('aboutModal');
   const btnModalClose = document.getElementById('btnModalClose');
   const modalOverlay = document.getElementById('modalOverlay');
 
-  // Curation 버튼: 게이트 해제 후 콘텐츠 진입 및 스크롤
   if (btnGateCuration) {
     btnGateCuration.addEventListener('click', () => {
-      const targetSelector = btnGateCuration.getAttribute('data-target');
-      const targetEl = document.querySelector(targetSelector);
-      
-      // 게이트 해제 (본문 정보들이 나타남)
       document.body.classList.remove('gate-active');
-      
-      // 비디오 재생 확인
       if (window.playActiveBgVideo) {
         window.playActiveBgVideo();
       }
-
-      // 해당 섹션으로 부드러운 스크롤 이동
-      if (targetEl) {
-        setTimeout(() => {
-          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 500);
-      }
-
-      // Hero 섹션 모션 트리거
-      setTimeout(() => {
-        const heroMotions = document.querySelectorAll('#hero [data-motion]');
-        heroMotions.forEach(el => el.classList.add('active'));
-      }, 300);
+      goToSlide(0); // 한글의 가치 (Story) 탭으로 가장 먼저 활성화 진입 (1 -> 0)
     });
   }
 
-  // About 버튼: 게이트 유지한 상태에서 팝업 모달 띄우기
   if (btnGateAbout && aboutModal) {
     btnGateAbout.addEventListener('click', () => {
       aboutModal.classList.add('active');
     });
   }
 
-  // 모달 닫기 이벤트
   function closeAboutModal() {
     if (aboutModal) {
       aboutModal.classList.remove('active');
@@ -256,24 +605,23 @@ document.addEventListener('DOMContentLoaded', () => {
     modalOverlay.addEventListener('click', closeAboutModal);
   }
 
-  // 8. 본문 활성화 시 좌측 고정 뒤로가기 버튼 클릭 이벤트
+  // 8) 본문 활성화 시 좌측 고정 뒤로가기 버튼 클릭 이벤트
   const btnBackToGate = document.getElementById('btnBackToGate');
   if (btnBackToGate) {
     btnBackToGate.addEventListener('click', () => {
-      // 본문을 숨기고 게이트(동영상 단독 모드)를 다시 활성화
       document.body.classList.add('gate-active');
-      
-      // 최상단으로 스크롤 이동
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      currentSlideIndex = 0;
+      updateSlides();
+      // 게이트 복귀 시 헤더의 scrolled 클래스 제거
+      const header = document.querySelector('.header');
+      if (header) header.classList.remove('scrolled');
     });
   }
 
-
-  // 10. 다국어 번역 시스템 (KR / EN) 컨트롤러
+  // 10) 다국어 번역 시스템 (KR / EN) 컨트롤러
   const langBtns = document.querySelectorAll('.lang-btn');
   
   function setLanguage(lang) {
-    // 버튼 활성화 스타일 적용
     langBtns.forEach(btn => {
       if (btn.textContent.trim().toLowerCase() === lang) {
         btn.classList.add('active');
@@ -282,14 +630,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 다국어 텍스트 번역 데이터 매핑 루프
     const translatableElements = document.querySelectorAll('[data-translate]');
     translatableElements.forEach(el => {
       const key = el.getAttribute('data-translate');
       if (window.translations && window.translations[lang] && window.translations[lang][key]) {
         const textValue = window.translations[lang][key];
         
-        // 키값에 html 수식어가 들어가 있다면 innerHTML로 삽입하여 태그 파싱
         if (key.includes('-html')) {
           el.innerHTML = textValue;
         } else {
@@ -298,35 +644,40 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 유저의 선호 언어 브라우저 로컬 저장소 캐싱
+    initScatterText();
+    slides.forEach((slide, idx) => {
+      if (idx !== currentSlideIndex) scatterSlide(slide);
+    });
+
     localStorage.setItem('nhm-lang', lang);
   }
 
-  // 클릭 이벤트 리스너 등록
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const selectedLang = btn.textContent.trim().toLowerCase(); // 'ko' or 'en'
+      const selectedLang = btn.textContent.trim().toLowerCase();
       setLanguage(selectedLang);
     });
   });
 
   const initialLang = localStorage.getItem('nhm-lang') || 'ko';
   setLanguage(initialLang);
-  // 11. 하단 맨 위로 가기 버튼 스크롤 이벤트 바인딩
+
+  // 11) 하단 맨 위로 가기 버튼 스크롤 이벤트 바인딩
   const btnBackTop = document.querySelector('[data-translate="btn-back-top"]');
   if (btnBackTop) {
     btnBackTop.addEventListener('click', (e) => {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      goToSlide(0);
     });
   }
-  // 12. 헤더 로고 클릭 시 홈 화면(게이트 비디오 단독 모드)으로 복귀
+  // 12) 헤더 로고 클릭 시 홈 화면(게이트 비디오 단독 모드)으로 복귀
   const headerLogoLink = document.querySelector('.logo a');
   if (headerLogoLink) {
     headerLogoLink.addEventListener('click', (e) => {
       e.preventDefault();
       document.body.classList.add('gate-active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      currentSlideIndex = 0;
+      updateSlides();
     });
   }
 });

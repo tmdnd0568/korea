@@ -9,9 +9,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=3.6" />
+  <!-- Three.js & GSAP for 3D Starfield & Animations (Vaalentin 2015 Style) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body class="gate-active">
+  <!-- 3D WebGL Canvas 배경 (Vaalentin 2015 Style) -->
+  <canvas id="webgl-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; pointer-events: none;"></canvas>
+
+  <!-- 로더 화면 (Vaalentin 2015 Style) -->
+  <div class="loader" id="loader">
+    <h3 class="loader__title">LOADING</h3>
+    <div class="loader__progress" id="loaderProgress"></div>
+  </div>
+
+  <!-- 슬라이드 인디케이터 도트 (Vaalentin 2015 Style) -->
+  <div class="slide-indicator" id="slideIndicator">
+    <span class="dot active" data-slide="0"></span>
+    <span class="dot" data-slide="1"></span>
+    <span class="dot" data-slide="2"></span>
+    <span class="dot" data-slide="3"></span>
+  </div>
+
   <!-- 커스텀 마우스 커서 -->
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-circle" id="cursorCircle"></div>
@@ -44,10 +64,10 @@
   <!-- 고정 배경 비디오 (이중 비디오 크로스페이드) -->
   <div class="video-container">
     <video autoplay muted playsinline id="bgVideo1" class="bg-video" preload="auto" style="opacity: 1; z-index: -2;">
-      <source src="scoll_001.mp4" type="video/mp4" />
+      <source src="real_01.mp4?v=2.9" type="video/mp4" />
     </video>
     <video muted playsinline id="bgVideo2" class="bg-video" preload="auto" style="opacity: 0; z-index: -3;">
-      <source src="scoll_001.mp4" type="video/mp4" />
+      <source src="real_01.mp4?v=2.9" type="video/mp4" />
     </video>
     <div class="video-overlay"></div>
   </div>
@@ -64,7 +84,7 @@
   <header class="header">
     <div class="header-inner">
       <div class="logo">
-        <a href="#hero">
+        <a href="#story">
           <img src="logo.png" alt="국립한글박물관" class="logo-img" />
         </a>
       </div>
@@ -82,37 +102,13 @@
           <span>/</span>
           <button class="lang-btn">EN</button>
         </div>
-        <button class="btn-ticket" data-translate="btn-ticket">관람 예약</button>
+        <a href="https://www.hangeul.go.kr" target="_blank" class="btn-primary btn-sm btn-reserve" data-translate="btn-reserve">관람 예약</a>
       </div>
     </div>
   </header>
 
-  <!-- 1. Hero 섹션 (제작 동영상 배경 & 모션 타이틀) -->
-  <section id="hero" class="hero-section">
+  <div class="slides-container" id="slidesContainer">
 
-    <div class="hero-content">
-      <p class="hero-sub" data-motion="fade-up" data-translate="hero-sub">NATIONAL HANGEUL MUSEUM</p>
-      <h1 class="hero-title" data-motion="fade-up" data-delay="200" data-translate="hero-title-html">
-        세계를 매료시킨 문자,<br />
-        <span class="highlight">한글의 역사와 가치</span>를 만나다
-      </h1>
-      <p class="hero-desc" data-motion="fade-up" data-delay="400" data-translate="hero-desc">
-        세종대왕의 깊은 애민 정신이 담긴 훈민정음의 가치부터, 현대 미디어 아트로 재탄생한 한글의 독보적 위상을 재발견하는 인터랙티브 문화 공간입니다.
-      </p>
-      <div class="hero-btn-group" data-motion="fade-up" data-delay="600">
-        <a href="#curation" class="btn-primary" data-translate="hero-btn-curation">맞춤 관람 코스 찾기</a>
-        <a href="#story" class="btn-outline">
-          <span data-translate="hero-btn-story">역사와 가치 탐색</span>
-          <span class="arrow-icon"></span>
-        </a>
-      </div>
-    </div>
-
-    <div class="scroll-indicator">
-      <span class="scroll-txt">SCROLL DOWN</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
 
   <!-- 2. MVP 기능 1: 인터랙티브 한글 역사 & 가치 탐색 (Interactive Storytelling) -->
   <section id="story" class="section story-section">
@@ -271,6 +267,7 @@
       <div class="product-slider-wrapper">
         <div class="product-grid" id="productGrid">
           <div class="product-card">
+            <div class="card-bg-glyph">나</div>
             <div class="prod-thumb thumb-1">
               <span class="badge-new">BEST</span>
             </div>
@@ -282,6 +279,7 @@
           </div>
 
           <div class="product-card">
+            <div class="card-bg-glyph">라</div>
             <div class="prod-thumb thumb-2">
               <span class="badge-new">NEW</span>
             </div>
@@ -293,6 +291,7 @@
           </div>
 
           <div class="product-card">
+            <div class="card-bg-glyph">사</div>
             <div class="prod-thumb thumb-3"></div>
             <div class="prod-info">
               <h4 data-translate="prod3-title">천지인 세라믹 텀블러 & 코스터</h4>
@@ -302,6 +301,7 @@
           </div>
 
           <div class="product-card">
+            <div class="card-bg-glyph">랑</div>
             <div class="prod-thumb thumb-4"></div>
             <div class="prod-info">
               <h4 data-translate="prod4-title">한글 타이포그래피 패브릭 포스터</h4>
@@ -347,8 +347,6 @@
         </div>
       </div>
     </div>
-  </section>
-
   <!-- 푸터 -->
   <footer class="footer">
     <div class="container footer-inner">
@@ -361,6 +359,8 @@
       </div>
     </div>
   </footer>
+  </section>
+  </div>
 
   <!-- 박물관 소개 모달 (About Modal) -->
   <div id="aboutModal" class="about-modal">
@@ -390,6 +390,6 @@
   </div>
 
   <script src="lang.js"></script>
-  <script src="brt.js"></script>
+  <script src="brt.js?v=3.6"></script>
 </body>
 </html>
