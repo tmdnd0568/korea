@@ -11,6 +11,40 @@
 document.addEventListener('DOMContentLoaded', () => {
   let currentCurationCardIndex = 0;
   let isCurationTransitioning = false;
+  let currentIntroFrameIndex = 1;
+  let targetIntroFrameIndex = 1;
+  const totalIntroFrames = 200;
+
+  function padZero(num, size) {
+    let s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
+  }
+
+  // Preload frames in background to make scroll scrubbing smooth
+  const preloadImages = [];
+  for (let i = 1; i <= totalIntroFrames; i++) {
+    const img = new Image();
+    img.src = `img/sjdw_200/ezgif-frame-${padZero(i, 3)}.jpg`;
+    preloadImages.push(img);
+  }
+
+  function updateScrubFrame() {
+    const diff = targetIntroFrameIndex - currentIntroFrameIndex;
+    if (Math.abs(diff) > 0.05) {
+      currentIntroFrameIndex += diff * 0.15; // smooth easing factor
+      const roundedFrame = Math.round(currentIntroFrameIndex);
+      const padded = padZero(roundedFrame, 3);
+      const img = document.getElementById('introScrubImg');
+      if (img) {
+        img.src = `img/sjdw_200/ezgif-frame-${padded}.jpg`;
+      }
+    } else {
+      currentIntroFrameIndex = targetIntroFrameIndex;
+    }
+    requestAnimationFrame(updateScrubFrame);
+  }
+  requestAnimationFrame(updateScrubFrame);
 
   // 1. 커스텀 마우스 커서 인터랙션
   const cursorDot = document.getElementById('cursorDot');
@@ -666,6 +700,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("Wheel event received. currentSlideIndex =", currentSlideIndex, "isTransitioning =", isTransitioning, "currentCurationCardIndex =", currentCurationCardIndex, "deltaY =", e.deltaY);
 
+    // Intro Slide (index 0) Image Scroll Scrubbing
+    if (currentSlideIndex === 0) {
+      if (isTransitioning) return;
+      const isScrollingDown = e.deltaY > 0;
+      if (isScrollingDown) {
+        if (targetIntroFrameIndex < totalIntroFrames) {
+          targetIntroFrameIndex = Math.min(totalIntroFrames, targetIntroFrameIndex + 6);
+          return;
+        }
+      } else {
+        if (targetIntroFrameIndex > 1) {
+          targetIntroFrameIndex = Math.max(1, targetIntroFrameIndex - 6);
+          return;
+        } else if (targetIntroFrameIndex === 1) {
+          // Return to gate screen
+          document.body.classList.add('gate-active');
+          const header = document.querySelector('.header');
+          if (header) header.classList.remove('scrolled');
+          return;
+        }
+      }
+    }
+
     if (currentSlideIndex === 2) {
       if (isTransitioning) {
         console.log("Wheel event ignored because main slide is transitioning.");
@@ -729,6 +786,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
+
+    // Intro Slide (index 0) Image Touch Swiping Scrubbing
+    if (currentSlideIndex === 0 && Math.abs(deltaY) > 30) {
+      if (isTransitioning) return;
+      const isScrollingDown = deltaY > 0;
+      if (isScrollingDown) {
+        if (targetIntroFrameIndex < totalIntroFrames) {
+          targetIntroFrameIndex = Math.min(totalIntroFrames, targetIntroFrameIndex + 10);
+          return;
+        }
+      } else {
+        if (targetIntroFrameIndex > 1) {
+          targetIntroFrameIndex = Math.max(1, targetIntroFrameIndex - 10);
+          return;
+        } else if (targetIntroFrameIndex === 1) {
+          document.body.classList.add('gate-active');
+          const header = document.querySelector('.header');
+          if (header) header.classList.remove('scrolled');
+          return;
+        }
+      }
+    }
 
     if (currentSlideIndex === 2 && Math.abs(deltaY) > 50) {
       if (isTransitioning) return;
@@ -842,6 +921,12 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBackToGate.addEventListener('click', () => {
       document.body.classList.add('gate-active');
       currentSlideIndex = 0;
+      targetIntroFrameIndex = 1;
+      currentIntroFrameIndex = 1;
+      const scrubImg = document.getElementById('introScrubImg');
+      if (scrubImg) {
+        scrubImg.src = `img/sjdw_200/ezgif-frame-001.jpg`;
+      }
       updateSlides();
       // 게이트 복귀 시 헤더의 scrolled 클래스 제거
       const header = document.querySelector('.header');
@@ -908,6 +993,12 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       document.body.classList.add('gate-active');
       currentSlideIndex = 0;
+      targetIntroFrameIndex = 1;
+      currentIntroFrameIndex = 1;
+      const scrubImg = document.getElementById('introScrubImg');
+      if (scrubImg) {
+        scrubImg.src = `img/sjdw_200/ezgif-frame-001.jpg`;
+      }
       updateSlides();
     });
   }
