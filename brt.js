@@ -511,21 +511,30 @@ document.addEventListener('DOMContentLoaded', () => {
   function startLoader() {
     const loader = document.getElementById('loader');
     const progress = document.getElementById('loaderProgress');
-    if (!loader || !progress) return;
+    if (!loader) return;
 
     let percent = 0;
     const interval = setInterval(() => {
-      percent += Math.floor(Math.random() * 8) + 2;
+      percent += Math.floor(Math.random() * 20) + 15;
+      if (progress) progress.style.width = `${Math.min(percent, 100)}%`;
+
       if (percent >= 100) {
-        percent = 100;
         clearInterval(interval);
         setTimeout(() => {
           loader.classList.add('loaded');
-        }, 300);
+        }, 150);
       }
-      progress.style.width = `${percent}%`;
-    }, 50);
+    }, 30);
+
+    // 비상 안전장치: 최대 800ms 후 무조건 로더 제거하여 멈춤 방지
+    setTimeout(() => {
+      clearInterval(interval);
+      if (loader) loader.classList.add('loaded');
+    }, 800);
   }
+
+  // 로더 즉시 실행
+  startLoader();
 
 
   // --- 3. 풀페이지 슬라이드 & 텍스트 Scatter 인터랙션 구현 ---
