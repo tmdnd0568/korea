@@ -2036,7 +2036,117 @@ body.gate-active .slide-indicator {
   word-break: keep-all;
 }
 
+/* ----------------- 스크롤 스크럽 유도 안내 바 (Scroll Guide Prompt) ----------------- */
+.intro-scroll-prompt {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  z-index: 12;
+  background: rgba(11, 12, 16, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(209, 180, 106, 0.4);
+  border-radius: 8px !important;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(209, 180, 106, 0.2);
+  pointer-events: none;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+}
+
+.intro-scroll-prompt .mouse-icon {
+  width: 18px;
+  height: 28px;
+  border: 2px solid var(--highlight);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  box-sizing: border-box;
+}
+
+.intro-scroll-prompt .mouse-icon .wheel {
+  width: 3px;
+  height: 6px;
+  background: var(--highlight);
+  border-radius: 2px;
+  animation: scrollWheelAnim 1.6s ease-in-out infinite;
+}
+
+@keyframes scrollWheelAnim {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(8px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.intro-scroll-prompt .scroll-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.intro-scroll-prompt .scroll-text-ko {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+}
+
+.intro-scroll-prompt .scroll-text-sub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--highlight);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.intro-scroll-prompt .bounce-arrow {
+  font-size: 0.9rem;
+  color: var(--highlight);
+  animation: scrollBounceArrow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes scrollBounceArrow {
+  0% {
+    transform: translateY(-2px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
+  .intro-scroll-prompt {
+    bottom: 12px;
+    padding: 8px 14px;
+    gap: 10px;
+  }
+  .intro-scroll-prompt .scroll-text-ko {
+    font-size: 0.8rem;
+  }
+  .intro-scroll-prompt .scroll-text-sub {
+    display: none;
+  }
+}
   .hangeul-creation-card {
     top: 15px;
     left: 15px;

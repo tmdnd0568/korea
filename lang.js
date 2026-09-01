@@ -7,6 +7,8 @@ window.translations = {
     "btn-back": "Back",
     "btn-back-top": "맨 위로 이동 ↑",
     "btn-ticket": "관람 예약",
+    "scroll-guide-ko": "스크롤을 내려 세종대왕의 이야기를 감상하세요",
+    "scroll-guide-sub": "SCROLL DOWN TO EXPLORE STORY",
 
     // 헤더 내비게이션 & 메가메뉴 (GNB)
     "gnb-cat-1": "관람안내",

@@ -30,6 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function toggleSejongButton(frame) {
+    const scrollPrompt = document.getElementById('introScrollPrompt');
+    if (scrollPrompt) {
+      if (frame <= 15) {
+        scrollPrompt.style.opacity = '1';
+        scrollPrompt.style.visibility = 'visible';
+        scrollPrompt.style.transform = 'translate3d(-50%, 0, 0)';
+      } else {
+        scrollPrompt.style.opacity = '0';
+        scrollPrompt.style.visibility = 'hidden';
+        scrollPrompt.style.transform = 'translate3d(-50%, 15px, 0)';
+      }
+    }
+
     const btn = document.getElementById('btnSejongShortcut');
     if (btn) {
       if (frame >= 19) {
