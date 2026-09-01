@@ -2209,28 +2209,53 @@ body.gate-active .slide-indicator {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* 1. 상단 유관기관 배너 바 */
+/* 1. 상단 유관기관 무한 롤링 티커 바 (왼쪽 -> 오른쪽 지속 흐름) */
 .footer-related-bar {
   background: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 0.9rem 0;
+  padding: 0.95rem 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
 }
 
-.related-inner {
-  width: 90vw;
-  max-width: 1600px;
-  margin: 0 auto;
+.ticker-wrapper {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+}
+
+.ticker-track {
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+  animation: tickerFlowLeftToRight 28s linear infinite;
+  will-change: transform;
+}
+
+.footer-related-bar:hover .ticker-track {
+  animation-play-state: paused; /* 마우스 호버 시 손쉽게 클릭할 수 있도록 일시 정지 */
 }
 
 .related-list {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 0.7rem 1.2rem;
+  gap: 0.7rem 1.4rem;
   list-style: none;
-  padding: 0;
+  padding: 0 0.7rem;
   margin: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@keyframes tickerFlowLeftToRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .related-list li a {
