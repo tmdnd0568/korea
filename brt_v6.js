@@ -245,84 +245,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 5. 배경 비디오 Seamless 루프 제어 (네이티브 루프 지원으로 고스트 잔상 차단)
+  // 5. 배경 비디오 Seamless 듀얼 핑퐁 무한 루프 제어 (끊김 0% 처리)
   const video1 = document.getElementById('bgVideo1');
   const video2 = document.getElementById('bgVideo2');
   if (video1 && video2) {
     let videos = [video1, video2];
     let activeIdx = 0;
-    let transitionDuration = 0.8; // 교차 페이드 전환 시간 (초)
+    let transitionDuration = 0.6; // 0.6초 전 교차 페이드 실행으로 끊김 차단
     let isTransitioning = false;
-    
-    // 네이티브 루프 사용 여부 (인위적인 이중 고스트 잔상 방지를 위해 기본 활성화)
-    const useNativeLoop = true;
 
-    if (useNativeLoop) {
-      // 싱글 비디오로 네이티브 Seamless 루프 구동
-      video1.loop = true;
-      video1.muted = true;
-      video1.playsInline = true;
-      video1.style.opacity = '1';
-      video1.style.zIndex = '-2';
-      video1.style.position = 'absolute';
-      video1.style.top = '0';
-      video1.style.left = '0';
-      video1.style.width = '100%';
-      video1.style.height = '100%';
-      video1.style.objectFit = 'cover';
+    videos.forEach((vid, idx) => {
+      vid.loop = false;
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.setAttribute('muted', '');
+      vid.setAttribute('playsinline', '');
+      vid.style.position = 'absolute';
+      vid.style.top = '0';
+      vid.style.left = '0';
+      vid.style.width = '100%';
+      vid.style.height = '100%';
+      vid.style.objectFit = 'cover';
+      vid.style.transition = 'opacity 0.6s ease-in-out';
+      vid.style.opacity = idx === 0 ? '1' : '0';
+      vid.style.zIndex = idx === 0 ? '-2' : '-3';
+    });
 
-      // 두 번째 비디오는 숨김 처리
-      video2.style.display = 'none';
-      video2.pause();
-
-      video1.play().catch(err => {
-        console.log("최초 비디오 재생 제한:", err);
-      });
-
-      window.playActiveBgVideo = function() {
-        video1.play().catch(err => console.log("비디오 재생 실패:", err));
-      };
-    } else {
-      // 기존 듀얼 크로스페이드 루프 제어
-      videos.forEach((vid, idx) => {
-        vid.loop = false;
-        vid.muted = true;
-        vid.playsInline = true;
-        vid.setAttribute('autoplay', idx === 0 ? 'autoplay' : '');
-        vid.style.transition = 'opacity 0.8s ease';
-        vid.style.position = 'absolute';
-        vid.style.top = '0';
-        vid.style.left = '0';
-      });
-
-      function checkVideoProgress() {
+    function checkVideoProgress() {
+      if (document.body.classList.contains('gate-active')) {
         const activeVideo = videos[activeIdx];
         const inactiveVideo = videos[1 - activeIdx];
 
-        if (activeVideo.duration) {
+        if (activeVideo && activeVideo.duration && !isNaN(activeVideo.duration)) {
           const duration = activeVideo.duration;
           const current = activeVideo.currentTime;
 
-          // 종료 0.8초 전에 교차 페이드 시작
+          // 종료 0.6초 전에 이중 비디오 교차 페이드(Crossfade) 실행으로 멈춤/끊김 완전 제거
           if (!isTransitioning && current >= duration - transitionDuration) {
             isTransitioning = true;
-
-            // 대기 동영상을 처음부터 재생 시작
             inactiveVideo.currentTime = 0;
+
             inactiveVideo.play().then(() => {
-              // 대기 비디오를 기존 비디오 위 레이어(-1)로 올려서 부드럽게 겹치며 페이드인
-              inactiveVideo.style.zIndex = '-1';
+              inactiveVideo.style.zIndex = '-2';
               inactiveVideo.style.opacity = '1';
+              activeVideo.style.opacity = '0';
 
               setTimeout(() => {
-                // 페이드 전환 완료 후, 이전 비디오 숨김 처리 및 재생 일시정지
-                activeVideo.style.opacity = '0';
-                activeVideo.style.zIndex = '-3';
                 activeVideo.pause();
-
-                // 새로운 활성 비디오를 표준 레이어(-2) 위치로 재설정
-                inactiveVideo.style.zIndex = '-2';
-
+                activeVideo.style.zIndex = '-3';
                 activeIdx = 1 - activeIdx;
                 isTransitioning = false;
               }, transitionDuration * 1000);
@@ -336,19 +306,12 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(checkVideoProgress);
     }
 
-    if (video1.readyState >= 1) {
-      requestAnimationFrame(checkVideoProgress);
-    } else {
-      video1.addEventListener('loadedmetadata', () => {
-        requestAnimationFrame(checkVideoProgress);
-      });
-    }
+    requestAnimationFrame(checkVideoProgress);
 
     video1.play().catch(err => {
-      console.log("최초 비디오 재생 제한:", err);
+      console.log("최초 비디오 자동 재생 제한:", err);
     });
 
-    // 외부 연동용 헬퍼 함수
     window.playActiveBgVideo = function() {
       videos[activeIdx].play().catch(err => console.log("비디오 재생 실패:", err));
     };
