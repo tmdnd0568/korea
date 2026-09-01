@@ -190,13 +190,17 @@ window.translations = {
     "foot-tel-val": "대표전화 02-2124-6200",
 
     // About 모달
-    "modal-tag": "ABOUT MUSEUM",
-    "modal-title": "국립한글박물관",
+    "modal-tag": "NATIONAL HANGEUL MUSEUM",
+    "modal-title": "소통과 나눔의 공간, 국립한글박물관",
+    "modal-banner-sub": "한글의 역사와 가치를 세계로 알리는 빛나는 문화유산",
     "modal-desc": "국립한글박물관은 한글의 문자적·문화적 가치를 보존하고 널리 알리기 위해 설립되었습니다. 세종대왕의 애민 정신이 깃든 훈민정음의 창제 원리부터 현대 한글 타이포그래피의 시각 예술적 조형미까지, 빛과 어둠을 활용한 미디어 아트를 통해 한글의 역동적인 조형성을 온전히 경험할 수 있는 인터랙티브 문화 공간입니다.",
-    "modal-f1-title": "과학과 철학",
-    "modal-f1-desc": "하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)에 담긴 조화로운 우주관의 형상화",
-    "modal-f2-title": "글로벌 가치",
-    "modal-f2-desc": "세계 문자 역사상 유일하게 창제자와 창제 원리가 밝혀진 과학적 문자",
+    "modal-f1-title": "조형미 & 공간 건축",
+    "modal-f1-desc": "음절 결합 구조와 한국 전통 선에서 영감을 얻은 조형적 건축 디자인",
+    "modal-f2-title": "과학과 철학의 조화",
+    "modal-f2-desc": "하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)에 담긴 우주관과 발음 기관의 기하학적 형상화",
+    "modal-f3-title": "유네스코 세계기록유산",
+    "modal-f3-desc": "세계 문자 역사상 유일하게 창제자와 창제 원리가 밝혀진 인류 최고의 유산",
+    "modal-visit-link": "공식 누리집 방문하기",
 
     // Sejong Modal
     "btn-sejong-shortcut": "세종 대왕 바로가기",
