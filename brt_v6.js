@@ -245,74 +245,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 5. 배경 비디오 Seamless 듀얼 핑퐁 무한 루프 제어 (끊김 0% 처리)
+  // 5. real_002.mp4 배경 비디오 9초 컷 무한 연속 루프 제어 (영구 무한 재생)
   const video1 = document.getElementById('bgVideo1');
   const video2 = document.getElementById('bgVideo2');
-  if (video1 && video2) {
-    let videos = [video1, video2];
-    let maxLoopTime = 9.0; // 9.0초 시점에서 컷 및 루프
-    let transitionDuration = 0.6; // 0.6초 전 교차 페이드 실행 (8.4초 지점)
-    let isTransitioning = false;
+  if (video1) {
+    video1.loop = true;
+    video1.muted = true;
+    video1.playsInline = true;
+    video1.autoplay = true;
+    video1.setAttribute('loop', '');
+    video1.setAttribute('muted', '');
+    video1.setAttribute('playsinline', '');
+    video1.setAttribute('autoplay', '');
 
-    videos.forEach((vid, idx) => {
-      vid.loop = false;
-      vid.muted = true;
-      vid.playsInline = true;
-      vid.setAttribute('muted', '');
-      vid.setAttribute('playsinline', '');
-      vid.style.position = 'absolute';
-      vid.style.top = '0';
-      vid.style.left = '0';
-      vid.style.width = '100%';
-      vid.style.height = '100%';
-      vid.style.objectFit = 'cover';
-      vid.style.transition = 'opacity 0.6s ease-in-out';
-      vid.style.opacity = idx === 0 ? '1' : '0';
-      vid.style.zIndex = idx === 0 ? '-2' : '-3';
-    });
+    video1.style.display = 'block';
+    video1.style.opacity = '1';
+    video1.style.zIndex = '-2';
+    video1.style.position = 'absolute';
+    video1.style.top = '0';
+    video1.style.left = '0';
+    video1.style.width = '100%';
+    video1.style.height = '100%';
+    video1.style.objectFit = 'cover';
 
-    function checkVideoProgress() {
-      if (document.body.classList.contains('gate-active')) {
-        const activeVideo = videos[activeIdx];
-        const inactiveVideo = videos[1 - activeIdx];
-
-        if (activeVideo && activeVideo.currentTime !== undefined) {
-          const current = activeVideo.currentTime;
-
-          // 9초 지점(8.4초)에 도달하면 이중 핑퐁 비디오 교차 페이드(Crossfade) 실행으로 끊김 없이 0초로 연속 루프
-          if (!isTransitioning && current >= maxLoopTime - transitionDuration) {
-            isTransitioning = true;
-            inactiveVideo.currentTime = 0;
-
-            inactiveVideo.play().then(() => {
-              inactiveVideo.style.zIndex = '-2';
-              inactiveVideo.style.opacity = '1';
-              activeVideo.style.opacity = '0';
-
-              setTimeout(() => {
-                activeVideo.pause();
-                activeVideo.style.zIndex = '-3';
-                activeIdx = 1 - activeIdx;
-                isTransitioning = false;
-              }, transitionDuration * 1000);
-            }).catch(err => {
-              console.log("교체 비디오 재생 실패:", err);
-              isTransitioning = false;
-            });
-          }
-        }
-      }
-      requestAnimationFrame(checkVideoProgress);
+    if (video2) {
+      video2.style.display = 'none';
+      video2.pause();
     }
 
-    requestAnimationFrame(checkVideoProgress);
+    // 9.0초 시점에 도달하면 0초로 즉시 리셋하여 영구 무한 루프
+    video1.addEventListener('timeupdate', () => {
+      if (video1.currentTime >= 9.0) {
+        video1.currentTime = 0;
+      }
+    });
+
+    // 영상 재생이 멈추거나 일시정지되면 즉시 자동 재개
+    video1.addEventListener('pause', () => {
+      if (document.body.classList.contains('gate-active')) {
+        video1.play().catch(() => {});
+      }
+    });
 
     video1.play().catch(err => {
       console.log("최초 비디오 자동 재생 제한:", err);
     });
 
     window.playActiveBgVideo = function() {
-      videos[activeIdx].play().catch(err => console.log("비디오 재생 실패:", err));
+      video1.play().catch(err => console.log("비디오 재생 실패:", err));
     };
   }
 
