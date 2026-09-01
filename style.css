@@ -838,17 +838,17 @@ body.cursor-hover .cursor-circle {
   background-position: center;
 }
 
-/* 훈민정음 언해본 아크릴 무드등 - 무드등 / 캘리그라피 아크릴 조명 실사 */
-.thumb-1 { background-image: url('https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=800&auto=format&fit=crop'); }
+/* 훈민정음 언해본 아크릴 무드등 - 민화샵 실제 아크릴 무드등 제품 실사 */
+.thumb-1 { background-image: url('img/goods_moodlamp.jpg'); }
 
-/* 기하학 자음 메탈 키링 컬렉션 - 금속 액세서리 메탈 키링 실사 */
-.thumb-2 { background-image: url('https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=800&auto=format&fit=crop'); }
+/* 기하학 자음 메탈 키링 컬렉션 - 실제 아크릴/메탈 키링 제품 실사 */
+.thumb-2 { background-image: url('img/goods_keyring.png'); }
 
-/* 천지인 세라믹 텀블러 & 코스터 - 매트 블랙 텀블러 실사 */
-.thumb-3 { background-image: url('https://images.unsplash.com/photo-1577968897966-3d4325b36b61?q=80&w=800&auto=format&fit=crop'); }
+/* 천지인 세라믹 텀블러 & 코스터 - 고려기프트 실제 세라믹 텀블러 실사 */
+.thumb-3 { background-image: url('img/goods_tumbler.jpg'); }
 
-/* 한글 타이포그래피 패브릭 포스터 - 캘리그라피 / 포스터 패브릭 전시 실사 */
-.thumb-4 { background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=800&auto=format&fit=crop'); }
+/* 한글 타이포그래피 패브릭 포스터 - 패브릭 걸이 포스터 실사 */
+.thumb-4 { background-image: url('img/goods_poster.jpg'); }
 
 .badge-new {
   position: absolute;
