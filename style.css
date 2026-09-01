@@ -2042,6 +2042,430 @@ body.gate-active .slide-indicator {
   }
 }
 
+/* ==========================================================
+   상단 메가메뉴 (Megamenu Dropdown Navigation) Styles
+   ========================================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 1500;
+  background: rgba(11, 12, 16, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.nav-list {
+  display: flex;
+  gap: 2.2rem;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  padding: 28px 0;
+  display: block;
+  transition: color 0.3s ease;
+  letter-spacing: -0.3px;
+}
+
+.nav-item:hover .nav-link,
+.nav-link.active {
+  color: var(--highlight);
+}
+
+.menu-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.menu-toggle-btn:hover {
+  background: var(--highlight);
+  color: #0b0c10;
+  border-color: var(--highlight);
+  transform: rotate(90deg);
+}
+
+/* 메가메뉴 드롭다운 패널 */
+.megamenu-panel {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  background: rgba(12, 14, 19, 0.96);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(209, 180, 106, 0.3);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1400;
+  pointer-events: none;
+}
+
+.header:hover .megamenu-panel,
+.megamenu-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.megamenu-inner {
+  width: 92vw;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2.2rem 0 2.8rem;
+}
+
+.megamenu-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1.5rem;
+}
+
+.mega-col {
+  position: relative;
+  padding: 0 0.5rem;
+}
+
+.mega-col:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mega-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--highlight);
+  letter-spacing: -0.3px;
+}
+
+.mega-sub {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mega-sub li a {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: #94a3b8;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  letter-spacing: -0.3px;
+}
+
+.mega-sub li a:hover {
+  color: var(--highlight);
+  transform: translateX(4px);
+}
+
+.ext-icon {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* ==========================================================
+   하단 푸터 & 유관기관 배너 (Footer & Related Agency Links)
+   ========================================================== */
+.footer {
+  width: 100%;
+  background-color: #07080a;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 1. 상단 유관기관 배너 바 */
+.footer-related-bar {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.9rem 0;
+}
+
+.related-inner {
+  width: 90vw;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.related-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem 1.2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.related-list li a {
+  color: #cbd5e1;
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.related-list li a:hover {
+  color: var(--highlight);
+  text-decoration: underline;
+}
+
+.related-list .sep {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 0.75rem;
+}
+
+/* 2. 푸터 메인 본문 */
+.footer-main {
+  padding: 3rem 0;
+}
+
+.footer-inner {
+  width: 90vw;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+/* 좌측 정부/박물관 메인 로고 에디션 */
+.footer-emblem-col {
+  flex-shrink: 0;
+}
+
+.footer-official-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.taegeuk-emblem {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #cd2e3a 0% 50%, #0047a0 50% 100%);
+  position: relative;
+  box-shadow: 0 0 12px rgba(205, 46, 58, 0.4);
+}
+
+.taegeuk-emblem::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.gov-logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.mcst-tag {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: -0.2px;
+}
+
+.gov-logo-text strong {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+/* 중앙 약관 및 주소 정보 */
+.footer-content-col {
+  flex: 1;
+}
+
+.footer-policy-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.9rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem;
+}
+
+.footer-policy-links li a {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.footer-policy-links li a:hover {
+  color: #ffffff;
+}
+
+.footer-policy-links li a.privacy-highlight {
+  color: #38bdf8; /* 개인정보 처리방침 강조 시안 파란색 */
+  font-weight: 700;
+}
+
+.footer-policy-links .sep {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 0.75rem;
+}
+
+.footer-info-details p {
+  margin: 0 0 0.4rem;
+  font-size: 0.83rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.foot-tel {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.footer-copyright {
+  margin-top: 0.6rem !important;
+  color: #475569 !important;
+  font-size: 0.8rem !important;
+}
+
+/* 우측 웹접근성 인증 및 공공누리 배너 */
+.footer-badge-col {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.badge-icon-wa {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-icon-open {
+  width: 32px;
+  height: 24px;
+  border-radius: 4px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.68rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-txt {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.footer-back-top-box {
+  margin-left: 8px;
+}
+
+.btn-back-top-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-back-top-circle:hover {
+  background: var(--highlight);
+  color: #0b0c10;
+  border-color: var(--highlight);
+  transform: translateY(-3px);
+}
+
+@media (max-width: 1200px) {
+  .megamenu-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .megamenu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-inner {
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+  .footer-badge-col {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 
 
 

@@ -1076,4 +1076,31 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => map.invalidateSize(), 300);
     });
   }
+
+  // 14) 상단 메가메뉴(Megamenu) 토글 및 인터랙션 제어
+  const btnMegaToggle = document.getElementById('btnMegaToggle');
+  const megaMenuPanel = document.getElementById('megaMenuPanel');
+  if (btnMegaToggle && megaMenuPanel) {
+    btnMegaToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      megaMenuPanel.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!megaMenuPanel.contains(e.target) && !btnMegaToggle.contains(e.target)) {
+        megaMenuPanel.classList.remove('active');
+      }
+    });
+  }
+
+  // 메가메뉴 내부 인사말/조직소개/건축물/연혁 등 클릭 시 박물관 소개 모달 팝업 연결
+  const btnOpenAbouts = document.querySelectorAll('.btn-open-about');
+  const aboutModal = document.getElementById('aboutModal');
+  btnOpenAbouts.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (megaMenuPanel) megaMenuPanel.classList.remove('active');
+      if (aboutModal) aboutModal.classList.add('active');
+    });
+  });
 });

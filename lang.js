@@ -8,11 +8,51 @@ window.translations = {
     "btn-back-top": "맨 위로 이동 ↑",
     "btn-ticket": "관람 예약",
 
-    // 헤더 내비게이션
-    "nav-story": "한글 이야기",
-    "nav-curation": "맞춤 관람 안내",
-    "nav-gallery": "전시 & 굿즈",
-    "nav-visit": "오시는 길",
+    // 헤더 내비게이션 & 메가메뉴 (GNB)
+    "gnb-cat-1": "관람안내",
+    "gnb-cat-2": "전시·체험",
+    "gnb-cat-3": "교육·문화행사",
+    "gnb-cat-4": "학술·연구",
+    "gnb-cat-5": "소장자료",
+    "gnb-cat-6": "소식",
+    "gnb-cat-7": "소개",
+
+    "mega-1-1": "관람 및 해설 안내",
+    "mega-1-2": "예약 및 취소",
+    "mega-1-3": "층별안내",
+    "mega-1-4": "오시는 길",
+
+    "mega-2-1": "상설 전시",
+    "mega-2-2": "기획 전시",
+    "mega-2-3": "한글놀이터",
+
+    "mega-3-1": "교육 신청",
+    "mega-3-2": "특별 강연",
+    "mega-3-3": "행사",
+
+    "mega-4-1": "소장자료 연구",
+    "mega-4-2": "전시도록/교육자료",
+    "mega-4-3": "연구조사 자료집",
+
+    "mega-5-1": "기증/구입",
+    "mega-5-2": "주요 문화유산",
+    "mega-5-3": "보존처리",
+    "mega-5-4": "한글도서관",
+    "mega-5-5": "발간자료",
+
+    "mega-6-1": "새소식",
+    "mega-6-2": "촬영 신청",
+    "mega-6-3": "소식지 한박웃음",
+    "mega-6-4": "자원봉사",
+    "mega-6-5": "정보공개",
+    "mega-6-6": "공공데이터 개방",
+    "mega-6-7": "전자민원",
+
+    "mega-7-1": "인사말",
+    "mega-7-2": "조직 및 업무",
+    "mega-7-3": "건축물 소개",
+    "mega-7-4": "연혁",
+    "mega-7-5": "박물관 후원회",
 
     // Hero 섹션
     "hero-sub": "NATIONAL HANGEUL MUSEUM",
@@ -132,6 +172,20 @@ window.translations = {
     // 푸터
     "footer-title": "국립한글박물관",
     "footer-copy": "Copyright © National Hangeul Museum. All Rights Reserved.",
+    "foot-gov-tag": "문화체육관광부",
+    "foot-gov-title": "국립한글박물관",
+    "foot-policy-1": "누리집 안내 지도",
+    "foot-policy-2": "개인정보 처리방침",
+    "foot-policy-3": "저작권 정책",
+    "foot-policy-4": "영상정보처리기기 운영·관리 규정",
+    "foot-policy-5": "이용 약관",
+    "foot-policy-6": "청백리 지킴이 방",
+    "foot-policy-7": "찾아오시는 길",
+    "foot-policy-8": "자주하는 질문",
+    "foot-policy-9": "사전정보공표",
+    "foot-addr-1": "04383 서울시 용산구 서빙고로 139 국립한글박물관",
+    "foot-addr-2": "사무실 주소 : 04387 서울시 용산구 서빙고로 17 센트럴파크타워 25층",
+    "foot-tel-val": "대표전화 02-2124-6200",
 
     // About 모달
     "modal-tag": "ABOUT MUSEUM",
@@ -282,6 +336,20 @@ window.translations = {
     // Footer
     "footer-title": "National Hangeul Museum",
     "footer-copy": "Copyright © National Hangeul Museum. All Rights Reserved.",
+    "foot-gov-tag": "Ministry of Culture, Sports and Tourism",
+    "foot-gov-title": "National Hangeul Museum",
+    "foot-policy-1": "Sitemap",
+    "foot-policy-2": "Privacy Policy",
+    "foot-policy-3": "Copyright Policy",
+    "foot-policy-4": "CCTV Management Policy",
+    "foot-policy-5": "Terms of Use",
+    "foot-policy-6": "Anti-Corruption",
+    "foot-policy-7": "Directions",
+    "foot-policy-8": "FAQ",
+    "foot-policy-9": "Pre-disclosure Info",
+    "foot-addr-1": "139 Seobinggo-ro, Yongsan-gu, Seoul 04383",
+    "foot-addr-2": "Office Address: 25F Central Park Tower, 17 Seobinggo-ro, Yongsan-gu, Seoul 04387",
+    "foot-tel-val": "Tel +82-2-2124-6200",
 
     // About Modal
     "modal-tag": "ABOUT MUSEUM",

@@ -81,19 +81,36 @@
   </div>
 
   <!-- 헤더 / 내비게이션 -->
-  <header class="header">
+  <header class="header" id="mainHeader">
     <div class="header-inner">
       <div class="logo">
-        <a href="#story">
+        <a href="#hero">
           <img src="logo.png" alt="국립한글박물관" class="logo-img" />
         </a>
       </div>
       <nav class="nav">
         <ul class="nav-list">
-          <li><a href="#story" class="nav-link" data-translate="nav-story">한글 이야기</a></li>
-          <li><a href="#curation" class="nav-link" data-translate="nav-curation">맞춤 관람 안내</a></li>
-          <li><a href="#gallery" class="nav-link" data-translate="nav-gallery">전시 & 굿즈</a></li>
-          <li><a href="#visit" class="nav-link" data-translate="nav-visit">오시는 길</a></li>
+          <li class="nav-item mega-trigger" data-menu="0">
+            <a href="#visit" class="nav-link" data-translate="gnb-cat-1">관람안내</a>
+          </li>
+          <li class="nav-item mega-trigger" data-menu="1">
+            <a href="#gallery" class="nav-link" data-translate="gnb-cat-2">전시·체험</a>
+          </li>
+          <li class="nav-item mega-trigger" data-menu="2">
+            <a href="#curation" class="nav-link" data-translate="gnb-cat-3">교육·문화행사</a>
+          </li>
+          <li class="nav-item mega-trigger" data-menu="3">
+            <a href="#story" class="nav-link" data-translate="gnb-cat-4">학술·연구</a>
+          </li>
+          <li class="nav-item mega-trigger" data-menu="4">
+            <a href="#gallery" class="nav-link" data-translate="gnb-cat-5">소장자료</a>
+          </li>
+          <li class="nav-item mega-trigger" data-menu="5">
+            <a href="#story" class="nav-link" data-translate="gnb-cat-6">소식</a>
+          </li>
+          <li class="nav-item mega-trigger" data-menu="6">
+            <a href="#story" class="nav-link" data-translate="gnb-cat-7">소개</a>
+          </li>
         </ul>
       </nav>
       <div class="header-util">
@@ -102,7 +119,90 @@
           <span>/</span>
           <button class="lang-btn">EN</button>
         </div>
-        <a href="https://www.hangeul.go.kr" target="_blank" class="btn-primary btn-sm btn-reserve" data-translate="btn-reserve">관람 예약</a>
+        <a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer" class="btn-primary btn-sm btn-reserve" data-translate="btn-reserve">관람 예약</a>
+        <button class="menu-toggle-btn" id="btnMegaToggle" aria-label="메뉴 전체보기">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 풀나비 메가메뉴 패널 (Megamenu Dropdown Overlay) -->
+    <div class="megamenu-panel" id="megaMenuPanel">
+      <div class="megamenu-inner">
+        <div class="megamenu-grid">
+          <!-- 1. 관람안내 -->
+          <div class="mega-col" data-col="0">
+            <h4 class="mega-title" data-translate="gnb-cat-1">관람안내</h4>
+            <ul class="mega-sub">
+              <li><a href="#visit" data-translate="mega-1-1">관람 및 해설 안내</a></li>
+              <li><a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer" data-translate="mega-1-2">예약 및 취소</a></li>
+              <li><a href="#visit" data-translate="mega-1-3">층별안내</a></li>
+              <li><a href="#visit" data-translate="mega-1-4">오시는 길</a></li>
+            </ul>
+          </div>
+          <!-- 2. 전시·체험 -->
+          <div class="mega-col" data-col="1">
+            <h4 class="mega-title" data-translate="gnb-cat-2">전시·체험</h4>
+            <ul class="mega-sub">
+              <li><a href="#gallery" data-translate="mega-2-1">상설 전시</a></li>
+              <li><a href="#gallery" data-translate="mega-2-2">기획 전시</a></li>
+              <li><a href="#curation" data-translate="mega-2-3">한글놀이터</a></li>
+            </ul>
+          </div>
+          <!-- 3. 교육·문화행사 -->
+          <div class="mega-col" data-col="2">
+            <h4 class="mega-title" data-translate="gnb-cat-3">교육·문화행사</h4>
+            <ul class="mega-sub">
+              <li><a href="#curation" data-translate="mega-3-1">교육 신청</a></li>
+              <li><a href="#story" data-translate="mega-3-2">특별 강연</a></li>
+              <li><a href="#gallery" data-translate="mega-3-3">행사</a></li>
+            </ul>
+          </div>
+          <!-- 4. 학술·연구 -->
+          <div class="mega-col" data-col="3">
+            <h4 class="mega-title" data-translate="gnb-cat-4">학술·연구</h4>
+            <ul class="mega-sub">
+              <li><a href="#story" data-translate="mega-4-1">소장자료 연구</a></li>
+              <li><a href="#gallery" data-translate="mega-4-2">전시도록/교육자료</a></li>
+              <li><a href="#story" data-translate="mega-4-3">연구조사 자료집</a></li>
+            </ul>
+          </div>
+          <!-- 5. 소장자료 -->
+          <div class="mega-col" data-col="4">
+            <h4 class="mega-title" data-translate="gnb-cat-5">소장자료</h4>
+            <ul class="mega-sub">
+              <li><a href="#story" data-translate="mega-5-1">기증/구입</a></li>
+              <li><a href="#story" data-translate="mega-5-2">주요 문화유산</a></li>
+              <li><a href="#story" data-translate="mega-5-3">보존처리</a></li>
+              <li><a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer" data-translate="mega-5-4">한글도서관 <i class="fa-solid fa-arrow-up-right-from-square ext-icon"></i></a></li>
+              <li><a href="#story" data-translate="mega-5-5">발간자료</a></li>
+            </ul>
+          </div>
+          <!-- 6. 소식 -->
+          <div class="mega-col" data-col="5">
+            <h4 class="mega-title" data-translate="gnb-cat-6">소식</h4>
+            <ul class="mega-sub">
+              <li><a href="#story" data-translate="mega-6-1">새소식</a></li>
+              <li><a href="#visit" data-translate="mega-6-2">촬영 신청</a></li>
+              <li><a href="#story" data-translate="mega-6-3">소식지 한박웃음</a></li>
+              <li><a href="#visit" data-translate="mega-6-4">자원봉사</a></li>
+              <li><a href="#visit" data-translate="mega-6-5">정보공개</a></li>
+              <li><a href="#visit" data-translate="mega-6-6">공공데이터 개방</a></li>
+              <li><a href="#visit" data-translate="mega-6-7">전자민원</a></li>
+            </ul>
+          </div>
+          <!-- 7. 소개 -->
+          <div class="mega-col" data-col="6">
+            <h4 class="mega-title" data-translate="gnb-cat-7">소개</h4>
+            <ul class="mega-sub">
+              <li><a href="#" class="btn-open-about" data-translate="mega-7-1">인사말</a></li>
+              <li><a href="#" class="btn-open-about" data-translate="mega-7-2">조직 및 업무</a></li>
+              <li><a href="#" class="btn-open-about" data-translate="mega-7-3">건축물 소개</a></li>
+              <li><a href="#" class="btn-open-about" data-translate="mega-7-4">연혁</a></li>
+              <li><a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer" data-translate="mega-7-5">박물관 후원회 <i class="fa-solid fa-arrow-up-right-from-square ext-icon"></i></a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -432,15 +532,94 @@
         </div>
       </div>
     </div>
-  <!-- 푸터 -->
+  <!-- 푸터 & 유관기관 배너 -->
   <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-left">
-        <h3 data-translate="footer-title">국립한글박물관</h3>
-        <p data-translate="footer-copy">Copyright © National Hangeul Museum. All Rights Reserved.</p>
+    <!-- 1. 상단 유관기관 / 협력기관 배너 바 -->
+    <div class="footer-related-bar">
+      <div class="container related-inner">
+        <ul class="related-list">
+          <li><a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer">한글꼴큰사전</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer">아카이브</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer">한글도서관</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.hangeul.go.kr" target="_blank" rel="noopener noreferrer">소식지 한박웃음</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.mcst.go.kr" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-landmark"></i> 문화체육관광부</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.korean.go.kr" target="_blank" rel="noopener noreferrer">국립국어원</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.museum.go.kr" target="_blank" rel="noopener noreferrer">국립중앙박물관</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.ksif.or.kr" target="_blank" rel="noopener noreferrer">세종학당재단</a></li>
+          <li class="sep">|</li>
+          <li><a href="https://www.mow.or.kr" target="_blank" rel="noopener noreferrer">국립세계문자박물관</a></li>
+          <li class="sep">|</li>
+          <li><a href="http://www.hangeul.or.kr" target="_blank" rel="noopener noreferrer">한글학회</a></li>
+          <li class="sep">|</li>
+          <li><a href="http://www.gyeoremal.or.kr" target="_blank" rel="noopener noreferrer">겨레말큰사전</a></li>
+        </ul>
       </div>
-      <div class="footer-right">
-        <a href="#hero" data-translate="btn-back-top">맨 위로 이동 ↑</a>
+    </div>
+
+    <!-- 2. 공식 푸터 본문 영역 -->
+    <div class="footer-main">
+      <div class="container footer-inner">
+        <div class="footer-emblem-col">
+          <div class="footer-official-logo">
+            <span class="taegeuk-emblem"></span>
+            <div class="gov-logo-text">
+              <span class="mcst-tag" data-translate="foot-gov-tag">문화체육관광부</span>
+              <strong data-translate="foot-gov-title">국립한글박물관</strong>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-content-col">
+          <!-- 공식 약관 & 안내 링크 목록 -->
+          <ul class="footer-policy-links">
+            <li><a href="#visit" data-translate="foot-policy-1">누리집 안내 지도</a></li>
+            <li class="sep">|</li>
+            <li><a href="#" class="privacy-highlight" data-translate="foot-policy-2">개인정보 처리방침</a></li>
+            <li class="sep">|</li>
+            <li><a href="#" data-translate="foot-policy-3">저작권 정책</a></li>
+            <li class="sep">|</li>
+            <li><a href="#" data-translate="foot-policy-4">영상정보처리기기 운영·관리 규정</a></li>
+            <li class="sep">|</li>
+            <li><a href="#" data-translate="foot-policy-5">이용 약관</a></li>
+            <li class="sep">|</li>
+            <li><a href="#" data-translate="foot-policy-6">청백리 지킴이 방</a></li>
+            <li class="sep">|</li>
+            <li><a href="#visit" data-translate="foot-policy-7">찾아오시는 길</a></li>
+            <li class="sep">|</li>
+            <li><a href="#" data-translate="foot-policy-8">자주하는 질문</a></li>
+            <li class="sep">|</li>
+            <li><a href="#" data-translate="foot-policy-9">사전정보공표</a></li>
+          </ul>
+
+          <!-- 대표 연락처 및 주소 정보 -->
+          <div class="footer-info-details">
+            <p><span data-translate="foot-addr-1">04383 서울시 용산구 서빙고로 139 국립한글박물관</span> &nbsp;<span class="foot-tel" data-translate="foot-tel-val">대표전화 02-2124-6200</span></p>
+            <p><span data-translate="foot-addr-2">사무실 주소 : 04387 서울시 용산구 서빙고로 17 센트럴파크타워 25층</span></p>
+            <p class="footer-copyright">Copyright © National Hangeul Museum. All rights reserved.</p>
+          </div>
+        </div>
+
+        <!-- 우측 인증 배너 마크 -->
+        <div class="footer-badge-col">
+          <div class="badge-item wa-badge" title="웹접근성 품질인증 마크 (WA)">
+            <span class="badge-icon-wa">WA</span>
+            <span class="badge-txt">웹접근성<br/>품질인증</span>
+          </div>
+          <div class="badge-item open-badge" title="공공누리 OPEN 마크">
+            <span class="badge-icon-open">OPEN</span>
+            <span class="badge-txt">공공누리<br/>출처표시</span>
+          </div>
+          <div class="footer-back-top-box">
+            <a href="#hero" class="btn-back-top-circle" data-translate="btn-back-top" title="맨 위로 이동">↑ Top</a>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
