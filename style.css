@@ -619,8 +619,11 @@ body.cursor-hover .cursor-circle {
   width: 100%;
 }
 
-/* ----------------- 정보 탭 전용 은은한 한글 자음 별빛 수놓음 배경 ----------------- */
-.curation-section {
+/* ----------------- 모든 정보 탭 전용 은은한 한글 자음 별빛 수놓음 배경 ----------------- */
+.story-section,
+.curation-section,
+.gallery-section,
+.visit-section {
   position: relative;
   overflow: hidden;
 }
