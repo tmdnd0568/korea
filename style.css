@@ -176,7 +176,7 @@ body.cursor-hover .cursor-circle {
   background-color: var(--text-main);
   color: #0b0c10;
   padding: 0.55rem 1.25rem;
-  border-radius: 30px;
+  border-radius: 8px !important;
   font-size: 0.9rem;
   font-weight: 600;
   transition: all var(--transition-fast);
@@ -301,7 +301,7 @@ body.cursor-hover .cursor-circle {
   background-color: #ffffff;
   color: #0b0c10;
   padding: 0.9rem 2rem;
-  border-radius: 40px;
+  border-radius: 8px !important;
   font-weight: 600;
   font-size: 0.95rem;
   display: inline-flex;
@@ -2506,6 +2506,45 @@ body.gate-active .slide-indicator {
     width: 100%;
     justify-content: space-between;
   }
+}
+
+/* ==========================================================
+   [전체 웹사이트 모든 정보 탭/섹션의 모든 박스 border-radius 8px 통일]
+   ========================================================== */
+.story-card,
+.curation-box,
+.curation-visual,
+.product-card,
+.prod-thumb,
+.visit-container,
+.visit-info,
+.visit-map-box,
+.hangeul-dark-map,
+#hangeulMap,
+.map-overlay-card,
+.intro-video-container,
+.hangeul-creation-card,
+.tab-btn,
+.btn-primary,
+.btn-secondary,
+.btn-outline,
+.btn-map-app,
+.kakao-btn,
+.naver-btn,
+.sejong-shortcut-btn,
+.megamenu-panel,
+.modal-content,
+.about-modal .modal-content,
+.sejong-modal .modal-content,
+.badge,
+.badge-new,
+.tag,
+.step,
+.curation-info .badge,
+.btn-back-top-circle,
+.back-btn-fixed,
+.dark-map-popup .leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
 }
 
 
