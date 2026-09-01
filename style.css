@@ -2122,7 +2122,7 @@ body.gate-active .slide-indicator {
   pointer-events: none;
 }
 
-.header:hover .megamenu-panel,
+.megamenu-panel.hover-active,
 .megamenu-panel.active {
   opacity: 1;
   visibility: visible;

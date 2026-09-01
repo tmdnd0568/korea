@@ -1123,9 +1123,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 14) 상단 메가메뉴(Megamenu) 토글 및 인터랙션 제어
+  // 14) 상단 메가메뉴(Megamenu) 토글 및 정확한 Nav 영역 호버 인터랙션 제어
   const btnMegaToggle = document.getElementById('btnMegaToggle');
   const megaMenuPanel = document.getElementById('megaMenuPanel');
+  const mainNav = document.querySelector('.header .nav');
+
+  if (megaMenuPanel && mainNav) {
+    let hoverTimer = null;
+
+    // 네비 메뉴 영역(.nav)에 마우스가 올라갔을 때만 메가메뉴 표출
+    mainNav.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimer);
+      megaMenuPanel.classList.add('hover-active');
+    });
+
+    mainNav.addEventListener('mouseleave', () => {
+      hoverTimer = setTimeout(() => {
+        if (!megaMenuPanel.matches(':hover')) {
+          megaMenuPanel.classList.remove('hover-active');
+        }
+      }, 120);
+    });
+
+    megaMenuPanel.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimer);
+      megaMenuPanel.classList.add('hover-active');
+    });
+
+    megaMenuPanel.addEventListener('mouseleave', () => {
+      hoverTimer = setTimeout(() => {
+        if (!mainNav.matches(':hover')) {
+          megaMenuPanel.classList.remove('hover-active');
+        }
+      }, 120);
+    });
+  }
+
   if (btnMegaToggle && megaMenuPanel) {
     btnMegaToggle.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1135,6 +1168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
       if (!megaMenuPanel.contains(e.target) && !btnMegaToggle.contains(e.target)) {
         megaMenuPanel.classList.remove('active');
+        megaMenuPanel.classList.remove('hover-active');
       }
     });
   }
@@ -1144,7 +1178,10 @@ document.addEventListener('DOMContentLoaded', () => {
   btnOpenAbouts.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (megaMenuPanel) megaMenuPanel.classList.remove('active');
+      if (megaMenuPanel) {
+        megaMenuPanel.classList.remove('active');
+        megaMenuPanel.classList.remove('hover-active');
+      }
       if (aboutModal) aboutModal.classList.add('active');
     });
   });
