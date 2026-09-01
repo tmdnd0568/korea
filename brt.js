@@ -42,6 +42,36 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.style.transform = 'translateY(10px)';
       }
     }
+
+    // 1) ezgif-frame-043 구간 (35~64): 한글 창제 일자 정보 카드 표출
+    const creationCard = document.getElementById('hangeulCreationCard');
+    if (creationCard) {
+      if (frame >= 35 && frame < 65) {
+        creationCard.classList.add('active');
+      } else {
+        creationCard.classList.remove('active');
+      }
+    }
+
+    // 2) ezgif-frame-070 구간 (65~139): 창제 일자는 사라지고 훈민정음 해례본 반포 정보 카드 표출
+    const promulgateCard = document.getElementById('hangeulPromulgateCard');
+    if (promulgateCard) {
+      if (frame >= 65 && frame < 140) {
+        promulgateCard.classList.add('active');
+      } else {
+        promulgateCard.classList.remove('active');
+      }
+    }
+
+    // 3) ezgif-frame-150 구간 (140~): 반포 카드는 사라지고 1940년 해례본 기록 기반 10월 9일 한글날 확정 정보 카드 표출
+    const hangeulDayCard = document.getElementById('hangeulHangeulDayCard');
+    if (hangeulDayCard) {
+      if (frame >= 140) {
+        hangeulDayCard.classList.add('active');
+      } else {
+        hangeulDayCard.classList.remove('active');
+      }
+    }
   }
 
   function updateScrubFrame() {
@@ -707,6 +737,10 @@ document.addEventListener('DOMContentLoaded', () => {
     currentSlideIndex = index;
     updateSlides();
 
+    if (window.hangeulLeafletMap) {
+      setTimeout(() => window.hangeulLeafletMap.invalidateSize(), 400);
+    }
+
     // Three.js 카메라 깊이 Z축 축적 연계 이동 애니메이션
     if (camera) {
       gsap.to(camera.position, {
@@ -1046,6 +1080,58 @@ document.addEventListener('DOMContentLoaded', () => {
         scrubImg.src = `img/sjdw_200/ezgif-frame-001.jpg`;
       }
       updateSlides();
+    });
+  }
+
+  // 13) Leaflet 기반 국립한글박물관 다크모드 임베디드 지도
+  const mapElement = document.getElementById('hangeulMap');
+  if (mapElement && typeof L !== 'undefined') {
+    const lat = 37.52210;
+    const lng = 126.98035;
+    
+    const map = L.map('hangeulMap', {
+      center: [lat, lng],
+      zoom: 16,
+      zoomControl: false,
+      scrollWheelZoom: false,
+      attributionControl: false
+    });
+
+    window.hangeulLeafletMap = map;
+
+    // Esri World Dark Gray Base 어두운 지도 타일 레이어 (워터마크 없는 클린 다크모드)
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      attribution: 'Tiles &copy; Esri'
+    }).addTo(map);
+
+    // 커스텀 골드 핑 애니메이션 마커
+    const goldIcon = L.divIcon({
+      className: 'custom-gold-pin-wrapper',
+      html: `
+        <div class="gold-marker-ping"></div>
+        <div class="gold-marker-icon">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+      `,
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -42]
+    });
+
+    const marker = L.marker([lat, lng], { icon: goldIcon }).addTo(map);
+    
+    // 팝업 설정
+    marker.bindPopup(`
+      <div class="dark-map-popup">
+        <strong>국립한글박물관</strong>
+        <p>서울특별시 용산구 서빙고로 139</p>
+      </div>
+    `);
+
+    // 윈도우 리사이즈 발생 시 지도 크기 자동 재계산
+    window.addEventListener('resize', () => {
+      setTimeout(() => map.invalidateSize(), 300);
     });
   }
 });

@@ -13,6 +13,9 @@
   <!-- Three.js & GSAP for 3D Starfield & Animations (Vaalentin 2015 Style) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Leaflet Dark Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body class="gate-active">
   <!-- 3D WebGL Canvas 배경 (Vaalentin 2015 Style) -->
@@ -118,6 +121,63 @@
       <div class="container" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
         <div class="intro-video-container" style="position: relative;">
           <img id="introScrubImg" src="img/sjdw_200/ezgif-frame-001.jpg" alt="Intro Scroll Animation" class="intro-video" />
+          
+          <!-- 1) frame-043 구간 (35~64): 한글 창제 정보 카드 -->
+          <div id="hangeulCreationCard" class="hangeul-creation-card">
+            <div class="hangeul-creation-badge">
+              <i class="fa-solid fa-scroll"></i>
+              <span data-translate="creation-badge-tag">한글 창제 역사</span>
+            </div>
+            <div class="hangeul-creation-body">
+              <div class="creation-year-group">
+                <span class="creation-label" data-translate="creation-label">창제 년월</span>
+                <strong class="creation-year" data-translate="creation-year-val">1443년 12월</strong>
+              </div>
+              <div class="creation-divider"></div>
+              <div class="creation-desc-group">
+                <span class="creation-desc" data-translate="creation-desc-val">훈민정음 28자 창제</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2) frame-070 구간 (65~139): 훈민정음 해례본 반포 정보 카드 -->
+          <div id="hangeulPromulgateCard" class="hangeul-creation-card">
+            <div class="hangeul-creation-badge">
+              <i class="fa-solid fa-book-open-reader"></i>
+              <span data-translate="promulgate-badge-tag">훈민정음 반포 & 해례본</span>
+            </div>
+            <div class="hangeul-creation-body">
+              <div class="creation-year-group">
+                <span class="creation-label" data-translate="promulgate-label">반포 년월</span>
+                <strong class="creation-year" data-translate="promulgate-year-val">1443년 9월</strong>
+              </div>
+              <div class="creation-divider"></div>
+              <div class="creation-desc-group">
+                <span class="creation-desc" data-translate="promulgate-desc-val">훈민정음 해례본을 널리 알림</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3) frame-150 구간 (140~): 1940년 해례본 기록 기반 10월 9일 한글날 확정 정보 카드 -->
+          <div id="hangeulHangeulDayCard" class="hangeul-creation-card hangeul-day-card">
+            <div class="hangeul-creation-badge">
+              <i class="fa-solid fa-flag"></i>
+              <span data-translate="hangeulday-badge-tag">한글날 10월 9일의 역사</span>
+            </div>
+            <div class="hangeul-creation-body">
+              <div class="creation-year-group">
+                <span class="creation-label" data-translate="hangeulday-label">한글날 확정</span>
+                <strong class="creation-year" data-translate="hangeulday-year-val">10월 9일</strong>
+              </div>
+              <div class="creation-divider"></div>
+              <div class="creation-desc-group">
+                <p class="hangeulday-desc" data-translate="hangeulday-desc-val">
+                  1940년 발견된 《훈민정음 해례본》에 적힌 반포 관련 기록(음력 9월 상순)을 양력으로 환산해 10월 9일로 확정했습니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <button id="btnSejongShortcut" class="sejong-shortcut-btn" data-translate="btn-sejong-shortcut" style="opacity: 0; visibility: hidden; transform: translateY(10px);">
             <span>세종 대왕 바로가기</span>
             <i class="fa-solid fa-arrow-right"></i>
@@ -235,7 +295,7 @@
                   <span class="note" data-translate="curation-student-note">* 도서관 내 무료 Wi-Fi 및 충전 시설 완비</span>
                 </div>
               </div>
-              <div class="curation-visual visual-global">
+              <div class="curation-visual visual-student">
                 <div class="mock-card">
                   <span data-translate="curation-student-visual-span">학습 추천</span>
                   <h4 data-translate="curation-student-visual-h4">훈민정음 해례본 원본 돋보기 뷰어</h4>
@@ -359,10 +419,23 @@
         </ul>
       </div>
       <div class="visit-map-box">
-        <div class="map-placeholder">
-          <i class="fa-solid fa-location-dot"></i>
-          <p data-translate="map-placeholder">이촌역 도보 5분 국립중앙박물관 옆</p>
-          <a href="https://map.kakao.com" target="_blank" class="btn-outline btn-sm" data-translate="btn-map">카카오맵 바로가기</a>
+        <div id="hangeulMap" class="hangeul-dark-map"></div>
+        <div class="map-overlay-card">
+          <div class="map-card-header">
+            <i class="fa-solid fa-location-dot gold-pin-icon"></i>
+            <div class="map-card-info">
+              <strong data-translate="visit-map-title">국립한글박물관</strong>
+              <span data-translate="map-placeholder">이촌역(4호선/경의중앙선) 2번 출구 도보 5분</span>
+            </div>
+          </div>
+          <div class="map-card-actions">
+            <a href="https://map.kakao.com/link/to/국립한글박물관,37.52210,126.98035" target="_blank" rel="noopener noreferrer" class="btn-map-app kakao-btn" data-translate="btn-map-kakao">
+              <i class="fa-solid fa-route"></i> 카카오맵 길찾기
+            </a>
+            <a href="https://map.naver.com/v5/directions/-/126.98035,37.52210,%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B8%80%EB%B0%95%EB%AC%BC%EA%B4%80,,/transit" target="_blank" rel="noopener noreferrer" class="btn-map-app naver-btn" data-translate="btn-map-naver">
+              <i class="fa-solid fa-location-arrow"></i> 네이버지도 길찾기
+            </a>
+          </div>
         </div>
       </div>
     </div>

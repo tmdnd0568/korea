@@ -727,11 +727,15 @@ body.cursor-hover .cursor-circle {
 }
 
 .visual-family {
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?q=80&w=800&auto=format&fit=crop') center/cover;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%), url('img/curation_family.png') center/cover no-repeat;
+}
+
+.visual-student {
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%), url('img/curation_student.png') center/cover no-repeat;
 }
 
 .visual-global {
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop') center/cover;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%), url('img/curation_global.png') center/cover no-repeat;
 }
 
 .mock-card span {
@@ -926,22 +930,206 @@ body.cursor-hover .cursor-circle {
   font-weight: 600;
 }
 
+/* ----------------- 다크 모드 국립한글박물관 지도 스타일 ----------------- */
 .visit-map-box {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
+  position: relative;
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
   height: 420px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  padding: 0 !important;
+}
+
+.hangeul-dark-map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: #09090b;
+}
+
+/* Leaflet 타일 및 다크 테마 커스텀 */
+.leaflet-container {
+  background-color: #09090b !important;
+  font-family: 'Pretendard', sans-serif !important;
+}
+
+/* 타일 콘트라스트 및 다크톤 미세 조율 */
+.leaflet-tile-pane {
+  filter: brightness(0.9) contrast(1.1) saturate(0.85);
+}
+
+/* 커스텀 골드 핀 마커 스타일 */
+.custom-gold-pin-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 2rem;
 }
 
-.map-placeholder i {
-  font-size: 2.5rem;
+.gold-marker-ping {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(209, 180, 106, 0.4);
+  animation: mapPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes mapPing {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.gold-marker-icon {
+  position: relative;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #f7e6b8 0%, #d1b46a 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b0c10;
+  font-size: 1.1rem;
+  box-shadow: 0 6px 18px rgba(209, 180, 106, 0.5), 0 0 0 3px rgba(11, 12, 16, 0.8);
+  transition: transform 0.3s ease;
+}
+
+.custom-gold-pin-wrapper:hover .gold-marker-icon {
+  transform: scale(1.15);
+}
+
+/* 지도 위 플로팅 카카오/네이버 맵 카드 */
+.map-overlay-card {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(16, 18, 23, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+}
+
+.map-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gold-pin-icon {
+  font-size: 1.3rem;
   color: var(--highlight);
-  margin-bottom: 1rem;
+}
+
+.map-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-card-info strong {
+  font-size: 1.05rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.map-card-info span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.map-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-map-app {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.kakao-btn {
+  background: #fee500;
+  color: #000000;
+}
+
+.kakao-btn:hover {
+  background: #fada0a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(254, 229, 0, 0.3);
+}
+
+.naver-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.naver-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--highlight);
+  transform: translateY(-2px);
+}
+
+.dark-map-popup .leaflet-popup-content-wrapper {
+  background: rgba(16, 18, 23, 0.92) !important;
+  backdrop-filter: blur(10px) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+}
+
+.dark-map-popup .leaflet-popup-tip {
+  background: rgba(16, 18, 23, 0.92) !important;
+}
+
+.dark-map-popup strong {
+  color: var(--highlight);
+  font-size: 0.95rem;
+}
+
+.dark-map-popup p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .map-overlay-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 0.9rem 1.1rem;
+  }
+  .map-card-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 .map-placeholder p {
@@ -1474,12 +1662,11 @@ body.gate-active .gate-nav-buttons {
    ========================================================== */
 .back-btn-fixed {
   position: fixed;
-  left: 60px; /* 게이트화면 About 버튼과 동일한 좌측 여백 설정 */
-  top: 50%;
-  transform: translateY(-50%);
+  left: 30px; /* 내부 요소를 가리지 않도록 상단 좌측 여백으로 이동 */
+  top: 95px; /* 헤더(80px) 바로 아래 상단 여백 영역에 배치 */
   z-index: 1600; /* 최상위 레이어 */
-  width: 129px;
-  height: 64px;
+  width: 88px; /* 크기를 컴팩트하게 축소하여 본문 콘텐츠 간섭 방지 */
+  height: 44px;
   outline: none;
   background: none;
   border: none;
@@ -1487,7 +1674,7 @@ body.gate-active .gate-nav-buttons {
   pointer-events: auto;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s, transform 0.3s ease, color 0.3s ease;
 }
 
 /* 게이트가 활성화(동영상 단독 모드)가 아닐 때 = 본문 내용이 보일 때만 노출 */
@@ -1497,12 +1684,12 @@ body:not(.gate-active) .back-btn-fixed {
 }
 
 .back-btn-fixed:hover {
-  transform: translateY(-50%) translateX(5px) scale(1.05); /* About 버튼과 동일한 호버 미세 모션 */
+  transform: translateY(-2px) scale(1.04); /* 세련되고 부드러운 호버 모션 */
 }
 
 .back-btn-txt {
   display: block;
-  font-size: 13px; /* 10px에서 13px로 확대 복구 */
+  font-size: 11px; /* 13px에서 11px로 컴팩트하게 조절 */
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -1511,10 +1698,10 @@ body:not(.gate-active) .back-btn-fixed {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  margin-left: 5px; /* 왼쪽 버튼의 텍스트 오프셋 보정 */
+  margin-left: 3px; /* 텍스트 오프셋 균형 보정 */
   white-space: nowrap;
   pointer-events: none;
-  transition: color 0.4s ease;
+  transition: color 0.3s ease;
 }
 
 .back-btn-fixed .ZHtDHMcwB53vVRaPMYmd {
@@ -1546,15 +1733,13 @@ body:not(.gate-active) .back-btn-fixed {
 @media (max-width: 768px) {
   .back-btn-fixed {
     left: 15px;
-    width: 76px;
-    height: 37px;
+    top: 85px;
+    width: 68px;
+    height: 34px;
   }
   .back-btn-txt {
-    font-size: 10px;
-  }
-  .back-btn-fixed svg {
-    transform: scale(0.6);
-    transform-origin: center;
+    font-size: 9px;
+    margin-left: 2px;
   }
 }
 
@@ -1813,6 +1998,132 @@ body.gate-active .slide-indicator {
   border-color: var(--text-main);
   transform: translateY(-2px) !important;
   box-shadow: 0 15px 40px rgba(209, 180, 106, 0.3);
+}
+
+/* ----------------- ezgif-frame-043 이상 도달 시 표출되는 한글 창제 정보 카드 ----------------- */
+.hangeul-creation-card {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 10;
+  background: rgba(11, 12, 16, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(209, 180, 106, 0.35);
+  border-radius: 18px;
+  padding: 16px 24px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 30px rgba(209, 180, 106, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+  pointer-events: auto;
+}
+
+.hangeul-creation-card.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.hangeul-creation-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--highlight);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.hangeul-creation-body {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.creation-year-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.creation-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.creation-year {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.creation-divider {
+  width: 1px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.creation-desc-group {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.creation-desc {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--highlight);
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+/* 3) frame-150 한글날 확정 정보 전용 카드 스타일 */
+.hangeul-day-card {
+  max-width: 620px;
+}
+
+.hangeulday-desc {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e2e8f0;
+  line-height: 1.6;
+  letter-spacing: -0.3px;
+  margin: 0;
+  word-break: keep-all;
+}
+
+@media (max-width: 768px) {
+  .hangeul-creation-card {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 12px 16px;
+    border-radius: 14px;
+  }
+  .hangeul-day-card {
+    max-width: none;
+  }
+  .creation-year {
+    font-size: 1.1rem;
+  }
+  .creation-desc {
+    font-size: 0.85rem;
+  }
+  .hangeulday-desc {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
 }
 
 

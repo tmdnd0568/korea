@@ -21,6 +21,18 @@ window.translations = {
     "hero-btn-curation": "맞춤 관람 코스 찾기",
     "hero-btn-story": "역사와 가치 탐색",
 
+    // 한글 창제 정보 카드 (Intro Frame-043 연동)
+    "creation-badge-tag": "한글 창제 역사",
+    "creation-label": "창제 년월",
+    "creation-year-val": "1443년 12월",
+    "creation-desc-val": "훈민정음 28자 창제",
+
+    // 훈민정음 해례본 반포 카드 (Intro Frame-070 연동)
+    "promulgate-badge-tag": "훈민정음 반포 & 해례본",
+    "promulgate-label": "반포 년월",
+    "promulgate-year-val": "1443년 9월",
+    "promulgate-desc-val": "훈민정음 해례본을 널리 알림",
+
     // Section 2: 한글 역사 & 가치 탐색 (Story)
     "story-tag": "HANGEUL CORE VALUE",
     "story-head-h2": "소통과 나눔으로 피어난 한글의 가치",
@@ -114,7 +126,8 @@ window.translations = {
     "visit-val-transit": "이촌역(4호선/경의중앙선) 2번 출구 박물관 나들길 연결",
     
     "map-placeholder": "이촌역 도보 5분 국립중앙박물관 옆",
-    "btn-map": "카카오맵 바로가기",
+    "btn-map-kakao": "카카오맵 길찾기",
+    "btn-map-naver": "네이버지도 길찾기",
 
     // 푸터
     "footer-title": "국립한글박물관",
@@ -157,6 +170,18 @@ window.translations = {
     "hero-desc": "Re-discover the unique heritage of Hangeul, from the deep care for the commoners embodied in King Sejong's Hunminjeongeum, to its contemporary status as immersive media art.",
     "hero-btn-curation": "Find Your Tour",
     "hero-btn-story": "Explore History",
+
+    // Hangeul Creation Info Card (Intro Frame-043)
+    "creation-badge-tag": "HANGEUL CREATION HISTORY",
+    "creation-label": "Creation Date",
+    "creation-year-val": "December 1443",
+    "creation-desc-val": "Creation of 28 Hunminjeongeum Letters",
+
+    // Hunminjeongeum Promulgation Card (Intro Frame-070)
+    "promulgate-badge-tag": "HUNMINJEONGEUM PROMULGATION",
+    "promulgate-label": "Promulgation Date",
+    "promulgate-year-val": "September 1443",
+    "promulgate-desc-val": "Promulgation of Hunminjeongeum Haeryebon",
 
     // Section 2: Hangeul Story
     "story-tag": "HANGEUL CORE VALUE",
@@ -251,7 +276,8 @@ window.translations = {
     "visit-val-transit": "Ichon Station (Line 4 / Gyeongui-Jungang Line), Exit 2 (connected via pedestrian subway)",
     
     "map-placeholder": "5-min walk from Ichon Station, next to National Museum of Korea",
-    "btn-map": "Go to KakaoMap",
+    "btn-map-kakao": "KakaoMap Directions",
+    "btn-map-naver": "NaverMap Directions",
 
     // Footer
     "footer-title": "National Hangeul Museum",
