@@ -1662,11 +1662,12 @@ body.gate-active .gate-nav-buttons {
    ========================================================== */
 .back-btn-fixed {
   position: fixed;
-  left: 30px; /* 내부 요소를 가리지 않도록 상단 좌측 여백으로 이동 */
-  top: 95px; /* 헤더(80px) 바로 아래 상단 여백 영역에 배치 */
+  left: 60px; /* 원래 위치인 좌측 60px 설정 */
+  top: 50%; /* 세로 중앙 배치 */
+  transform: translateY(-50%);
   z-index: 1600; /* 최상위 레이어 */
-  width: 88px; /* 크기를 컴팩트하게 축소하여 본문 콘텐츠 간섭 방지 */
-  height: 44px;
+  width: 96px; /* 밸런스 있는 컴팩트 크기 */
+  height: 48px;
   outline: none;
   background: none;
   border: none;
@@ -1674,7 +1675,7 @@ body.gate-active .gate-nav-buttons {
   pointer-events: auto;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s, transform 0.3s ease, color 0.3s ease;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s, transform 0.3s ease;
 }
 
 /* 게이트가 활성화(동영상 단독 모드)가 아닐 때 = 본문 내용이 보일 때만 노출 */
@@ -1684,12 +1685,12 @@ body:not(.gate-active) .back-btn-fixed {
 }
 
 .back-btn-fixed:hover {
-  transform: translateY(-2px) scale(1.04); /* 세련되고 부드러운 호버 모션 */
+  transform: translateY(-50%) translateX(5px) scale(1.05); /* 미세 호버 모션 */
 }
 
 .back-btn-txt {
   display: block;
-  font-size: 11px; /* 13px에서 11px로 컴팩트하게 조절 */
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -1698,7 +1699,7 @@ body:not(.gate-active) .back-btn-fixed {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  margin-left: 3px; /* 텍스트 오프셋 균형 보정 */
+  margin-left: 3px;
   white-space: nowrap;
   pointer-events: none;
   transition: color 0.3s ease;
@@ -1733,9 +1734,10 @@ body:not(.gate-active) .back-btn-fixed {
 @media (max-width: 768px) {
   .back-btn-fixed {
     left: 15px;
-    top: 85px;
-    width: 68px;
-    height: 34px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 72px;
+    height: 36px;
   }
   .back-btn-txt {
     font-size: 9px;
