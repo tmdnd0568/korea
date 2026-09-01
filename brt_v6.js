@@ -878,17 +878,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  // 5) 내비게이션 클릭 및 버튼 바인딩
-  const navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach((link, i) => {
+  // 5) 상단 내비게이션 & 메가메뉴 링크 클릭 시 해당 슬라이드로 이동 처리
+  function handleNavTarget(href) {
+    if (document.body.classList.contains('gate-active')) {
+      document.body.classList.remove('gate-active');
+      if (window.playActiveBgVideo) window.playActiveBgVideo();
+    }
+
+    if (href === '#intro' || href === '#hero') {
+      goToSlide(0);
+    } else if (href === '#story') {
+      goToSlide(1);
+    } else if (href === '#curation') {
+      goToSlide(2);
+    } else if (href === '#gallery') {
+      goToSlide(3);
+    } else if (href === '#visit') {
+      goToSlide(4);
+    }
+  }
+
+  // Header GNB 7대 카테고리 슬라이드 맵핑 (관람안내:4, 전시체험:3, 교육문화:2, 학술연구:1, 소장자료:1, 소식:1, 소개:1)
+  const gnbTargetSlides = [4, 3, 2, 1, 1, 1, 1];
+  const gnbNavLinks = document.querySelectorAll('.header .nav-link');
+  gnbNavLinks.forEach((link, i) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       if (document.body.classList.contains('gate-active')) {
         document.body.classList.remove('gate-active');
         if (window.playActiveBgVideo) window.playActiveBgVideo();
       }
-      goToSlide(i + 1); // i에서 i+1로 변경하여 첫 슬라이드(인트로 빈화면) 이후로 맵핑
+      const targetSlide = gnbTargetSlides[i] !== undefined ? gnbTargetSlides[i] : 1;
+      goToSlide(targetSlide);
+      if (megaMenuPanel) megaMenuPanel.classList.remove('active');
     });
+  });
+
+  // 메가메뉴 하위 링크 슬라이드 연결 및 드롭다운 닫기
+  const megaSubLinks = document.querySelectorAll('.mega-sub a');
+  megaSubLinks.forEach((link) => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      link.addEventListener('click', (e) => {
+        if (link.classList.contains('btn-open-about')) return;
+        e.preventDefault();
+        handleNavTarget(href);
+        if (megaMenuPanel) megaMenuPanel.classList.remove('active');
+      });
+    }
   });
 
   const indicatorDots = document.querySelectorAll('.slide-indicator .dot');
