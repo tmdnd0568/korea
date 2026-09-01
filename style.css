@@ -619,65 +619,7 @@ body.cursor-hover .cursor-circle {
   width: 100%;
 }
 
-/* ----------------- 모든 정보 탭 전용 은은한 한글 자음 별빛 수놓음 배경 ----------------- */
-.story-section,
-.curation-section,
-.gallery-section,
-.visit-section {
-  position: relative;
-  overflow: hidden;
-}
 
-.hangeul-starfield-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.h-star {
-  position: absolute;
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: rgba(209, 180, 106, 0.15);
-  text-shadow: 0 0 25px rgba(209, 180, 106, 0.4);
-  animation: floatHangeulStar 7s ease-in-out infinite alternate;
-  user-select: none;
-  font-family: 'Pretendard', sans-serif;
-}
-
-.h-star.s1 { top: 8%; left: 6%; animation-delay: 0s; font-size: 3rem; }
-.h-star.s2 { top: 22%; right: 8%; animation-delay: 1.2s; font-size: 2.4rem; }
-.h-star.s3 { top: 68%; left: 4%; animation-delay: 2.5s; font-size: 3.2rem; }
-.h-star.s4 { top: 75%; right: 6%; animation-delay: 0.6s; font-size: 2.6rem; }
-.h-star.s5 { top: 38%; left: 46%; animation-delay: 3.2s; font-size: 4rem; color: rgba(209, 180, 106, 0.08); }
-.h-star.s6 { top: 12%; left: 78%; animation-delay: 1.8s; font-size: 2.2rem; }
-.h-star.s7 { top: 84%; left: 45%; animation-delay: 3.8s; font-size: 2.8rem; }
-.h-star.s8 { top: 48%; right: 4%; animation-delay: 1.0s; font-size: 3.5rem; }
-.h-star.s9 { top: 6%; left: 32%; animation-delay: 2.7s; font-size: 2.2rem; }
-.h-star.s10 { top: 86%; left: 18%; animation-delay: 4.4s; font-size: 2.7rem; }
-.h-star.s11 { top: 28%; left: 20%; animation-delay: 1.5s; font-size: 2.9rem; }
-.h-star.s12 { top: 58%; right: 26%; animation-delay: 3.0s; font-size: 2.5rem; }
-
-@keyframes floatHangeulStar {
-  0% {
-    transform: translateY(0) rotate(0deg) scale(1);
-    opacity: 0.25;
-  }
-  50% {
-    transform: translateY(-20px) rotate(10deg) scale(1.2);
-    opacity: 0.85;
-    text-shadow: 0 0 35px rgba(209, 180, 106, 0.7);
-  }
-  100% {
-    transform: translateY(-38px) rotate(-10deg) scale(1);
-    opacity: 0.35;
-  }
-}
 
 .tab-panels {
   display: flex;
