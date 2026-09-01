@@ -628,12 +628,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cards = slide.querySelectorAll('.story-card, .product-card');
     cards.forEach((card, i) => {
-      const delay = 200 + i * 150;
-      card.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease-out, border-color 0.6s, background 0.6s, box-shadow 0.6s';
+      const delay = 150 + i * 100;
+      card.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out, border-color 0.6s, background 0.6s, box-shadow 0.6s';
       card.style.transitionDelay = `${delay}ms`;
       card.offsetHeight;
       card.style.transform = 'translate3d(0, 0, 0) scale(1) rotateY(0deg)';
       card.style.opacity = '1';
+
+      setTimeout(() => {
+        if (slide.classList.contains('active')) {
+          card.style.transform = '';
+          card.style.transitionDelay = '';
+        }
+      }, 900 + delay);
     });
   }
 

@@ -461,9 +461,10 @@ body.cursor-hover .cursor-circle {
 .story-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3vw;
+  gap: 2rem;
   width: 100%;
   margin: 0 auto;
+  align-items: stretch;
 }
 
 /* 초기 상태: 오른쪽 밖에서 대기 + 투명 */
@@ -482,30 +483,28 @@ body.cursor-hover .cursor-circle {
   flex-direction: column;
   justify-content: flex-start;
   box-sizing: border-box;
+  align-self: stretch;
+  margin: 0;
   
   /* 슬라이드인 초기 상태 (transform 밀림 방지를 위해 기본은 none) */
   transition:
-    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 뷰포트 진입 후 활성 상태 */
 .story-card.is-visible {
   opacity: 1;
-  transform: translateX(0) translateY(0);
+  transform: translate3d(0, 0, 0);
 }
-
-/* 순차 딜레이: 2번째, 3번째 카드 */
-.story-card:nth-child(2) { transition-delay: 0.15s; }
-.story-card:nth-child(3) { transition-delay: 0.30s; }
 
 .story-card:hover {
   border-color: rgba(209, 180, 106, 0.4);
   background: rgba(28, 33, 42, 0.6);
-  transform: translateX(0) translateY(-8px); /* JS tilt 수동 제어 중 충돌 방지를 위해 기준점 명시 */
+  transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
