@@ -1882,7 +1882,7 @@ body.gate-active .slide-indicator {
   width: 85vw;
   max-width: 1200px;
   aspect-ratio: 16 / 9;
-  border-radius: 24px;
+  border-radius: 8px !important;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 45px rgba(209, 180, 106, 0.1);
@@ -1908,7 +1908,7 @@ body.gate-active .slide-indicator {
   bottom: 30px;
   right: 30px;
   padding: 12px 24px;
-  border-radius: 30px;
+  border-radius: 8px !important;
   border: 1px solid var(--border-color);
   background: rgba(11, 12, 16, 0.85);
   backdrop-filter: blur(10px);
@@ -1943,7 +1943,7 @@ body.gate-active .slide-indicator {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(209, 180, 106, 0.35);
-  border-radius: 18px;
+  border-radius: 8px !important;
   padding: 16px 24px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 30px rgba(209, 180, 106, 0.15);
   opacity: 0;
@@ -2042,7 +2042,7 @@ body.gate-active .slide-indicator {
     left: 15px;
     right: 15px;
     padding: 12px 16px;
-    border-radius: 14px;
+    border-radius: 8px !important;
   }
   .hangeul-day-card {
     max-width: none;
