@@ -395,20 +395,25 @@ document.addEventListener('DOMContentLoaded', () => {
       H = canvas.height = window.innerHeight;
     }
 
+    const HANGEUL_STARS = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ', 'ㆍ', 'ㅡ', 'ㅣ', '훈', '민', '정', '음'];
+
     function Particle() {
       this.reset = function() {
         this.x = Math.random() * W;
         this.y = Math.random() * H;
         this.vx = (Math.random() - 0.5) * BASE_SPEED * 2;
         this.vy = (Math.random() - 0.5) * BASE_SPEED * 2;
-        this.r = Math.random() * 1.6 + 0.6;
+        this.r = Math.random() * 2 + 1;
         this.alpha = Math.random() * 0.5 + 0.3;
         this.pulse = Math.random() * Math.PI * 2;
         this.pulseSpeed = Math.random() * 0.02 + 0.008;
+        this.char = HANGEUL_STARS[Math.floor(Math.random() * HANGEUL_STARS.length)];
+        this.fontSize = Math.floor(Math.random() * 12) + 12;
+        this.isChar = Math.random() > 0.3;
       };
       this.update = function() {
         this.pulse += this.pulseSpeed;
-        const glow = Math.sin(this.pulse) * 0.25;
+        const glow = Math.sin(this.pulse) * 0.3;
         this.currentAlpha = Math.max(0.1, Math.min(1, this.alpha + glow));
 
         const dx = this.x - mouse.x;
@@ -438,20 +443,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (this.y > H) { this.y = H; this.vy *= -1; }
       };
       this.draw = function() {
-        // 금빛 별 점
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(209,180,106,' + this.currentAlpha + ')';
-        ctx.fill();
+        if (this.isChar) {
+          ctx.save();
+          ctx.font = `600 ${this.fontSize}px Pretendard, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(209, 180, 106, 0.8)';
+          ctx.shadowBlur = 12;
+          ctx.fillStyle = `rgba(209, 180, 106, ${this.currentAlpha * 0.85})`;
+          ctx.fillText(this.char, this.x, this.y);
+          ctx.restore();
+        } else {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(209,180,106,' + this.currentAlpha + ')';
+          ctx.fill();
 
-        // 발광 halo
-        const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 4);
-        g.addColorStop(0, 'rgba(209,180,106,' + (this.currentAlpha * 0.4) + ')');
-        g.addColorStop(1, 'rgba(209,180,106,0)');
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r * 4, 0, Math.PI * 2);
-        ctx.fillStyle = g;
-        ctx.fill();
+          const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 4);
+          g.addColorStop(0, 'rgba(209,180,106,' + (this.currentAlpha * 0.4) + ')');
+          g.addColorStop(1, 'rgba(209,180,106,0)');
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r * 4, 0, Math.PI * 2);
+          ctx.fillStyle = g;
+          ctx.fill();
+        }
       };
       this.reset();
     }
