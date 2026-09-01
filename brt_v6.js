@@ -250,8 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const video2 = document.getElementById('bgVideo2');
   if (video1 && video2) {
     let videos = [video1, video2];
-    let activeIdx = 0;
-    let transitionDuration = 0.6; // 0.6초 전 교차 페이드 실행으로 끊김 차단
+    let maxLoopTime = 9.0; // 9.0초 시점에서 컷 및 루프
+    let transitionDuration = 0.6; // 0.6초 전 교차 페이드 실행 (8.4초 지점)
     let isTransitioning = false;
 
     videos.forEach((vid, idx) => {
@@ -276,12 +276,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeVideo = videos[activeIdx];
         const inactiveVideo = videos[1 - activeIdx];
 
-        if (activeVideo && activeVideo.duration && !isNaN(activeVideo.duration)) {
-          const duration = activeVideo.duration;
+        if (activeVideo && activeVideo.currentTime !== undefined) {
           const current = activeVideo.currentTime;
 
-          // 종료 0.6초 전에 이중 비디오 교차 페이드(Crossfade) 실행으로 멈춤/끊김 완전 제거
-          if (!isTransitioning && current >= duration - transitionDuration) {
+          // 9초 지점(8.4초)에 도달하면 이중 핑퐁 비디오 교차 페이드(Crossfade) 실행으로 끊김 없이 0초로 연속 루프
+          if (!isTransitioning && current >= maxLoopTime - transitionDuration) {
             isTransitioning = true;
             inactiveVideo.currentTime = 0;
 
