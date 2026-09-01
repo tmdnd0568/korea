@@ -1104,7 +1104,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 메가메뉴 내부 인사말/조직소개/건축물/연혁 등 클릭 시 박물관 소개 모달 팝업 연결
   const btnOpenAbouts = document.querySelectorAll('.btn-open-about');
-  const aboutModal = document.getElementById('aboutModal');
   btnOpenAbouts.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
