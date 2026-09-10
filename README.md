@@ -93,6 +93,6 @@ korea/
 | (이슈 내용) | (원인) | (해결 방법) |
 
 ## 📄 링크
-배포주소:https://tmdnd0568.github.io/korea/
-피그마:https://www.figma.com/design/EUConokGNz4XV0xLDVhFXA/%EB%A6%AC%EB%89%B4%EC%96%BC-%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=112-451&t=H39TUCHHl6cZ6LEe-1
-노션:https://app.notion.com/p/Project-3-ee41a4be835a82d6b08781a6a826c3bd
+- 배포주소:https://tmdnd0568.github.io/korea/
+- 피그마:https://www.figma.com/design/EUConokGNz4XV0xLDVhFXA/%EB%A6%AC%EB%89%B4%EC%96%BC-%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=112-451&t=H39TUCHHl6cZ6LEe-1
+- 노션:https://app.notion.com/p/Project-3-ee41a4be835a82d6b08781a6a826c3bd
