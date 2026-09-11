@@ -15,7 +15,7 @@
 ## 🖼️ 데모
 | 인트로 스크롤 스토리텔링 | 맞춤 큐레이션 탭 | 관람 안내 & 지도 |
 |---|---|---|
-| (스크린샷 삽입) | (스크린샷 삽입) | (스크린샷 삽입) |
+| <img width="1918" height="919" alt="image" src="https://github.com/user-attachments/assets/d4198977-6970-4287-b738-144ccbd7f48c" />| <img width="1920" height="911" alt="image" src="https://github.com/user-attachments/assets/e4963f2b-4891-47d1-9adb-c45eed384d1a" />| <img width="1920" height="920" alt="image" src="https://github.com/user-attachments/assets/bc1a9d25-1e9a-4326-b19a-5d2d833cc2bc" />|
 
 배포 링크: https://tmdnd0568.github.io/korea/
 
@@ -93,6 +93,7 @@ korea/
 | (이슈 내용) | (원인) | (해결 방법) |
 
 ## 📄 링크
+
 - 배포주소:https://tmdnd0568.github.io/korea/
 - 피그마:https://www.figma.com/design/EUConokGNz4XV0xLDVhFXA/%EB%A6%AC%EB%89%B4%EC%96%BC-%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=112-451&t=H39TUCHHl6cZ6LEe-1
-- 노션:https://app.notion.com/p/Project-3-ee41a4be835a82d6b08781a6a826c3bd
+- 노션:https://app.notion.com/p/ee41a4be835a82d6b08781a6a826c3bd?source=copy_link
